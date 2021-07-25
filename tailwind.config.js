@@ -6,9 +6,14 @@ module.exports = {
     extend: {
       colors: {
         red: '#FF637B',
+        beige: '#F9F2E9',
       },
       fontFamily: {
         'sans': ['Kulim Park', 'sans-serif'],
+      },
+      container: {
+        center: true,
+        padding: '2rem',
       }
     },
     boxShadow: {

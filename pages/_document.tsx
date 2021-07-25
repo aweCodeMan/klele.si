@@ -13,7 +13,7 @@ class MyDocument extends Document {
                         href="https://fonts.googleapis.com/css2?family=Kulim+Park:wght@400;600;700&display=swap"
                         rel="stylesheet"/>
                 </Head>
-                <body className={'min-h-screen flex flex-col'}>
+                <body className={'min-h-screen flex flex-col bg-beige'} style={{backgroundImage: 'url(/images/bg.png)', backgroundRepeat: 'repeat'}}>
                 <Navbar/>
                 <div className={'flex-1'}>
                     <Main/>
