@@ -1,0 +1,13 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.btn {
+  @apply border px-4 py-2 shadow;
+
+  &-primary {
+    @apply border-black text-white bg-red;
+  }
+}
