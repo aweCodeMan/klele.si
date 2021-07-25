@@ -1,19 +1,25 @@
 import Head from 'next/head'
-import Navbar from "../components/navbar";
+import Logo from "../components/logo";
 
 export default function Home() {
     return (
         <div>
             <Head>
-                <title>Klele.si | Kjer se še s prijatelji skregaš</title>
+                <title>Klele.si | Kjer se dobre debate doma</title>
                 <meta name="description" content=""/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
 
-            <main className={'text-center py-4 uppercase'}>
-                <h1 className={'uppercase'}>
-                    Hello, world!
-                </h1>
+            <main className={'overflow-x-hidden'}>
+                <div style={{height: '200px'}} className={'relative flex justify-center items-center'}>
+                    <div style={{background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
+                         className={'h-full absolute w-full z-0'}/>
+
+                    <div className={'text-center z-10 flex flex-col justify-center items-center'}>
+                        <Logo/>
+                        <p className="text-black text-lg mt-2 tracking-tight">Kjer se dobre debate doma</p>
+                    </div>
+                </div>
             </main>
         </div>
     )
