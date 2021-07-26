@@ -31,7 +31,7 @@ export default function PostCard(props: { postExcerpt: any }) {
 
                     <div className={'mt-4 flex flex-row'}>
                         <Link href="#comments">
-                            <a className={'bg-white border border-black px-3 py-1 shadow text-sm font-bold mr-2'}>
+                            <a className={'bg-white border border-black px-3 py-1 text-sm font-bold mr-2'}>
                                 <span className="pr-2">
                                     <FontAwesomeIcon icon={faComments}/>
                                 </span>

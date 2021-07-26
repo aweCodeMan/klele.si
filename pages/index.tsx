@@ -4,16 +4,13 @@ import Link from 'next/link';
 import PostCard from "../components/cards/post-card";
 import PostSkeletonCard from "../components/cards/post-skeleton-card";
 import {useEffect, useState} from "react";
+import Pagination from "../components/partials/pagination";
 
 export default function Home() {
 
+    const [type, setType] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1500);
-    }, [])
+    const [response, setResponse]: [any, any] = useState(null);
 
     const posts = [
         {
@@ -46,13 +43,69 @@ export default function Home() {
 
     const groups = posts.map((post) => post.group)
 
-    const showPosts = () => posts.map((post, index) => {
+    useEffect(() => {
+        setTimeout(() => {
+            setResponse({
+                data: posts,
+                meta: {
+                    currentPage: 1,
+                    nextPageUrl: '/',
+                    total: 40,
+                    perPage: 20,
+                }
+            });
+            setIsLoading(false);
+        }, 1500);
+    }, []);
+
+    const onTypeChange = (event: any, type: number) => {
+        event.preventDefault();
+
+        setType(type);
+        setIsLoading(true)
+        setTimeout(() => {
+            setResponse({
+                data: posts,
+                meta: {
+                    currentPage: 1,
+                    nextPageUrl: '/',
+                    total: 40,
+                    perPage: 20,
+                }
+            });
+            setIsLoading(false);
+        }, 1500);
+    }
+
+    const showPosts = () => {
         return (
-            <div key={index} className={posts.length - 1 !== index ? 'mb-3' : ''}>
-                <PostCard postExcerpt={post}/>
+            <div>
+                <div className="flex flex-row mb-2">
+                    <button className={type === 0 ? 'btn btn-primary' : 'btn btn-outline'} onClick={(event) => onTypeChange(event, 0)}>Po
+                        vrsti
+                    </button>
+                    <button className={'mx-2 ' + (type === 1 ? 'btn btn-primary' : 'btn btn-outline')} onClick={(event) => onTypeChange(event, 1)}>Po
+                        vročici
+                    </button>
+                    <button className={type === 2 ? 'btn btn-primary' : 'btn btn-outline'} onClick={(event) => onTypeChange(event, 2)}>Po
+                        priljubljenosti
+                    </button>
+                </div>
+
+                {posts.map((post, index) => {
+                    return (
+                        <div key={index} className={posts.length - 1 !== index ? 'mb-3' : ''}>
+                            <PostCard postExcerpt={post}/>
+                        </div>
+                    )
+                })}
+
+                <div className="mt-6">
+                    <Pagination onPageChange={onPageChange} response={response}/>
+                </div>
             </div>
-        )
-    });
+        );
+    };
 
     const showSkeleton = () => {
         const skeletons = Array.from(new Array(6));
@@ -64,6 +117,17 @@ export default function Home() {
             )
         })
     };
+
+    const onPageChange = (page: number) => {
+        setIsLoading(true);
+
+        setTimeout(() => {
+            const copy = {...response};
+            copy.meta.currentPage = page;
+            setResponse(copy);
+            setIsLoading(false);
+        }, 1000);
+    }
 
     return (
         <div>
@@ -92,7 +156,7 @@ export default function Home() {
                         }
                     </div>
 
-                    <div className="w-full md:w-1/3 mb-3 md:pl-2">
+                    <div className="w-full md:w-1/3 mb-3 md:pl-2 md:mt-12">
                         <div className="card">
                             <span className="text-black font-bold text-xl"># Top skupine</span>
 

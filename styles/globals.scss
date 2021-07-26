@@ -5,14 +5,14 @@
 @tailwind utilities;
 
 .btn {
-  @apply border px-4 py-2 shadow;
+  @apply border px-4 py-2;
 
   &-primary {
-    @apply border-black text-white bg-red;
+    @apply border-black text-white bg-red shadow;
+  }
 
-    &-outline {
-      @apply border-red text-black bg-white;
-    }
+  &-outline {
+    @apply border-black text-black bg-white;
   }
 }
 

@@ -1,7 +1,3 @@
-import Link from 'next/link'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faHeart} from '@fortawesome/free-regular-svg-icons'
-import {faComments, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import Shimmer from "../partials/shimmer";
 
 export default function PostSkeletonCard() {
