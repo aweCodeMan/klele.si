@@ -9,9 +9,37 @@
 
   &-primary {
     @apply border-black text-white bg-red;
+
+    &-outline {
+      @apply border-red text-black bg-white;
+    }
   }
 }
 
 .container {
   max-width: 1200px;
+}
+
+.skeleton {
+  background-image: linear-gradient(to right, #f6f7f8 10%, #dddddd 20%, #f6f7f8 20%, #f6f7f8 25%);
+  background-size: 1000px 100%;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+}
+
+.card {
+  @apply border border-black bg-white p-3 shadow;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -1000px;
+  }
+
+  to {
+    background-position: 0;
+  }
 }

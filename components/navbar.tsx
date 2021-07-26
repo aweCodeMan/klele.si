@@ -14,7 +14,11 @@ export default function Navbar() {
 
             <div>
                 <Link href="#objavi">
-                    <a className={'btn btn-primary'}>Objavi</a>
+                    <a className={'btn btn-primary-outline mr-2'}>Prijava</a>
+                </Link>
+
+                <Link href="#objavi">
+                    <a className={'btn btn-primary'}>Registracija</a>
                 </Link>
             </div>
         </div>
