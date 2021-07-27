@@ -99,7 +99,7 @@ a:focus-visible:not(.btn) {
   @apply bg-white text-black font-bold border-black h-10 w-10 text-lg text-center leading-none flex justify-center items-center;
 
   &:hover, &:focus-visible {
-    @apply bg-red;
+    @apply bg-red outline-none;
   }
 }
 
