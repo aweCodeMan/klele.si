@@ -1,6 +1,6 @@
 module.exports = {
-  //purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  purge: [],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  //purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -8,6 +8,7 @@ module.exports = {
         red: '#FF637B',
         'red-dark': '#E14961',
         beige: '#F9F2E9',
+        gray: '#BBBBBB',
       },
       fontFamily: {
         'sans': ['Kulim Park', 'sans-serif'],
@@ -18,7 +19,7 @@ module.exports = {
       }
     },
     boxShadow: {
-      DEFAULT: '4px 4px 0px rgba(0, 0, 0, 0.15);'
+      DEFAULT: '4px 4px 0px rgba(0, 0, 0, 0.15);',
     }
   },
   variants: {

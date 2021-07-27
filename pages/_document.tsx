@@ -7,6 +7,7 @@ class MyDocument extends Document {
         return (
             <Html className={'sans'}>
                 <Head>
+                    <link rel="shortcut icon" type="image/jpg" href="/images/favicon.png"/>
                     <link rel="preconnect" href="https://fonts.googleapis.com"/>
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'true'}/>
                     <link

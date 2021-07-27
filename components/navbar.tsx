@@ -6,19 +6,23 @@ export default function Navbar() {
         <div className={'bg-white w-full border-b border-black px-3 flex flex-row justify-between items-center'}>
             <div className={'py-5'}>
                 <Link href="/">
-                    <a title="Domov">
+                    <a className={'btn-logo'}>
                         <Logo/>
                     </a>
                 </Link>
             </div>
 
             <div>
-                <Link href="#objavi">
-                    <a className={'btn btn-outline mr-2'}>Prijava</a>
+                <Link href="#prijava">
+                    <a className="btn btn-outline mr-2">
+                        Prijava
+                    </a>
                 </Link>
 
-                <Link href="#objavi">
-                    <a className={'btn btn-primary'}>Registracija</a>
+                <Link href="#registracija">
+                    <a className="btn btn-primary">
+                        Registracija
+                    </a>
                 </Link>
             </div>
         </div>

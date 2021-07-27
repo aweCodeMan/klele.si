@@ -5,6 +5,8 @@ import PostCard from "../components/cards/post-card";
 import PostSkeletonCard from "../components/cards/post-skeleton-card";
 import {useEffect, useState} from "react";
 import Pagination from "../components/partials/pagination";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
 
@@ -80,17 +82,7 @@ export default function Home() {
     const showPosts = () => {
         return (
             <div>
-                <div className="flex flex-row mb-2">
-                    <button className={type === 0 ? 'btn btn-primary' : 'btn btn-outline'} onClick={(event) => onTypeChange(event, 0)}>Po
-                        vrsti
-                    </button>
-                    <button className={'mx-2 ' + (type === 1 ? 'btn btn-primary' : 'btn btn-outline')} onClick={(event) => onTypeChange(event, 1)}>Po
-                        vročici
-                    </button>
-                    <button className={type === 2 ? 'btn btn-primary' : 'btn btn-outline'} onClick={(event) => onTypeChange(event, 2)}>Po
-                        priljubljenosti
-                    </button>
-                </div>
+
 
                 {posts.map((post, index) => {
                     return (
@@ -132,35 +124,53 @@ export default function Home() {
     return (
         <div>
             <Head>
-                <title>Klele.si | Kjer se dobre debate doma</title>
-                <meta name="description" content=""/>
-                <link rel="icon" href="/favicon.ico"/>
+                <title>Klele.si | Kjer so dobre debate doma</title>
+                <meta name="description" content="Klele so dobre debate doma."/>
             </Head>
 
             <main className={'overflow-x-hidden'}>
-                <div style={{height: '200px'}} className={'relative flex justify-center items-center'}>
+                <div style={{height: '200px', backgroundColor: '#e0d3c6'}}
+                     className={'relative flex justify-center items-center'}>
                     <div style={{background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
                          className={'h-full absolute w-full z-0'}/>
 
                     <div className={'text-center z-10 flex flex-col justify-center items-center'}>
                         <Logo/>
-                        <p className="text-black text-lg mt-2 tracking-tight">Kjer se dobre debate doma</p>
+                        <p className="text-black text-lg mt-2 tracking-tight">Kjer so dobre debate doma</p>
                     </div>
                 </div>
 
-                <div className="container py-6 flex flex-row flex-wrap">
+                <div className="container grid py-6">
 
-                    <div className={'w-full md:w-2/3 mb-3 md:pr-2'}>
+                    <div className="area-top">
+                        <button className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                onClick={(event) => onTypeChange(event, 0)}>
+                            <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
+                            Po vrsti
+                        </button>
+                        <button className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
+                                onClick={(event) => onTypeChange(event, 1)}>
+                            <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
+                            Po vročici
+                        </button>
+                        <button className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                onClick={(event) => onTypeChange(event, 2)}>
+                            <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
+                            Po priljubljenosti
+                        </button>
+                    </div>
+
+                    <div className={'area-main'}>
                         {
                             isLoading ? showSkeleton() : showPosts()
                         }
                     </div>
 
-                    <div className="w-full md:w-1/3 mb-3 md:pl-2 md:mt-12">
+                    <div className="area-sidebar">
                         <div className="card">
                             <span className="text-black font-bold text-xl"># Top skupine</span>
 
-                            <div className="mt-2 flex flex-row flex-wrap">
+                            <div className="mt-2 flex flex-row flex-wrap -mb-3">
                                 {
                                     groups.map((group, index) => {
                                         return (

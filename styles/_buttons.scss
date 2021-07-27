@@ -1,0 +1,110 @@
+.btn {
+  @apply px-4 py-2 border border-transparent font-bold leading-normal tracking-wide text-base;
+
+  &-sm {
+    @apply px-3 py-1 text-sm;
+  }
+
+  &-lg {
+    @apply px-5 py-3 text-base;
+  }
+
+  &-link:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &-link:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-link:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 2px;
+  }
+
+  &-link:disabled {
+    @apply cursor-not-allowed;
+    color: theme('colors.gray');
+  }
+
+  &-primary:not(:disabled) {
+    @apply border-black text-white bg-red shadow;
+  }
+
+  &-primary:hover {
+    @apply bg-red-dark
+  }
+
+  &-primary:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-primary:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 3px;
+  }
+
+  &-primary:disabled {
+    @apply cursor-not-allowed border-black text-white;
+    background-color: theme('colors.gray');
+  }
+
+  &-outline:not(:disabled) {
+    @apply border-black text-black bg-transparent;
+  }
+
+  &-outline:hover {
+    @apply border-red text-red bg-transparent;
+  }
+
+  &-outline:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-outline:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 3px;
+  }
+
+  &-outline:disabled {
+    @apply cursor-not-allowed;
+    color: theme('colors.gray');
+    border-color: theme('colors.gray');
+    background-color: transparent;
+  }
+}
+
+a:hover:not(.btn) {
+  @apply underline;
+}
+
+a:focus-visible:not(.btn) {
+  @apply underline;
+  outline: theme('colors.red') solid 2px;
+  outline-offset: 3px;
+}
+
+.btn-logo:hover path {
+  fill: theme('colors.red') !important;
+}
+
+.btn-logo:focus-visible path {
+  fill: theme('colors.red') !important;
+}
+
+.btn-pagination {
+  @apply bg-white text-black font-bold border-black h-10 w-10 text-lg text-center leading-none flex justify-center items-center;
+
+  &:hover, &:focus-visible {
+    @apply bg-red;
+  }
+}
+
+.selected {
+  border-color: black !important;
+  color: black !important;
+  background-color: #FFC1CA !important;
+}
