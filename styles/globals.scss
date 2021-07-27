@@ -4,6 +4,7 @@
 
 @tailwind utilities;
 
+/*
 .btn {
   @apply border px-4 py-2;
 
@@ -14,6 +15,99 @@
   &-outline {
     @apply border-black text-black bg-white;
   }
+}*/
+
+.btn {
+  @apply px-4 py-2 border border-transparent font-bold leading-normal tracking-wide text-base;
+
+  &-sm {
+    @apply px-3 py-1 text-sm;
+  }
+
+  &-lg {
+    @apply px-5 py-3 text-base;
+  }
+
+  //
+  &-link:hover:not(:disabled){
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &-link:active {
+    transition: all .05s ease-out;
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-link:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 2px;
+  }
+
+  &-link:disabled {
+    @apply cursor-not-allowed;
+    color: #BBBBBB;
+  }
+
+  &-primary:not(:disabled) {
+    @apply border-black text-white bg-red shadow;
+  }
+
+  &-primary:hover{
+    @apply bg-red-dark
+  }
+
+  &-primary:active {
+    transition: all .05s ease-out;
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-primary:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 3px;
+  }
+
+  &-primary:disabled {
+    @apply cursor-not-allowed border-black text-white;
+    background-color: #BBBBBB;
+  }
+
+  &-outline:not(:disabled) {
+    @apply border-black text-black bg-transparent;
+  }
+
+  &-outline:hover{
+    @apply border-red text-red bg-transparent;
+  }
+
+  &-outline:active {
+    transition: all .05s ease-out;
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    outline: none;
+  }
+
+  &-outline:focus-visible:not(:active) {
+    outline: theme('colors.red') solid 3px;
+  }
+
+  &-outline:disabled {
+    @apply cursor-not-allowed;
+    color: #BBBBBB;
+    border-color: #BBBBBB;
+    background-color: transparent;
+  }
+}
+
+a:hover {
+  @apply underline;
+}
+
+a:focus-visible {
+  @apply underline;
+  outline: theme('colors.red') solid 2px;
+  outline-offset: 3px;
 }
 
 .container {
