@@ -16,7 +16,7 @@ export default function PostCard(props: { postExcerpt: any }) {
                     </button>
                 </div>
                 <div className={'flex-1 flex flex-col'}>
-                    <Link href="/guna/index.html">
+                    <Link href="/guna.html">
                         <a>
                             <h2 className={'text-lg text-black font-bold leading-normal'}>{props.postExcerpt.title}</h2>
                         </a>
