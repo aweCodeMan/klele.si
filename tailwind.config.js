@@ -16,7 +16,14 @@ module.exports = {
       container: {
         center: true,
         padding: '2rem',
-      }
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            lineHeight: '1.5',
+          },
+        },
+      },
     },
     boxShadow: {
       DEFAULT: '4px 4px 0px rgba(0, 0, 0, 0.15);',
@@ -25,5 +32,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

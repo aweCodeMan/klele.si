@@ -6,6 +6,11 @@
 
 @import "buttons";
 
+textarea:focus-visible {
+  outline: theme('colors.red') solid 2px;
+  outline-offset: 3px;
+}
+
 .container {
   max-width: 1200px;
 }
@@ -41,6 +46,10 @@
 
 .area-sidebar {
   grid-area: sidebar;
+}
+
+.twitter-tweet {
+  @apply mx-auto;
 }
 
 .skeleton {
