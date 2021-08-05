@@ -8,6 +8,7 @@ import Comment from "../../components/cards/comment";
 import CommentSkeletonCard from "../../components/cards/comment-skeleton-card";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import Author from "../../components/cards/author";
+import SubmitComment from "../../components/partials/submit-comment";
 
 export default function Guna() {
 
@@ -158,6 +159,10 @@ export default function Guna() {
         setType(number);
     }
 
+    const commentAdded = () => {
+        console.log('comment added');
+    }
+
     return (
         <div>
             <Head>
@@ -201,21 +206,8 @@ export default function Guna() {
                         <div className="prose" dangerouslySetInnerHTML={{__html: post.html}}/>
                     </div>
 
-                    <div className="card">
-                        <div className="border border-black">
-                                <textarea className={'h-full w-full min-h-64 p-2 '} rows={3}
-                                          placeholder={'Daj nam pomagaj in povej kaj ti misliš...'}/>
+                    <SubmitComment onSubmit={commentAdded}/>
 
-                            <div className="border-t border-black flex flex-row justify-between p-2">
-                                <div className={'mr-2 flex flex-row items-center justify-center'}>
-                                    <button className="btn btn-sm btn-outline mr-2">Predogled</button>
-                                    <p className="text-sm text-black opacity-50">Uporabljamo Markdown.</p>
-                                </div>
-
-                                <button className="btn btn-sm btn-primary">Komentiraj</button>
-                            </div>
-                        </div>
-                    </div>
                     <div className="card" style={{borderTop: '0'}}>
                         <div>
                             <div className="flex flex-row justify-center items-center my-3">
@@ -242,7 +234,7 @@ export default function Guna() {
                                 isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
                                     {
                                         post.comments.map((comment, index) => {
-                                            return <Comment comment={comment} key={index}/>
+                                            return <Comment comment={comment} key={index} />
                                         })
                                     }
                                 </div>

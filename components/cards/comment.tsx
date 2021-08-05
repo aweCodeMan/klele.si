@@ -2,10 +2,27 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import {faComments} from "@fortawesome/free-solid-svg-icons";
 import Author from "./author";
-import {comment} from "postcss";
-
+import {useState} from "react";
+import SubmitComment from "../partials/submit-comment";
 
 export default function Comment(props: { comment: any }) {
+
+    const [isReplying, setIsReplying] = useState(false);
+
+    const reply = () => {
+        setIsReplying(true);
+        console.log('reply');
+    }
+
+    const onReplySubmitted = () => {
+        setIsReplying(false);
+        console.log('comment submitted');
+    }
+
+    const onCancelReply = () => {
+        setIsReplying(false);
+    };
+
     return (
         <div className={'relative'}>
             <div className={'flex flex-col mb-6'}>
@@ -22,20 +39,26 @@ export default function Comment(props: { comment: any }) {
                         </div>
                         <span className="text-sm font-bold">{props.comment.numberOfLikes}</span>
                     </button>
-                    <button className="btn btn-sm btn-outline mr-2">
+                    <button className="btn btn-sm btn-outline mr-2" onClick={reply} disabled={isReplying}>
                           <span className="pr-2">
                                     <FontAwesomeIcon icon={faComments}/>
                                 </span>
-                        Komentiraj
+                        Odgovori
                     </button>
                     <button className="btn btn-sm btn-link">Prijavi</button>
                 </div>
             </div>
             {
+                isReplying ? <div className="ml-8 mb-8">
+                    <SubmitComment onSubmit={onReplySubmitted} onCancel={onCancelReply}/>
+                </div> : undefined
+            }
+
+            {
                 <div className={'ml-8 relative'}>
                     {
                         props.comment.replies.map((comment: any, index: any) => {
-                            return <><Comment comment={comment} key={index}/></>
+                            return <Comment comment={comment} key={index}/>
                         })
                     }
                 </div>
