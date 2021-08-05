@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart} from '@fortawesome/free-regular-svg-icons'
 import {faComments, faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import Author from "./author";
 
 export default function PostCard(props: { postExcerpt: any }) {
     return (
@@ -31,7 +32,7 @@ export default function PostCard(props: { postExcerpt: any }) {
                     </div>
 
                     <div className={'text-sm text-black opacity-80 mt-2'}>
-                        {props.postExcerpt.author.name} &#8212; Danes ob 18:47
+                        <Author author={props.postExcerpt.author} avatar={false}/> &#8212; Danes ob 18:47
                     </div>
 
                     <div className={'mt-4 flex flex-row'}>
