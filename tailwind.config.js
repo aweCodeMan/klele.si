@@ -9,6 +9,8 @@ module.exports = {
         'red-dark': '#E14961',
         beige: '#F9F2E9',
         gray: '#BBBBBB',
+        error: "#EA324E",
+        'error-washed': "rgba(234, 50, 78, 0.1)"
       },
       fontFamily: {
         'sans': ['Kulim Park', 'sans-serif'],

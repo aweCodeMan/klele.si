@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import Pagination from "../components/partials/pagination";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
+import AuthModal from "../components/modals/auth-modal";
 
 export default function Home() {
 
@@ -128,13 +129,13 @@ export default function Home() {
                 <meta name="description" content="Klele so dobre debate doma."/>
             </Head>
 
-            <main className={'overflow-x-hidden'}>
-                <div style={{height: '200px', backgroundColor: '#e0d3c6'}}
-                     className={'relative flex justify-center items-center'}>
-                    <div style={{background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
-                         className={'h-full absolute w-full z-0'}/>
+            <AuthModal/>
 
-                    <div className={'text-center z-10 flex flex-col justify-center items-center'}>
+            <main className={'overflow-x-hidden'}>
+                <div style={{height: '200px', backgroundColor: '#e0d3c6', background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
+                     className={'relative flex justify-center items-center'}>
+
+                    <div className={'text-center flex flex-col justify-center items-center'}>
                         <Logo/>
                         <p className="text-black text-lg mt-2 tracking-tight">Kjer so dobre debate doma</p>
                     </div>

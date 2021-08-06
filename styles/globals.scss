@@ -6,9 +6,13 @@
 
 @import "buttons";
 
-textarea:focus-visible {
+textarea:focus-visible, input:focus-visible {
   outline: theme('colors.red') solid 2px;
   outline-offset: 3px;
+}
+
+textarea:disabled, input:disabled {
+  @apply bg-gray cursor-not-allowed;
 }
 
 .container {
