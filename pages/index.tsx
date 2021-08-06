@@ -129,8 +129,6 @@ export default function Home() {
                 <meta name="description" content="Klele so dobre debate doma."/>
             </Head>
 
-            <AuthModal/>
-
             <main className={'overflow-x-hidden'}>
                 <div style={{height: '200px', backgroundColor: '#e0d3c6', background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
                      className={'relative flex justify-center items-center'}>
