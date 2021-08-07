@@ -78,12 +78,15 @@ export default function LoginModalContent(props: { onRegisterClicked: Function, 
                                value={loginForm.password}/>
                 </div>
 
+                <div className="text-right">
+                    <button className="btn btn-sm btn-link" onClick={onRegisterClicked}>Pozabljeno geslo?</button>
+                </div>
+
                 <div className="mt-6 text-center">
                     <button className="btn btn-primary" disabled={!isFormValid() || isLoading} type={'submit'}>Prijavi
                         se
                     </button>
                 </div>
-
             </form>
 
             <hr className="my-6"/>
