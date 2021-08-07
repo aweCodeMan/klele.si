@@ -6,12 +6,12 @@
 
 @import "buttons";
 
-textarea:focus-visible, input:focus-visible {
+textarea:focus-visible, input:focus-visible, select:focus-visible {
   outline: theme('colors.red') solid 2px;
   outline-offset: 3px;
 }
 
-textarea:disabled, input:disabled {
+textarea:disabled, input:disabled, select:disabled {
   @apply bg-gray cursor-not-allowed;
 }
 
@@ -35,7 +35,7 @@ textarea:disabled, input:disabled {
   @screen sm {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
-  'top top top'
+  'top top .'
   'main main sidebar';
   }
 }

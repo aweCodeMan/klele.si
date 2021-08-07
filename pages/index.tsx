@@ -130,7 +130,12 @@ export default function Home() {
             </Head>
 
             <main className={'overflow-x-hidden'}>
-                <div style={{height: '200px', backgroundColor: '#e0d3c6', background: 'url(/images/header_frontpage.png)', backgroundPosition: 'center'}}
+                <div style={{
+                    height: '200px',
+                    backgroundColor: '#e0d3c6',
+                    background: 'url(/images/header_frontpage.png)',
+                    backgroundPosition: 'center'
+                }}
                      className={'relative flex justify-center items-center'}>
 
                     <div className={'text-center flex flex-col justify-center items-center'}>
@@ -142,21 +147,35 @@ export default function Home() {
                 <div className="container grid py-6">
 
                     <div className="area-top">
-                        <button className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                onClick={(event) => onTypeChange(event, 0)}>
-                            <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
-                            Po vrsti
-                        </button>
-                        <button className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
-                                onClick={(event) => onTypeChange(event, 1)}>
-                            <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
-                            Po vročici
-                        </button>
-                        <button className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                onClick={(event) => onTypeChange(event, 2)}>
-                            <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
-                            Po priljubljenosti
-                        </button>
+                        <div className="flex flex-row justify-between">
+                            <div>
+                                <button
+                                    className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                    onClick={(event) => onTypeChange(event, 0)}>
+                                    <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
+                                    Po vrsti
+                                </button>
+                                <button
+                                    className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
+                                    onClick={(event) => onTypeChange(event, 1)}>
+                                    <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
+                                    Po vročici
+                                </button>
+                                <button
+                                    className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                    onClick={(event) => onTypeChange(event, 2)}>
+                                    <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
+                                    Po priljubljenosti
+                                </button>
+                            </div>
+
+                            <Link href="/objavi">
+                                <a>
+                                    <button className="btn btn-primary btn-sm">Objavi</button>
+                                </a>
+                            </Link>
+                        </div>
+
                     </div>
 
                     <div className={'area-main'}>

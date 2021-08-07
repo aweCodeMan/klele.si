@@ -56,7 +56,6 @@ export default function SubmitComment(props: { onSubmit?: Function, onCancel?: F
 
     const showContent = () => {
         return <div className="card">
-
             {
                 inPreview ?
                     (
