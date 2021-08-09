@@ -12,6 +12,7 @@ export default function FormInput(props: { label: string, type: string, name: st
                 <input autoComplete={props.autocomplete}
                        className={'w-full block border p-2 ' + (props.error ? ' text-error border-error bg-error-washed' : ' text-black border-black ')}
                        disabled={props.disabled}
+                       value={props.value ?? ''}
                        type={props.type} onChange={onFormInputChange}/>
 
             </label>

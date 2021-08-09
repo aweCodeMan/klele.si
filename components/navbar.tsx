@@ -28,7 +28,7 @@ export default function Navbar() {
     const showAuth = () => {
         return <div>
             <Link href="/profil">
-                <a className="btn btn-outline hidden  mr-2">
+                <a className="btn btn-outline mr-2">
                     {auth.user?.fullName}
                 </a>
             </Link>

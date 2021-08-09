@@ -7,15 +7,21 @@ export enum ModalState {
     FORGOT_PASSWORD
 }
 
-const initial: { user?: any, logout: Function, login: Function, openAuthModal: Function, closeAuthModal: Function, isAuthModalOpened: boolean, modalType: number, setModalType: Function
+const initial: {
+    sendReverifyEmail: Function,
+    user?: any, logout: Function, login: Function, openAuthModal: Function, closeAuthModal: Function, isAuthModalOpened: boolean, modalType: number, setModalType: Function
     register(form: { password: string; repeatPassword: string; email: string }): any;
+    update(form: { surname: string; name: string }): any;
 } = {
+    update(form: { surname: string; name: string }): any {
+    },
     register(form: { password: string; repeatPassword: string; email: string }): any {
     },
     closeAuthModal: () => {
     }, isAuthModalOpened: false, openAuthModal: () => {
     },
     logout: () => {
+    },sendReverifyEmail: () => {
     },
     login: () => {
     },
@@ -68,6 +74,17 @@ function useProvideAuth() {
         });
     }
 
+    const update = (data: { name: string, surname: string }) => {
+        return ApiClient().put('/api/users', data).then((response) => {
+            localStorage.setItem('user', JSON.stringify(response.data.data));
+            setUser(response.data.data);
+        });
+    }
+
+    const sendReverifyEmail = (data: { name: string, surname: string }) => {
+        return ApiClient().post('/api/users/reverify', data);
+    }
+
     const getCsrfCookie = () => {
         return ApiClient().get('/sanctum/csrf-cookie');
     }
@@ -87,9 +104,11 @@ function useProvideAuth() {
         register,
         openAuthModal,
         closeAuthModal,
+        update,
         isAuthModalOpened,
         setModalType,
         modalType,
+        sendReverifyEmail,
     };
 }
 
