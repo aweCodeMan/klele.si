@@ -16,7 +16,7 @@ export default function FormInput(props: { label: string, type: string, name: st
 
             </label>
 
-            <p className="text-error mt-2">{props.error?.message}</p>
+            <p className="text-error mt-2">{props.error}</p>
         </div>
     )
 }

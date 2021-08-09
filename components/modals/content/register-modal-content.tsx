@@ -3,69 +3,116 @@ import {faGithubSquare} from '@fortawesome/free-brands-svg-icons'
 import FormInput from "../../partials/form-input";
 import Joi from 'joi'
 import {useState} from "react";
+import {ModalState, useAuth} from "../../../contexts/auth";
+import {FormHelper} from "../../../helpers/form";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
-export default function RegisterModalContent(props: { onLoginClicked: Function, onLoggedIn: Function }) {
+export default function RegisterModalContent(props: { close: Function }) {
+    const auth = useAuth();
+
     const schema = Joi.object(
         {
+            name: Joi.string().trim().required(),
+            surname: Joi.string().trim().required(),
             email: Joi.string().email({tlds: {allow: false}}).trim().required(),
             password: Joi.string().trim().required(),
             repeatPassword: Joi.ref('password'),
         }
-    );
+    ).messages({
+        'string.empty': 'Polje je obvezno.',
+        'string.email': 'Mora biti veljaven email.',
+        'string.min': `Geslo mora imeti vsaj {#limit} znakov.`,
+        'any.only': `Gesli se morata ujemati.`
+    });
 
-    const [registerForm, setRegisterForm] = useState({email: '', password: '', repeatPassword: ''});
-    const [errors, setErrors] = useState(schema.validate(registerForm, {abortEarly: false}).error);
+    const [form, setForm] = useState({name: '', surname: '', email: '', password: '', repeatPassword: ''});
+    const [errors, setErrors] = useState({
+        email: null,
+        password: null,
+        repeatPassword: null,
+        name: null,
+        surname: null
+    });
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccessful, setIsSuccessful] = useState(false);
 
     const onFormChange = (name: string, value: any) => {
-        const copy = {...registerForm};
-        // @ts-ignore
-        copy[name] = value;
-        setRegisterForm(copy);
+        const updatedForm = {...form, [name]: value};
 
-        setErrors(schema.validate(copy, {abortEarly: false,}).error);
+        setErrors(FormHelper.getJoiErrors(schema, updatedForm));
+        setForm(updatedForm);
     }
 
     const submit = (event: any) => {
         event.preventDefault();
 
-        if (isFormValid()) {
-            setIsLoading(true);
+        setIsLoading(true);
 
-            setTimeout(() => {
-                setIsLoading(false);
-                props.onLoggedIn();
-            }, 1000);
-        }
+        auth.register(form).then(() => {
+            setIsSuccessful(true);
+        }).catch((error: any) => {
+            setIsLoading(false);
+            setErrors(FormHelper.getServerErrors(errors, error.response.data.errors));
+        })
     }
 
     const isFormValid = () => {
-        return errors === undefined;
+        return schema.validate(form).error === undefined;
     }
 
-    const getError = (name: string) => {
-        return errors?.details.find((item) => item.path[0] === name)
+    const showSuccess = () => {
+        return (<>
+                <div className="mb-3" style={{fontSize: '5rem'}}><FontAwesomeIcon icon={faCheck}/></div>
+                <h2 className="font-bold text-2xl mb-8">Registracija je bila uspešna!</h2>
+
+                <p>Na <b>{form.email}</b> smo ti poslali potrditveno sporočilo, ki ga prosim takoj sedaj čimprej
+                    poklikaj.</p>
+
+                <p className="mt-4">Hvala ti in se beremo!</p>
+
+                <div className="text-center mt-6">
+                    <button className="btn btn-primary" onClick={() => props.close()}>Zapri</button>
+                </div>
+            </>
+        );
     }
 
-    const onLoginClicked = () => {
-        props.onLoginClicked();
-    }
-
-    return (
-        <div className="flex flex-col text-center">
+    const showForm = () => {
+        return (<>
             <h2 className="font-bold text-2xl mb-8">Registracija</h2>
 
             <form className={'text-left'} onSubmit={submit} action={undefined}>
 
+                <div className="mb-3">
+                    <FormInput type={'text'} label={'Ime:'}
+                               name="name"
+                               onChange={onFormChange}
+                               error={errors.name}
+                               autocomplete="given-name"
+                               disabled={isLoading}
+                               value={form.name}/>
+
+                </div>
+
+                <div className="mb-3">
+                    <FormInput type={'text'} label={'Priimek:'}
+                               name="surname"
+                               onChange={onFormChange}
+                               error={errors.surname}
+                               autocomplete="family-name"
+                               disabled={isLoading}
+                               value={form.surname}/>
+
+                </div>
 
                 <div className="mb-3">
                     <FormInput type={'email'} label={'Email:'}
                                name="email"
                                onChange={onFormChange}
-                               error={getError('email')}
+                               error={errors.email}
                                autocomplete="username"
                                disabled={isLoading}
-                               value={registerForm.email}/>
+                               value={form.email}/>
 
                 </div>
 
@@ -75,8 +122,8 @@ export default function RegisterModalContent(props: { onLoginClicked: Function, 
                                autocomplete="new-password"
                                onChange={onFormChange}
                                disabled={isLoading}
-                               error={getError('password')}
-                               value={registerForm.password}/>
+                               error={errors.password}
+                               value={form.password}/>
                 </div>
 
                 <div className="mb-3">
@@ -85,21 +132,22 @@ export default function RegisterModalContent(props: { onLoginClicked: Function, 
                                autocomplete="new-password"
                                onChange={onFormChange}
                                disabled={isLoading}
-                               error={getError('repeatPassword')}
-                               value={registerForm.repeatPassword}/>
+                               error={errors.repeatPassword}
+                               value={form.repeatPassword}/>
                 </div>
 
                 <div className="mt-6 text-center">
-                    <button className="btn btn-primary" disabled={!isFormValid() || isLoading} type={'submit'}>Registriraj
+                    <button className="btn btn-primary" disabled={!isFormValid() || isLoading}
+                            type={'submit'}>Registriraj
                         se
                     </button>
                 </div>
 
             </form>
 
-            <hr className="my-6"/>
+            <hr className="my-6 hidden"/>
 
-            <div>
+            <div className="hidden">
                 <h2 className="font-bold text-lg mb-2">Kaj pa mogoče tole?</h2>
 
                 <button className="w-full btn btn-outline flex justify-center items-center">
@@ -115,8 +163,19 @@ export default function RegisterModalContent(props: { onLoginClicked: Function, 
 
                 <p className="text-lg font-bold">Že imaš račun?</p>
 
-                <button className="btn btn-link btn-sm text-red" onClick={onLoginClicked}>Prijavi se!</button>
+                <button className="btn btn-link btn-sm text-red"
+                        onClick={() => auth.setModalType(ModalState.LOGIN)}>Prijavi se!
+                </button>
             </div>
+        </>)
+    }
+
+    return (
+        <div className="flex flex-col text-center">
+
+            {isSuccessful ? showSuccess() : showForm()}
+
+
         </div>
     )
 }

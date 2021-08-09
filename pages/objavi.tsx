@@ -79,12 +79,8 @@ export default function SubmitContent() {
                     <div className="mt-10 text-right">
                         <button className="btn btn-primary" type="submit">Objavi</button>
                     </div>
-
                 </form>
-
-
             </div>
-
         </main>
     </div>
 }

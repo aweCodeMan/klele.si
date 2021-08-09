@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import Pagination from "../components/partials/pagination";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
+import Navbar from "../components/navbar";
 import AuthModal from "../components/modals/auth-modal";
 
 export default function Home() {
@@ -128,6 +129,9 @@ export default function Home() {
                 <title>Klele.si | Kjer so dobre debate doma</title>
                 <meta name="description" content="Klele so dobre debate doma."/>
             </Head>
+
+            <Navbar/>
+            <AuthModal/>
 
             <main className={'overflow-x-hidden'}>
                 <div style={{

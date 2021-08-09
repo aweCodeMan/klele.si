@@ -1,6 +1,5 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document'
 import Footer from "../components/footer";
-import Navbar from "../components/navbar";
 
 class MyDocument extends Document {
 
@@ -17,7 +16,6 @@ class MyDocument extends Document {
                 </Head>
                 <body className={'min-h-screen flex flex-col bg-beige overflow-y-scroll'}
                       style={{backgroundImage: 'url(/images/bg.png)', backgroundRepeat: 'repeat'}}>
-                <Navbar/>
                 <div className={'flex-1'}>
                     <Main/>
                     <NextScript/>

@@ -3,51 +3,49 @@ import {faGithubSquare} from '@fortawesome/free-brands-svg-icons'
 import FormInput from "../../partials/form-input";
 import Joi from 'joi'
 import {useState} from "react";
+import {ModalState, useAuth} from "../../../contexts/auth";
+import {FormHelper} from "../../../helpers/form";
 
-export default function LoginModalContent(props: { onRegisterClicked: Function, onLoggedIn: Function }) {
+export default function LoginModalContent(props: { close: Function }) {
+    const auth = useAuth();
+
     const schema = Joi.object(
         {
             email: Joi.string().email({tlds: {allow: false}}).trim().required(),
-            password: Joi.string().trim().required(),
+            password: Joi.string().trim().min(8).required(),
         }
-    );
+    ).messages({
+        'string.empty': 'Polje je obvezno.',
+        'string.email': 'Mora biti veljaven email.',
+        'string.min': `Geslo mora imeti vsaj {#limit} znakov.`
+    });
 
-    const [loginForm, setLoginForm] = useState({email: '', password: ''});
-    const [errors, setErrors] = useState(schema.validate(loginForm, {abortEarly: false}).error);
+    const [form, setForm] = useState({email: '', password: ''});
+    const [errors, setErrors] = useState({email: null, password: null});
     const [isLoading, setIsLoading] = useState(false);
 
     const onFormChange = (name: string, value: any) => {
-        const copy = {...loginForm};
-        // @ts-ignore
-        copy[name] = value;
-        setLoginForm(copy);
+        const updatedForm = {...form, [name]: value};
 
-        setErrors(schema.validate(copy, {abortEarly: false,}).error);
+        setErrors(FormHelper.getJoiErrors(schema, updatedForm));
+        setForm(updatedForm);
     }
 
     const submit = (event: any) => {
         event.preventDefault();
 
-        if (isFormValid()) {
-            setIsLoading(true);
+        setIsLoading(true);
 
-            setTimeout(() => {
-                setIsLoading(false);
-                props.onLoggedIn();
-            }, 1000);
-        }
+        auth.login(form).then(() => {
+            props.close();
+        }).catch((error: any) => {
+            setIsLoading(false);
+            setErrors(FormHelper.getServerErrors(errors, error.response.data.errors));
+        })
     }
 
     const isFormValid = () => {
-        return errors === undefined;
-    }
-
-    const getError = (name: string) => {
-        return errors?.details.find((item) => item.path[0] === name)
-    }
-
-    const onRegisterClicked = () => {
-        props.onRegisterClicked();
+        return schema.validate(form).error === undefined;
     }
 
     return (
@@ -55,16 +53,14 @@ export default function LoginModalContent(props: { onRegisterClicked: Function, 
             <h2 className="font-bold text-2xl mb-8">Prijava</h2>
 
             <form className={'text-left'} onSubmit={submit} action={undefined}>
-
-
                 <div className="mb-3">
                     <FormInput type={'email'} label={'Email:'}
                                name="email"
                                onChange={onFormChange}
-                               error={getError('email')}
+                               error={errors.email}
                                autocomplete="username"
                                disabled={isLoading}
-                               value={loginForm.email}/>
+                               value={form.email}/>
 
                 </div>
 
@@ -74,12 +70,16 @@ export default function LoginModalContent(props: { onRegisterClicked: Function, 
                                autocomplete="current-password"
                                onChange={onFormChange}
                                disabled={isLoading}
-                               error={getError('password')}
-                               value={loginForm.password}/>
+                               error={errors.password}
+                               value={form.password}/>
                 </div>
 
                 <div className="text-right">
-                    <button className="btn btn-sm btn-link" onClick={onRegisterClicked}>Pozabljeno geslo?</button>
+                    <button className="btn btn-sm btn-link"
+                            onClick={() => auth.setModalType(ModalState.FORGOT_PASSWORD)}
+                            disabled={isLoading}>Pozabljeno
+                        geslo?
+                    </button>
                 </div>
 
                 <div className="mt-6 text-center">
@@ -89,9 +89,9 @@ export default function LoginModalContent(props: { onRegisterClicked: Function, 
                 </div>
             </form>
 
-            <hr className="my-6"/>
+            <hr className="my-6 hidden"/>
 
-            <div>
+            <div className="hidden">
                 <h2 className="font-bold text-lg mb-2">Kaj pa mogoče tole?</h2>
 
                 <button className="w-full btn btn-outline flex justify-center items-center">
@@ -107,10 +107,11 @@ export default function LoginModalContent(props: { onRegisterClicked: Function, 
 
                 <p className="text-lg font-bold">Še nimaš računa?</p>
 
-                <button className="btn btn-link btn-sm text-red" onClick={onRegisterClicked}>Registriraj se!</button>
+                <button className="btn btn-link btn-sm text-red"
+                        onClick={() => auth.setModalType(ModalState.REGISTER)}>Registriraj se!
+                </button>
             </div>
 
         </div>
     )
-
 }
