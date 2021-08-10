@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Logo from "./logo";
 import {useEffect, useState} from "react";
-import {ModalState, useAuth} from "../contexts/auth";
+import {AuthModalType, useAuth} from "../contexts/auth";
+import AuthModal from "./modals/auth-modal";
 
 export default function Navbar() {
     const [hasMounted, setHasMounted] = useState(false);
@@ -10,34 +11,6 @@ export default function Navbar() {
     useEffect(() => {
         setHasMounted(true);
     }, [])
-
-    const showAuthButtons = () => {
-        return (
-            <div>
-                <button className="btn btn-outline mr-2" onClick={() => {auth.setModalType(ModalState.LOGIN); auth.openAuthModal()}}>
-                    Prijava
-                </button>
-
-                <button className="btn btn-primary" onClick={() => {auth.setModalType(ModalState.REGISTER); auth.openAuthModal()}}>
-                    Registracija
-                </button>
-            </div>
-        );
-    }
-
-    const showAuth = () => {
-        return <div>
-            <Link href="/profil">
-                <a className="btn btn-outline mr-2">
-                    {auth.user?.fullName}
-                </a>
-            </Link>
-
-            <button className="btn btn-link " onClick={() => auth.logout()}>
-                Odjava
-            </button>
-        </div>;
-    }
 
     return (
         <>
@@ -51,10 +24,49 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {
-                    !hasMounted ? null : (auth.user ? showAuth() : showAuthButtons())
-                }
+                <Buttons auth={auth} hasMounted={hasMounted}/>
             </nav>
+
+            <AuthModal/>
         </>
     )
+}
+
+function Buttons(props: { auth: any, hasMounted: boolean }) {
+    if (!props.hasMounted) {
+        return null;
+    }
+
+    return props.auth.user ? <AuthButtons auth={props.auth}/> : <GuestButtons auth={props.auth}/>;
+}
+
+function AuthButtons(props: { auth: any }) {
+    return <div>
+        <Link href="/profil">
+            <a className="btn btn-outline mr-2">
+                {props.auth.user?.fullName}
+            </a>
+        </Link>
+
+        <button className="btn btn-link"
+                onClick={() => props.auth.logout()}>
+            Odjava
+        </button>
+    </div>;
+}
+
+function GuestButtons(props: { auth: any }) {
+    return (
+        <div>
+            <button className="btn btn-outline mr-2"
+                    onClick={() => props.auth.openAuthModal(AuthModalType.LOGIN)}>
+                Prijava
+            </button>
+
+            <button className="btn btn-primary"
+                    onClick={() => props.auth.openAuthModal(AuthModalType.REGISTER)}>
+                Registracija
+            </button>
+        </div>
+    );
 }

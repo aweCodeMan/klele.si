@@ -1,4 +1,4 @@
-import {ModalState, useAuth} from "../../contexts/auth";
+import {AuthModalType, useAuth} from "../../contexts/auth";
 
 export default function LoginNotice() {
     const auth = useAuth();
@@ -11,10 +11,8 @@ export default function LoginNotice() {
                 <p className="my-4">Za dostop do te vsebine se bo treba prijaviti.</p>
 
                 <div className="flex flex-row justify-center items-center">
-                    <button className="btn btn-primary btn-sm" onClick={() => {
-                        auth.setModalType(ModalState.LOGIN);
-                        auth.openAuthModal();
-                    }}>Prijava
+                    <button className="btn btn-primary btn-sm" onClick={() => auth.openAuthModal(AuthModalType.LOGIN)}>
+                        Prijava
                     </button>
                 </div>
             </div>

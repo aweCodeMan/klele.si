@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Navbar from "../components/navbar";
-import AuthModal from "../components/modals/auth-modal";
 
 export default function Custom404() {
     return <div>
@@ -10,7 +9,6 @@ export default function Custom404() {
         </Head>
 
         <Navbar/>
-        <AuthModal/>
 
         <main className={'my-16 flex flex-col justify-center text-center'}>
             <div className="text-center">

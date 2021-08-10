@@ -1,4 +1,4 @@
-import {ModalState, useAuth} from "../../contexts/auth";
+import {AuthModalType, useAuth} from "../../contexts/auth";
 import {useState} from "react";
 
 export default function VerifyNotice(props: { user: any }) {
@@ -14,7 +14,7 @@ export default function VerifyNotice(props: { user: any }) {
     const sendEmail = () => {
         setIsSending(true);
 
-        auth.sendReverifyEmail().then(() => {
+        auth.sendVerificationEmail().then(() => {
             setIsSending(false);
             setIsSuccess(true);
         })

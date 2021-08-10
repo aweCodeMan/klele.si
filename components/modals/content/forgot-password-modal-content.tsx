@@ -3,7 +3,7 @@ import {faGithubSquare} from '@fortawesome/free-brands-svg-icons'
 import FormInput from "../../partials/form-input";
 import Joi from 'joi'
 import {useState} from "react";
-import {ModalState, useAuth} from "../../../contexts/auth";
+import {AuthModalType, useAuth} from "../../../contexts/auth";
 import {FormHelper} from "../../../helpers/form";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
@@ -36,7 +36,7 @@ export default function ForgotPasswordModalContent(props: { close: Function }) {
 
         setIsLoading(true);
 
-        auth.forgotPassword(form).then(() => {
+        auth.sendForgotPasswordEmail(form).then(() => {
             setIsSuccess(true);
         }).catch((error: any) => {
             setIsLoading(false);
@@ -79,7 +79,7 @@ export default function ForgotPasswordModalContent(props: { close: Function }) {
                 </div>
 
                 <div className="mt-6 text-center">
-                    <button className="btn btn-primary" disabled={!isFormValid() || isLoading} type={'submit'}>Pošlji navodila za resetiranje gesla
+                    <button className="btn btn-primary" disabled={!isFormValid() || isLoading} type={'submit'}>Pošlji email za resetiranje gesla
                     </button>
                 </div>
             </form>
@@ -90,7 +90,7 @@ export default function ForgotPasswordModalContent(props: { close: Function }) {
                 <p className="text-lg font-bold">Poznaš svoje geslo?</p>
 
                 <button className="btn btn-link btn-sm text-red"
-                        onClick={() => auth.setModalType(ModalState.LOGIN)}>Prijavi se!
+                        onClick={() => auth.openAuthModal(AuthModalType.LOGIN)}>Prijavi se!
                 </button>
             </div>
         </>

@@ -1,7 +1,7 @@
-import ApiClient from "./api-client";
+import {ApiClient} from "./api-client";
 
 export namespace UserService {
     export function getProfile() {
-        return ApiClient().get('/api/users/show');
+        return ApiClient.get('/api/users/show');
     }
 }

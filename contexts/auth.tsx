@@ -1,40 +1,13 @@
 import React, {useState, useEffect, useContext, createContext} from "react";
-import ApiClient from "../helpers/api-client";
+import {ApiClient} from "../helpers/api-client";
 
-export enum ModalState {
+export enum AuthModalType {
     LOGIN,
     REGISTER,
     FORGOT_PASSWORD
 }
 
-const initial: {
-    sendReverifyEmail: Function,
-    forgotPassword: Function,
-    resetPassword: Function,
-    user?: any, logout: Function, login: Function, openAuthModal: Function, closeAuthModal: Function, isAuthModalOpened: boolean, modalType: number, setModalType: Function
-    register(form: { password: string; repeatPassword: string; email: string }): any;
-    update(form: { surname: string; name: string }): any;
-} = {
-    update(form: { surname: string; name: string }): any {
-    },
-    register(form: { password: string; repeatPassword: string; email: string }): any {
-    },
-    closeAuthModal: () => {
-    }, isAuthModalOpened: false, openAuthModal: () => {
-    },
-    logout: () => {
-    }, sendReverifyEmail: () => {
-    },
-    login: () => {
-    }, forgotPassword: () => {
-    },
-    setModalType: () => {
-    },
-    resetPassword: () => {
-
-    },
-    modalType: ModalState.REGISTER
-}
+const initial: any = {};
 const authContext = createContext(initial);
 
 export function ProvideAuth({children}: any) {
@@ -49,7 +22,7 @@ export const useAuth = () => {
 function useProvideAuth() {
     const [user, setUser]: any = useState(null);
     const [isAuthModalOpened, setIsAuthModalOpened] = useState(false);
-    const [modalType, setModalType] = useState(ModalState.REGISTER)
+    const [modalType, setModalType] = useState(AuthModalType.LOGIN)
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user') as string);
@@ -57,9 +30,7 @@ function useProvideAuth() {
     }, []);
 
     const logout = () => {
-        //  TODO: Clear cookies as well, clear token from API
-        ApiClient().post('/api/users/logout').then((response) => {
-
+        ApiClient.post('/api/users/logout').then((response) => {
         }).finally(() => {
             localStorage.removeItem('user');
             setUser(null);
@@ -68,7 +39,7 @@ function useProvideAuth() {
 
     const login = (data: { email: string, password: string }) => {
         return getCsrfCookie().then(() => {
-            return ApiClient().post('/api/users/login', data).then((response) => {
+            return ApiClient.post('/api/users/login', data).then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 setUser(response.data.data);
             });
@@ -77,7 +48,7 @@ function useProvideAuth() {
 
     const register = (data: { email: string, password: string }) => {
         return getCsrfCookie().then(() => {
-            return ApiClient().post('/api/users', data).then((response) => {
+            return ApiClient.post('/api/users', data).then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 setUser(response.data.data);
             });
@@ -85,32 +56,33 @@ function useProvideAuth() {
     }
 
     const update = (data: { name: string, surname: string }) => {
-        return ApiClient().put('/api/users', data).then((response) => {
+        return ApiClient.put('/api/users', data).then((response) => {
             localStorage.setItem('user', JSON.stringify(response.data.data));
             setUser(response.data.data);
         });
     }
 
-    const sendReverifyEmail = (data: { name: string, surname: string }) => {
-        return ApiClient().post('/api/users/reverify', data);
+    const sendVerificationEmail = () => {
+        return ApiClient.post('/api/users/reverify', {});
     }
 
-    const forgotPassword = (data: { email: string }) => {
+    const sendForgotPasswordEmail = (data: { email: string }) => {
         return getCsrfCookie().then(() => {
-            return ApiClient().post('/api/forgot-password', data);
+            return ApiClient.post('/api/forgot-password', data);
         });
     }
     const resetPassword = (data: { email: string, token: string, password: string }) => {
         return getCsrfCookie().then(() => {
-            return ApiClient().post('/api/password-reset', data);
+            return ApiClient.post('/api/password-reset', data);
         });
     }
 
     const getCsrfCookie = () => {
-        return ApiClient().get('/sanctum/csrf-cookie');
+        return ApiClient.get('/sanctum/csrf-cookie');
     }
 
-    const openAuthModal = () => {
+    const openAuthModal = (type: AuthModalType = AuthModalType.LOGIN) => {
+        setModalType(type);
         setIsAuthModalOpened(true);
     }
 
@@ -120,18 +92,17 @@ function useProvideAuth() {
 
     return {
         user,
-        logout,
         login,
         register,
+        update,
+        logout,
+        sendVerificationEmail,
+        sendForgotPasswordEmail,
+        resetPassword,
         openAuthModal,
         closeAuthModal,
-        update,
         isAuthModalOpened,
-        setModalType,
         modalType,
-        sendReverifyEmail,
-        forgotPassword,
-        resetPassword,
     };
 }
 

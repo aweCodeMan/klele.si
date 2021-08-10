@@ -5,6 +5,7 @@ import {useState} from "react";
 import FormSelect from "../components/partials/form-select";
 import FormInput from "../components/partials/form-input";
 import FormMarkdown from "../components/partials/form-markdown";
+import Navbar from "../components/navbar";
 
 export default function SubmitContent() {
     const [type, setType] = useState(0);
@@ -37,6 +38,8 @@ export default function SubmitContent() {
             <title>Objavi | Klele.si</title>
             <meta name="description" content=""/>
         </Head>
+
+        <Navbar/>
 
         <main className={'my-16 flex flex-col justify-center px-2 md:px-6'}>
 

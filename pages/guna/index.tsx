@@ -173,7 +173,6 @@ export default function Guna() {
             </Head>
 
             <Navbar/>
-            <AuthModal/>
 
             <main className={'my-6 flex flex-col'}>
                 <div className="container mx-auto" style={{maxWidth: '780px'}}>

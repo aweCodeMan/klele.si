@@ -3,7 +3,7 @@ import {faGithubSquare} from '@fortawesome/free-brands-svg-icons'
 import FormInput from "../../partials/form-input";
 import Joi from 'joi'
 import {useState} from "react";
-import {ModalState, useAuth} from "../../../contexts/auth";
+import {AuthModalType, useAuth} from "../../../contexts/auth";
 import {FormHelper} from "../../../helpers/form";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
@@ -164,7 +164,7 @@ export default function RegisterModalContent(props: { close: Function }) {
                 <p className="text-lg font-bold">Že imaš račun?</p>
 
                 <button className="btn btn-link btn-sm text-red"
-                        onClick={() => auth.setModalType(ModalState.LOGIN)}>Prijavi se!
+                        onClick={() => auth.openAuthModal(AuthModalType.LOGIN)}>Prijavi se!
                 </button>
             </div>
         </>)

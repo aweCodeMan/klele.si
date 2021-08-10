@@ -3,7 +3,7 @@ import {faGithubSquare} from '@fortawesome/free-brands-svg-icons'
 import FormInput from "../../partials/form-input";
 import Joi from 'joi'
 import {useState} from "react";
-import {ModalState, useAuth} from "../../../contexts/auth";
+import {AuthModalType, useAuth} from "../../../contexts/auth";
 import {FormHelper} from "../../../helpers/form";
 
 export default function LoginModalContent(props: { close: Function }) {
@@ -74,20 +74,22 @@ export default function LoginModalContent(props: { close: Function }) {
                                value={form.password}/>
                 </div>
 
-                <div className="text-right">
-                    <button className="btn btn-sm btn-link"
-                            onClick={() => auth.setModalType(ModalState.FORGOT_PASSWORD)}
-                            disabled={isLoading}>Pozabljeno
-                        geslo?
-                    </button>
-                </div>
 
-                <div className="mt-6 text-center">
+
+                <div className="my-6 text-center">
                     <button className="btn btn-primary" disabled={!isFormValid() || isLoading} type={'submit'}>Prijavi
                         se
                     </button>
                 </div>
             </form>
+
+            <div className="text-center">
+                <button className="btn btn-sm btn-link"
+                        onClick={() => auth.openAuthModal(AuthModalType.FORGOT_PASSWORD)}
+                        disabled={isLoading}>Pozabljeno
+                    geslo?
+                </button>
+            </div>
 
             <hr className="my-6 hidden"/>
 
@@ -108,7 +110,7 @@ export default function LoginModalContent(props: { close: Function }) {
                 <p className="text-lg font-bold">Še nimaš računa?</p>
 
                 <button className="btn btn-link btn-sm text-red"
-                        onClick={() => auth.setModalType(ModalState.REGISTER)}>Registriraj se!
+                        onClick={() => auth.openAuthModal(AuthModalType.REGISTER)}>Registriraj se!
                 </button>
             </div>
 

@@ -175,7 +175,6 @@ export default function Profile() {
         </Head>
 
         <Navbar/>
-        <AuthModal/>
 
         <main className={'my-16 flex flex-col justify-center px-2 md:px-6'}>
             {!hasMounted ? showLoading() : showProfile()}
