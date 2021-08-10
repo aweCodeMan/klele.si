@@ -4,9 +4,22 @@ import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useAuth} from "../../contexts/auth";
+import ForgotPasswordModalContent from "./content/forgot-password-modal-content";
 
 export default function AuthModal() {
     const auth = useAuth();
+
+    const showContent = () => {
+        switch (auth.modalType) {
+            case 0:
+                return <LoginModalContent close={() => auth.closeAuthModal()}/>;
+            case 1:
+                return <RegisterModalContent close={() => auth.closeAuthModal()}/>;
+            case 2:
+                return <ForgotPasswordModalContent close={() => auth.closeAuthModal()}/>
+        }
+        return null;
+    }
 
     return (
         auth.isAuthModalOpened ? <div className="fixed z-10 inset-0 overflow-y-auto" role="dialog" aria-modal="true">
@@ -23,7 +36,7 @@ export default function AuthModal() {
 
                     <div className="p-0 md:p-6">
                         {
-                            auth.modalType === 0 ? <LoginModalContent close={() => auth.closeAuthModal()} /> : <RegisterModalContent close={() => auth.closeAuthModal()} />
+                            showContent()
                         }
                     </div>
                 </div>

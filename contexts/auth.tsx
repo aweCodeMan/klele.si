@@ -9,6 +9,8 @@ export enum ModalState {
 
 const initial: {
     sendReverifyEmail: Function,
+    forgotPassword: Function,
+    resetPassword: Function,
     user?: any, logout: Function, login: Function, openAuthModal: Function, closeAuthModal: Function, isAuthModalOpened: boolean, modalType: number, setModalType: Function
     register(form: { password: string; repeatPassword: string; email: string }): any;
     update(form: { surname: string; name: string }): any;
@@ -21,11 +23,15 @@ const initial: {
     }, isAuthModalOpened: false, openAuthModal: () => {
     },
     logout: () => {
-    },sendReverifyEmail: () => {
+    }, sendReverifyEmail: () => {
     },
     login: () => {
+    }, forgotPassword: () => {
     },
     setModalType: () => {
+    },
+    resetPassword: () => {
+
     },
     modalType: ModalState.REGISTER
 }
@@ -52,8 +58,12 @@ function useProvideAuth() {
 
     const logout = () => {
         //  TODO: Clear cookies as well, clear token from API
-        localStorage.removeItem('user');
-        setUser(null);
+        ApiClient().post('/api/users/logout').then((response) => {
+
+        }).finally(() => {
+            localStorage.removeItem('user');
+            setUser(null);
+        });
     }
 
     const login = (data: { email: string, password: string }) => {
@@ -85,6 +95,17 @@ function useProvideAuth() {
         return ApiClient().post('/api/users/reverify', data);
     }
 
+    const forgotPassword = (data: { email: string }) => {
+        return getCsrfCookie().then(() => {
+            return ApiClient().post('/api/forgot-password', data);
+        });
+    }
+    const resetPassword = (data: { email: string, token: string, password: string }) => {
+        return getCsrfCookie().then(() => {
+            return ApiClient().post('/api/password-reset', data);
+        });
+    }
+
     const getCsrfCookie = () => {
         return ApiClient().get('/sanctum/csrf-cookie');
     }
@@ -109,6 +130,8 @@ function useProvideAuth() {
         setModalType,
         modalType,
         sendReverifyEmail,
+        forgotPassword,
+        resetPassword,
     };
 }
 

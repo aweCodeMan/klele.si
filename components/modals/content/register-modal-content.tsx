@@ -15,7 +15,7 @@ export default function RegisterModalContent(props: { close: Function }) {
             name: Joi.string().trim().required(),
             surname: Joi.string().trim().required(),
             email: Joi.string().email({tlds: {allow: false}}).trim().required(),
-            password: Joi.string().trim().required(),
+            password: Joi.string().min(8).trim().required(),
             repeatPassword: Joi.ref('password'),
         }
     ).messages({

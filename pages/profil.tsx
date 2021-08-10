@@ -110,10 +110,9 @@ export default function Profile() {
                     showLoginNotice ? <div className="mx-auto w-full" style={{maxWidth: '800px'}}><LoginNotice/></div> :
 
                         <>
-                            {!auth.user.verifiedAt ?
-                            <div className="mb-6 mx-auto w-full" style={{maxWidth: '800px'}}>
-                                 <VerifyNotice/>
-                            </div> : null}
+                                <div className="mb-6 mx-auto w-full" style={{maxWidth: '800px'}}>
+                                    <VerifyNotice user={user}/>
+                                </div>
 
                             <div className="card mx-auto w-full" style={{maxWidth: '800px'}}>
                                 <h1 className="font-bold leading-normal tracking-wide text-3xl mb-6">Tvoj profil</h1>
@@ -151,7 +150,7 @@ export default function Profile() {
                                                    error={null}
                                                    autocomplete="off"
                                                    disabled={true}
-                                                   value={auth.user.email ?? ''}/>
+                                                   value={auth.user?.email ?? ''}/>
 
                                     </div>
 
@@ -167,9 +166,9 @@ export default function Profile() {
                 }
             </>
         )
-    };
+    }
 
-return <div>
+    return <div>
         <Head>
             <title>Tvoj profil | Klele.si</title>
             <meta name="description" content=""/>

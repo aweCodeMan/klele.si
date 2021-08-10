@@ -9,6 +9,8 @@ import CommentSkeletonCard from "../../components/cards/comment-skeleton-card";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import Author from "../../components/cards/author";
 import SubmitComment from "../../components/partials/submit-comment";
+import Navbar from "../../components/navbar";
+import AuthModal from "../../components/modals/auth-modal";
 
 export default function Guna() {
 
@@ -169,6 +171,9 @@ export default function Guna() {
                 <title>To je guna objava! | Klele.si</title>
                 <meta name="description" content="To je guna objava!"/>
             </Head>
+
+            <Navbar/>
+            <AuthModal/>
 
             <main className={'my-6 flex flex-col'}>
                 <div className="container mx-auto" style={{maxWidth: '780px'}}>

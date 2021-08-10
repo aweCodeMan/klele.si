@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Navbar from "../components/navbar";
+import AuthModal from "../components/modals/auth-modal";
 
 export default function Custom404() {
     return <div>
@@ -6,6 +8,9 @@ export default function Custom404() {
             <title>404 | Klele.si</title>
             <meta name="description" content="Ne vem kako naj ti drugače povem... Stran ne obstaja."/>
         </Head>
+
+        <Navbar/>
+        <AuthModal/>
 
         <main className={'my-16 flex flex-col justify-center text-center'}>
             <div className="text-center">
