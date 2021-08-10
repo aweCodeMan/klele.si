@@ -9,6 +9,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/navbar";
 import AuthModal from "../components/modals/auth-modal";
+import {GroupService} from "../helpers/group-service";
+import Shimmer from "../components/partials/shimmer";
+import {useRouter} from "next/router";
 
 export default function Home() {
 
@@ -186,25 +189,59 @@ export default function Home() {
                     </div>
 
                     <div className="area-sidebar">
-                        <div className="card">
-                            <span className="text-black font-bold text-xl"># Top skupine</span>
-
-                            <div className="mt-2 flex flex-row flex-wrap -mb-3">
-                                {
-                                    groups.map((group, index) => {
-                                        return (
-                                            <Link key={index} href="#">
-                                                <a className={'mb-3 mr-2'}
-                                                   style={{color: group.color}}>#{group.name}</a>
-                                            </Link>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
+                        <GroupsCard/>
                     </div>
                 </div>
             </main>
         </div>
     )
+}
+
+function GroupsCard() {
+    const router = useRouter();
+    const [groups, setGroups]: any = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        GroupService.getGroups().then((response) => {
+            setGroups(response.data.data);
+            setIsLoading(false);
+        })
+    }, []);
+
+    const navigate = (event: any, group: any) => {
+        event.preventDefault();
+
+        router.query.group = group.slug;
+        router.push({pathname: router.pathname, query: router.query}, undefined, {
+            shallow: true,
+            scroll: true,
+        })
+    }
+
+    return <div className="card">
+        <span className="text-black font-bold text-xl"># Skupine</span>
+
+        {isLoading ? <>
+            <div className="my-3">
+                <Shimmer height={'2rem'}/>
+            </div>
+            <div className="mb-3">
+                <Shimmer height={'2rem'}/>
+            </div>
+        </> : <div className="mt-2 flex flex-row flex-wrap -mb-3">
+            {
+                groups.map((group: any, index: number) => {
+                    return (
+                        <a key={index} onClick={(event) => navigate(event, group)} className={'mb-3 mr-2'}
+                           href={"#" + group.slug}
+                           style={{color: group.color}}>#{group.name}
+                        </a>
+                    )
+                })
+            }
+        </div>}
+    </div>;
 }
