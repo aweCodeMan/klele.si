@@ -42,9 +42,15 @@ function Buttons(props: { auth: any, hasMounted: boolean }) {
 
 function AuthButtons(props: { auth: any }) {
     return <div>
+        <Link href="/objavi">
+            <a className="btn btn-primary mr-2">
+                Objavi prispevek
+            </a>
+        </Link>
+
         <Link href="/profil">
             <a className="btn btn-outline mr-2">
-                {props.auth.user?.fullName}
+               {props.auth.user?.fullName}
             </a>
         </Link>
 

@@ -8,67 +8,30 @@ import Pagination from "../components/partials/pagination";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/navbar";
-import AuthModal from "../components/modals/auth-modal";
 import {GroupService} from "../helpers/group-service";
 import Shimmer from "../components/partials/shimmer";
 import {useRouter} from "next/router";
+import {PostService} from "../helpers/post-service";
 
 export default function Home() {
 
     const [type, setType] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [response, setResponse]: [any, any] = useState(null);
-
-    const posts = [
-        {
-            title: 'Kakšna vprašanja lahko senior dev pričakuje na razgovoru za službo, če sta njegova sogovornika na drugi strani Product Lead in Senior Product Manager?',
-            author: {
-                name: 'Jožef Zajšek'
-            },
-            group: {
-                name: 'programiranje',
-                color: '#63c7ff'
-            },
-            numberOfComments: 35,
-            numberOfLikes: 122,
-            createdAt: new Date(),
-        },
-        {
-            title: 'Kako spraviti zvok iz ene tablice do treh parov slušalk?',
-            author: {
-                name: 'Marijan Dolovski'
-            },
-            group: {
-                name: 'oblikovanje',
-                color: '#FF9314'
-            },
-            numberOfComments: 6,
-            numberOfLikes: 7,
-            createdAt: new Date(),
-        },
-    ];
-
-    const groups = posts.map((post) => post.group)
+    const [response, setResponse]: [any, any] = useState({data: []});
 
     useEffect(() => {
-        setTimeout(() => {
-            setResponse({
-                data: posts,
-                meta: {
-                    currentPage: 1,
-                    nextPageUrl: '/',
-                    total: 40,
-                    perPage: 20,
-                }
-            });
+        setIsLoading(true);
+
+        PostService.getFeed().then((response: any) => {
+            setResponse(response.data);
             setIsLoading(false);
-        }, 1500);
+        });
     }, []);
 
     const onTypeChange = (event: any, type: number) => {
         event.preventDefault();
 
-        setType(type);
+        /*setType(type);
         setIsLoading(true)
         setTimeout(() => {
             setResponse({
@@ -81,19 +44,23 @@ export default function Home() {
                 }
             });
             setIsLoading(false);
-        }, 1500);
+        }, 1500);*/
     }
 
     const showPosts = () => {
         return (
             <div>
-                {posts.map((post, index) => {
+                {response.data.map((post: any, index: number) => {
                     return (
-                        <div key={index} className={posts.length - 1 !== index ? 'mb-3' : ''}>
+                        <div key={index} className={response.data.length - 1 !== index ? 'mb-3' : ''}>
                             <PostCard postExcerpt={post}/>
                         </div>
                     )
                 })}
+
+                {
+                    response.data.length === 0 ? <ShowEmptyState/> : null
+                }
 
                 <div className="mt-6">
                     <Pagination onPageChange={onPageChange} response={response}/>
@@ -152,7 +119,7 @@ export default function Home() {
 
                     <div className="area-top">
                         <div className="flex flex-row justify-between">
-                            <div>
+                            <div className={"hidden"}>
                                 <button
                                     className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
                                     onClick={(event) => onTypeChange(event, 0)}>
@@ -175,7 +142,7 @@ export default function Home() {
 
                             <Link href="/objavi">
                                 <a>
-                                    <button className="btn btn-primary btn-sm">Objavi</button>
+                                    <button className="btn btn-primary">Objavi</button>
                                 </a>
                             </Link>
                         </div>
@@ -244,4 +211,19 @@ function GroupsCard() {
             }
         </div>}
     </div>;
+}
+
+function ShowEmptyState() {
+    return <>
+        <div className="card">
+            <div className="text-center py-6">
+                <p className="text-lg font-bold mb-4">
+                    Ha. Trenutno ni nobenega prispevka.
+                </p>
+
+                <p className={'text-sm'}>Daj nam pomagi, pa <Link href={'/objavi'}><button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button></Link>
+                </p>
+            </div>
+        </div>
+    </>
 }
