@@ -1,0 +1,136 @@
+import Head from 'next/head'
+import Link from 'next/link';
+import {useEffect, useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
+import Breadcrumbs from "../../components/partials/breadcrumbs";
+import Comment from "../../components/cards/comment";
+import CommentSkeletonCard from "../../components/cards/comment-skeleton-card";
+import {faHeart} from "@fortawesome/free-regular-svg-icons";
+import Author from "../../components/cards/author";
+import SubmitComment from "../../components/partials/submit-comment";
+import Navbar from "../../components/navbar";
+import AuthModal from "../../components/modals/auth-modal";
+import {PostService} from "../../helpers/post-service";
+import {TimeUtil} from "../../helpers/time-util";
+
+export default function Guna(props: { response: any }) {
+
+    const [type, setType] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+
+    /*useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }, [])*/
+
+    function onTypeChange(event: React.MouseEvent<HTMLButtonElement>, number: number) {
+        setType(number);
+    }
+
+    const commentAdded = () => {
+        console.log('comment added');
+    }
+
+    return (
+        <div>
+            <Head>
+                <title>To je guna objava! | Klele.si</title>
+                <meta name="description" content="To je guna objava!"/>
+            </Head>
+
+            <Navbar/>
+
+            <main className={'my-6 flex flex-col'}>
+                <div className="container mx-auto" style={{maxWidth: '780px'}}>
+                    <div className="mb-6">
+                        <Breadcrumbs/>
+                    </div>
+
+                    <div className="card mb-4">
+                        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold leading-snug tracking-wide text-black mb-2">{props.response.data.title}</h1>
+
+                        <div className={'text-sm font-bold leading-normal tracking-tight mb-4'}>
+                            <Link href="#group">
+                                <a style={{color: props.response.data.group.color}}>
+                                    #{props.response.data.group.name}
+                                </a>
+                            </Link>
+                        </div>
+
+                        <div className="flex flex-row items-center  mt-2">
+                            <div className={'flex flex-col mr-3 items-center'}>
+                                <button className="hover:text-red flex flex-row items-center">
+                                    <div className="text-lg mr-2">
+                                        <FontAwesomeIcon icon={faHeart}/>
+                                    </div>
+                                    <span className="text-sm font-bold opacity-50">{props.response.data.numberOfLikes}</span>
+                                </button>
+                            </div>
+                            <div className={'text-sm text-black opacity-80 flex flex-row justify-center items-center'}>
+                                <Author author={props.response.data.author}
+                                        avatar={false}/> &#8212; {TimeUtil.toHumanTime(props.response.data.createdAt)}
+                            </div>
+                        </div>
+
+                        <hr className={'my-4'}/>
+
+                        {
+                            props.response.data.postType === 0 ? <div className="prose" dangerouslySetInnerHTML={{__html: props.response.data.content.html}}/> :
+                                <a href={props.response.data.content.link} rel={"nofollow"} target={'_blank'}>{props.response.data.content.link}</a>
+                        }
+
+                    </div>
+
+                    <SubmitComment onSubmit={commentAdded}/>
+
+                    <div className="card" style={{borderTop: '0'}}>
+                        <div>
+                            <div className="flex flex-row justify-center items-center my-3">
+                                <h2 className={'flex-1 font-bold tracking-wide text-xl leading-normal'}>Komentarji
+                                    ({props.response.data.numberOfComments})</h2>
+
+                                <div className="flex flex-row hidden">
+                                    <button
+                                        className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0 mr-3' : 'btn btn-outline btn-sm mb-3 sm:mb-0 mr-3'}
+                                        onClick={(event) => onTypeChange(event, 0)}>
+                                        <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
+                                        Po vrsti
+                                    </button>
+                                    <button
+                                        className={type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                        onClick={(event) => onTypeChange(event, 1)}>
+                                        <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
+                                        Po priljubljenosti
+                                    </button>
+                                </div>
+                            </div>
+
+                            {
+                                isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
+                                    {
+                                        props.response.data.comments.map((comment: any, index: number) => {
+                                            return <Comment comment={comment} key={index}/>
+                                        })
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    )
+}
+
+export async function getServerSideProps(context: any) {
+    const {slug} = context.params;
+    const response = await PostService.getPost(slug);
+
+    return {
+        props: {
+            response: response.data,
+        },
+    }
+}

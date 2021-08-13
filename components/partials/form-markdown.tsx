@@ -1,6 +1,7 @@
 import Shimmer from "./shimmer";
 import {useState} from "react";
 import CommentHtml from "./comment-html";
+import {PostService} from "../../helpers/post-service";
 
 export default function FormMarkdown(props: { label: string, name: string, value: any, onChange: Function, error: any, autocomplete?: string, disabled: boolean }) {
     const [inPreview, setInPreview] = useState(false);
@@ -12,10 +13,10 @@ export default function FormMarkdown(props: { label: string, name: string, value
         setInPreview(true);
         setIsLoading(true);
 
-        setTimeout(() => {
-            setIsLoading(false)
-            setPreviewHtml("<p>We miss you on Data IRL but I\'m really happy that you were able to make the leap to this new role and am encouraged knowing you\'re over there helping Reddit be successful in new ways! Great write-up.</p>")
-        }, 750);
+        PostService.transformMarkdown(props.value).then((response) => {
+            setPreviewHtml(response.data.data);
+            setIsLoading(false);
+        });
     }
 
     const hidePreview = (event:any ) => {
@@ -41,7 +42,8 @@ export default function FormMarkdown(props: { label: string, name: string, value
                         )  :
                         <textarea
                             className={'w-full block border p-2 ' + (props.error ? ' text-error border-error bg-error-washed' : ' text-black border-black ')}
-                            rows={3}
+                            rows={18}
+                            disabled={props.disabled}
                             value={props.value}
                             onChange={onFormInputChange}
                             placeholder={'Daj nam pomagaj in povej kaj ti misliš...'}/>
@@ -49,7 +51,7 @@ export default function FormMarkdown(props: { label: string, name: string, value
 
             </label>
 
-            <p className="text-error mt-2">{props.error?.message}</p>
+            <p className="text-error mt-2">{props.error}</p>
 
             <div className="mt-4">
 

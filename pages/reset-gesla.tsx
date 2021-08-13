@@ -58,8 +58,6 @@ export default function ResetPassword() {
 
         setErrors(FormHelper.getJoiErrors(schema, updatedForm));
         setForm(updatedForm);
-
-        console.log(FormHelper.getJoiErrors(schema, updatedForm));
     }
 
     const submit = (event: any) => {

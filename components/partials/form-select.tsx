@@ -1,6 +1,18 @@
 import Shimmer from "./shimmer";
+import {useEffect, useState} from "react";
 
 export default function FormSelect(props: { label: string, name: string, value: any, onChange: Function, error: any, disabled: boolean, options: { label: string, value: any }[] }) {
+
+    const [options, setOptions]: any = useState([]);
+
+    useEffect(() => {
+        if (options.length === 0 && props.options.length > 0) {
+            setOptions(props.options);
+
+            props.onChange(props.name, props.options[0].value);
+        }
+    }, [props.options])
+
     const onFormInputChange = (event: any) => {
         props.onChange(props.name, event.target.value);
         event.preventDefault();
@@ -12,9 +24,10 @@ export default function FormSelect(props: { label: string, name: string, value: 
                 <select
                     className={'w-full block border p-2 ' + (props.error ? ' text-error border-error bg-error-washed' : ' text-black border-black ')}
                     onChange={onFormInputChange}
+                    disabled={props.disabled}
                     name={props.name}>
                     {
-                        props.options.map((item, index) => {
+                        options.map((item: any, index: number) => {
                             return <option key={index} value={item.value}>{item.label}</option>
                         })
                     }

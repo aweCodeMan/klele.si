@@ -1,24 +1,38 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faChevronRight, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {useRouter} from "next/router";
 
 export default function Pagination(props: {
     response: { meta: any, data: any },
     onPageChange: Function,
 }) {
 
+    const router = useRouter();
+
     const previous = (e: any) => {
         e.preventDefault();
         props.onPageChange(props.response.meta.currentPage - 1);
+        updatePage(props.response.meta.currentPage - 1);
     }
 
     const next = (e: any) => {
         e.preventDefault();
         props.onPageChange(props.response.meta.currentPage + 1);
+        updatePage(props.response.meta.currentPage + 1);
     }
 
     if (props.response.meta.total === 0) {
         return null;
     }
+
+    const updatePage = (page: any) => {
+        router.query.page = page;
+        router.replace({pathname: router.pathname, query: router.query}, undefined, {
+            shallow: true,
+            scroll: true,
+        })
+    }
+
 
     return (
         <>

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLink, faFile} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import FormSelect from "../components/partials/form-select";
 import FormInput from "../components/partials/form-input";
 import FormMarkdown from "../components/partials/form-markdown";
@@ -9,33 +9,87 @@ import Navbar from "../components/navbar";
 import {useAuth} from "../contexts/auth";
 import LoginNotice from "../components/partials/login-notice";
 import VerifyNotice from "../components/partials/verify-notice";
+import {GroupService} from "../helpers/group-service";
+import Joi from "joi";
+import {FormHelper} from "../helpers/form";
+import {PostService} from "../helpers/post-service";
+import {useRouter} from "next/router";
 
 export default function SubmitContent() {
     const auth = useAuth();
+    const router = useRouter();
 
-    const [type, setType] = useState(0);
+    const markdownSchema = Joi.object(
+        {
+            postType: Joi.any(),
+            groupUuid: Joi.any(),
+            title: Joi.string().trim().required(),
+            markdown: Joi.string().trim().required(),
+            link: Joi.any(),
+        }
+    ).messages({
+        'string.empty': 'Polje je obvezno.',
+    });
+
+    const linkSchema = Joi.object(
+        {
+            postType: Joi.any(),
+            groupUuid: Joi.any(),
+            title: Joi.string().trim().required(),
+            markdown: Joi.any(),
+            link: Joi.string().trim().uri({allowRelative: false}).required(),
+        }
+    ).messages({
+        'string.empty': 'Polje je obvezno.',
+    });
+
     const [form, setForm] = useState({
-        group: null,
+        postType: 0,
+        groupUuid: null,
         title: '',
-        url: '',
+        link: '',
         markdown: '',
     })
 
-    const options = [
-        {label: 'programiranje', value: 'programiranje'},
-        {label: 'oblikovanje', value: 'oblikovanje'},
-        {label: 'razno', value: 'razno'},
-    ];
+    const [errors, setErrors] = useState({
+        groupUuid: null,
+        title: '',
+        link: '',
+        markdown: '',
+    });
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        GroupService.getGroups().then((response) => setGroups(response.data.data));
+    }, []);
 
     const onFormChange = (name: string, value: any) => {
-        const copy = {...form};
-        // @ts-ignore
-        copy[name] = value;
-        setForm(copy);
+        const updatedForm = {...form, [name]: value};
+
+        setErrors(FormHelper.getJoiErrors(updatedForm.postType == 0 ? markdownSchema : linkSchema, updatedForm));
+        setForm(updatedForm);
+    }
+
+    const isFormValid = () => {
+        const schema = form.postType == 0 ? markdownSchema : linkSchema;
+        return schema.validate(form).error === undefined;
     }
 
     const submit = (event: any) => {
         event.preventDefault();
+
+        setIsLoading(true);
+
+        PostService.publish(form).then((response) => {
+            setIsLoading(false);
+            router.push('/guna/' + response.data.data.slug);
+        })
+    }
+
+    const setType = (number: number) => {
+        onFormChange('postType', number);
     }
 
     const showForm = () => {
@@ -47,44 +101,59 @@ export default function SubmitContent() {
                     <hr className="my-2"/>
 
                     <div className="flex flex-row my-4">
-                        <button className={'btn btn-outline mr-2 ' + (type === 0 ? 'selected' : undefined)}
+                        <button className={'btn btn-outline mr-2 ' + (form.postType === 0 ? 'selected' : undefined)}
+                                disabled={isLoading}
+
                                 onClick={() => setType(0)}><FontAwesomeIcon icon={faFile} className="mr-2"/> Prispevek
                         </button>
-                        <button className={'btn btn-outline  ' + (type === 1 ? 'selected' : undefined)}
+                        <button className={'btn btn-outline  ' + (form.postType === 1 ? 'selected' : undefined)}
+                                disabled={isLoading}
                                 onClick={() => setType(1)}><FontAwesomeIcon icon={faLink} className="mr-2"/>Povezava
                         </button>
                     </div>
 
                     <form onSubmit={submit}>
                         <div className="mb-3">
-                            <FormSelect label="Skupina:" name="group" value={form.group} onChange={onFormChange}
-                                        error={null} disabled={false} options={options}/>
+                            <FormSelect label="Skupina:" name="groupUuid" value={form.groupUuid} onChange={onFormChange}
+                                        error={null} disabled={isLoading} options={groups.map((item: any) => {
+                                return {value: item.uuid, label: item.name};
+                            })}/>
                         </div>
 
                         <div className="mb-3">
-                            <FormInput label="Naslov:" type="text" name="title" value={form.title}
+                            <FormInput type={'text'} label={'Naslov:'}
+                                       name="title"
                                        onChange={onFormChange}
-                                       error={null} disabled={false}/>
+                                       error={errors.title}
+                                       autocomplete="off"
+                                       disabled={isLoading}
+                                       value={form.title}/>
                         </div>
 
                         {
-                            type === 0 ? <div className="mb-3">
+                            form.postType === 0 ? <div className="mb-3">
                                 <FormMarkdown label="Vsebina:" name="markdown" value={form.markdown}
                                               onChange={onFormChange}
-                                              error={null} disabled={false}/>
+                                              error={errors.markdown} disabled={isLoading}/>
                             </div> : null
                         }
 
                         {
-                            type === 1 ? <div className="mb-3">
-                                <FormInput label="Povezava:" type="text" name="url" value={form.url}
+                            form.postType === 1 ? <div className="mb-3">
+                                <FormInput type={'text'} label={'Povezava:'}
+                                           name="link"
                                            onChange={onFormChange}
-                                           error={null} disabled={false}/>
+                                           error={errors.link}
+                                           autocomplete="off"
+                                           disabled={isLoading}
+                                           value={form.link}/>
                             </div> : null
                         }
 
                         <div className="mt-10 text-right">
-                            <button className="btn btn-primary" type="submit">Objavi</button>
+                            <button className="btn btn-primary" type="submit"
+                                    disabled={!isFormValid() || isLoading}>Objavi
+                            </button>
                         </div>
                     </form>
                 </div>

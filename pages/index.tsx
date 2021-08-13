@@ -13,20 +13,32 @@ import Shimmer from "../components/partials/shimmer";
 import {useRouter} from "next/router";
 import {PostService} from "../helpers/post-service";
 
-export default function Home() {
+export default function Home(props: { response: any, groupUuid: any, page: any }) {
 
     const [type, setType] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
-    const [response, setResponse]: [any, any] = useState({data: []});
+    const [selectedGroupUuid, setSelectedGroupUuid] = useState(props.groupUuid);
+    const [isLoading, setIsLoading] = useState(false);
+    const [response, setResponse]: [any, any] = useState(props.response);
 
-    useEffect(() => {
+
+    /*  useEffect(() => {
+          setIsLoading(true);
+
+          PostService.getFeed().then((response: any) => {
+              setResponse(response.data);
+              setIsLoading(false);
+          });
+      }, []);*/
+
+    const onGroupChange = (groupUuid: any) => {
         setIsLoading(true);
+        setSelectedGroupUuid(groupUuid);
 
-        PostService.getFeed().then((response: any) => {
+        PostService.getFeed({groupUuid, page: 1}).then((response) => {
             setResponse(response.data);
             setIsLoading(false);
         });
-    }, []);
+    }
 
     const onTypeChange = (event: any, type: number) => {
         event.preventDefault();
@@ -83,12 +95,10 @@ export default function Home() {
     const onPageChange = (page: number) => {
         setIsLoading(true);
 
-        setTimeout(() => {
-            const copy = {...response};
-            copy.meta.currentPage = page;
-            setResponse(copy);
+        PostService.getFeed({page: page}).then((response) => {
+            setResponse(response.data);
             setIsLoading(false);
-        }, 1000);
+        })
     }
 
     return (
@@ -156,7 +166,8 @@ export default function Home() {
                     </div>
 
                     <div className="area-sidebar">
-                        <GroupsCard/>
+                        <GroupsCard selectedGroupUuid={selectedGroupUuid}
+                                    onGroupChange={(groupUuid: any) => onGroupChange(groupUuid)}/>
                     </div>
                 </div>
             </main>
@@ -164,7 +175,7 @@ export default function Home() {
     )
 }
 
-function GroupsCard() {
+function GroupsCard(props: { selectedGroupUuid?: any, onGroupChange: Function }) {
     const router = useRouter();
     const [groups, setGroups]: any = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -181,11 +192,20 @@ function GroupsCard() {
     const navigate = (event: any, group: any) => {
         event.preventDefault();
 
-        router.query.group = group.slug;
+        const groupUuid = props.selectedGroupUuid === group.uuid ? null : group.uuid;
+
+        if(groupUuid){
+            router.query.groupUuid = groupUuid;
+        } else {
+            delete router.query.groupUuid;
+        }
+        router.query.page = "1";
         router.push({pathname: router.pathname, query: router.query}, undefined, {
             shallow: true,
             scroll: true,
         })
+
+        props.onGroupChange(groupUuid);
     }
 
     return <div className="card">
@@ -202,8 +222,9 @@ function GroupsCard() {
             {
                 groups.map((group: any, index: number) => {
                     return (
-                        <a key={index} onClick={(event) => navigate(event, group)} className={'mb-3 mr-2'}
-                           href={"#" + group.slug}
+                        <a key={index} onClick={(event) => navigate(event, group)}
+                           className={'mb-3 mr-2 ' + (props.selectedGroupUuid === group.uuid ? 'selected' : null)}
+                           href={`/?groupUuid=${group.uuid}`}
                            style={{color: group.color}}>#{group.name}
                         </a>
                     )
@@ -221,9 +242,25 @@ function ShowEmptyState() {
                     Ha. Trenutno ni nobenega prispevka.
                 </p>
 
-                <p className={'text-sm'}>Daj nam pomagi, pa <Link href={'/objavi'}><button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button></Link>
+                <p className={'text-sm'}>Daj nam pomagi, pa <Link href={'/objavi'}>
+                    <button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button>
+                </Link>
                 </p>
             </div>
         </div>
     </>
 }
+
+export async function getServerSideProps(context: any) {
+    const {groupUuid, page} = context.query;
+    const response = await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null});
+
+    return {
+        props: {
+            response: response.data,
+            page: page ?? null,
+            groupUuid: groupUuid ?? null,
+        },
+    }
+}
+
