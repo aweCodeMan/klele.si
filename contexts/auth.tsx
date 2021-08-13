@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext, createContext} from "react";
 import {ApiClient} from "../helpers/api-client";
+import {UserService} from "../helpers/user-service";
 
 export enum AuthModalType {
     LOGIN,
@@ -24,9 +25,23 @@ function useProvideAuth() {
     const [isAuthModalOpened, setIsAuthModalOpened] = useState(false);
     const [modalType, setModalType] = useState(AuthModalType.LOGIN)
 
+    const storeUser = (user: any) => {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user') as string);
-        setUser(user)
+
+        if (user) {
+            if (!user.verifiedAt) {
+                UserService.getProfile().then((response) => {
+                    storeUser(response.data.data);
+                    setUser(response.data.data);
+                })
+            } else {
+                setUser(user)
+            }
+        }
     }, []);
 
     const logout = () => {
@@ -40,7 +55,7 @@ function useProvideAuth() {
     const login = (data: { email: string, password: string }) => {
         return getCsrfCookie().then(() => {
             return ApiClient.post('/api/users/login', data).then((response) => {
-                localStorage.setItem('user', JSON.stringify(response.data.data));
+                storeUser(response.data.data);
                 setUser(response.data.data);
             });
         });
@@ -49,7 +64,7 @@ function useProvideAuth() {
     const register = (data: { email: string, password: string }) => {
         return getCsrfCookie().then(() => {
             return ApiClient.post('/api/users', data).then((response) => {
-                localStorage.setItem('user', JSON.stringify(response.data.data));
+                storeUser(response.data.data);
                 setUser(response.data.data);
             });
         });
@@ -57,7 +72,7 @@ function useProvideAuth() {
 
     const update = (data: { name: string, surname: string }) => {
         return ApiClient.put('/api/users', data).then((response) => {
-            localStorage.setItem('user', JSON.stringify(response.data.data));
+            storeUser(response.data.data);
             setUser(response.data.data);
         });
     }
