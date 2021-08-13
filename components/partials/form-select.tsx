@@ -11,7 +11,7 @@ export default function FormSelect(props: { label: string, name: string, value: 
 
             props.onChange(props.name, props.options[0].value);
         }
-    }, [props.options])
+    }, [props.options, props, options.length])
 
     const onFormInputChange = (event: any) => {
         props.onChange(props.name, event.target.value);

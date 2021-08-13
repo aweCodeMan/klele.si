@@ -80,7 +80,7 @@ export default function Guna(props: { response: any }) {
                         {
                             response.data.postType === 0 ? <div className="prose"
                                                                 dangerouslySetInnerHTML={{__html: response.data.content.html}}/> :
-                                <a href={response.data.content.link} rel={"nofollow"}
+                                <a href={response.data.content.link} rel={"nofollow noopener noreferrer"}
                                    target={'_blank'}>{response.data.content.link}</a>
                         }
 

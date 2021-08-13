@@ -243,7 +243,7 @@ function ShowEmptyState() {
                 </p>
 
                 <p className={'text-sm'}>Daj nam pomagi, pa <Link href={'/objavi'}>
-                    <button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button>
+                    <a><button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button></a>
                 </Link>
                 </p>
             </div>
