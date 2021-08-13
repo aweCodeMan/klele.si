@@ -3,6 +3,7 @@ import Logo from "./logo";
 import {useEffect, useState} from "react";
 import {AuthModalType, useAuth} from "../contexts/auth";
 import AuthModal from "./modals/auth-modal";
+import Author from "./cards/author";
 
 export default function Navbar() {
     const [hasMounted, setHasMounted] = useState(false);
@@ -50,7 +51,7 @@ function AuthButtons(props: { auth: any }) {
 
         <Link href="/profil">
             <a className="btn btn-outline mr-2">
-               {props.auth.user?.fullName}
+                @{props.auth.user.nickname}
             </a>
         </Link>
 

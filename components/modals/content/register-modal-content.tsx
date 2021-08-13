@@ -12,8 +12,9 @@ export default function RegisterModalContent(props: { close: Function }) {
 
     const schema = Joi.object(
         {
-            name: Joi.string().trim().required(),
-            surname: Joi.string().trim().required(),
+            name: Joi.any(),
+            surname: Joi.any(),
+            nickname: Joi.string().trim().required(),
             email: Joi.string().email({tlds: {allow: false}}).trim().required(),
             password: Joi.string().min(8).trim().required(),
             repeatPassword: Joi.ref('password'),
@@ -25,10 +26,18 @@ export default function RegisterModalContent(props: { close: Function }) {
         'any.only': `Gesli se morata ujemati.`
     });
 
-    const [form, setForm] = useState({name: '', surname: '', email: '', password: '', repeatPassword: ''});
+    const [form, setForm] = useState({
+        name: '',
+        surname: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        nickname: ''
+    });
     const [errors, setErrors] = useState({
         email: null,
         password: null,
+        nickname: null,
         repeatPassword: null,
         name: null,
         surname: null
@@ -84,25 +93,39 @@ export default function RegisterModalContent(props: { close: Function }) {
             <form className={'text-left'} onSubmit={submit} action={undefined}>
 
                 <div className="mb-3">
-                    <FormInput type={'text'} label={'Ime:'}
-                               name="name"
+                    <FormInput type={'text'} label={'Vzdevek:'}
+                               name="nickname"
                                onChange={onFormChange}
-                               error={errors.name}
-                               autocomplete="given-name"
+                               error={errors.nickname}
+                               autocomplete="nickname"
                                disabled={isLoading}
-                               value={form.name}/>
+                               value={form.nickname}/>
 
                 </div>
 
-                <div className="mb-3">
-                    <FormInput type={'text'} label={'Priimek:'}
-                               name="surname"
-                               onChange={onFormChange}
-                               error={errors.surname}
-                               autocomplete="family-name"
-                               disabled={isLoading}
-                               value={form.surname}/>
+                <div className="flex flex-row">
 
+                    <div className="mb-3 flex-1 mr-2">
+                        <FormInput type={'text'} label={'Ime:'}
+                                   name="name"
+                                   onChange={onFormChange}
+                                   error={errors.name}
+                                   autocomplete="given-name"
+                                   disabled={isLoading}
+                                   value={form.name}/>
+
+                    </div>
+
+                    <div className="mb-3 flex-1 ml-2">
+                        <FormInput type={'text'} label={'Priimek:'}
+                                   name="surname"
+                                   onChange={onFormChange}
+                                   error={errors.surname}
+                                   autocomplete="family-name"
+                                   disabled={isLoading}
+                                   value={form.surname}/>
+
+                    </div>
                 </div>
 
                 <div className="mb-3">

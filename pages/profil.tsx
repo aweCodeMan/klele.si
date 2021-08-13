@@ -19,17 +19,19 @@ export default function Profile() {
 
     const schema = Joi.object(
         {
-            name: Joi.string().trim().required(),
-            surname: Joi.string().trim().required(),
+            name: Joi.any(),
+            surname: Joi.any(),
+            nickname: Joi.string().trim().required(),
         }
     ).messages({
         'string.empty': 'Polje je obvezno.',
     });
 
-    const [form, setForm] = useState({name: '', surname: ''});
+    const [form, setForm] = useState({name: '', surname: '', nickname: ''});
     const [errors, setErrors] = useState({
         name: null,
-        surname: null
+        surname: null,
+        nickname: null,
     });
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccessful, setIsSuccessful] = useState(false);
@@ -49,7 +51,7 @@ export default function Profile() {
         UserService.getProfile().then((response) => {
             setUser(response.data.data);
             setHasMounted(true);
-            setForm({name: response.data.data.name, surname: response.data.data.surname})
+            setForm({name: response.data.data.name, surname: response.data.data.surname, nickname: response.data.data.nickname})
 
         }).catch((error) => {
             console.error(error);
@@ -119,6 +121,17 @@ export default function Profile() {
 
 
                                 <form className={'text-left'} onSubmit={submit} action={undefined}>
+
+                                    <div className="mb-3">
+                                        <FormInput type={'text'} label={'Vzdevek:'}
+                                                   name="nickname"
+                                                   onChange={onFormChange}
+                                                   error={errors.nickname}
+                                                   autocomplete="off"
+                                                   disabled={isLoading}
+                                                   value={form.nickname}/>
+
+                                    </div>
 
                                     <div className="mb-3">
                                         <FormInput type={'text'} label={'Ime:'}
