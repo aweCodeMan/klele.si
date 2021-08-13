@@ -25,10 +25,16 @@ export default function Guna(props: { response: any }) {
     }
 
     const commentAdded = (comment: any) => {
-        console.log('comment added', comment);
-
         const update = {...response};
+        update.data.numberOfComments++;
         update.data.comments = [comment, ...response.data.comments];
+
+        setResponse(update);
+    }
+
+    const replyAdded = (comment: any) => {
+        const update = {...response};
+        update.data.numberOfComments++;
 
         setResponse(update);
     }
@@ -114,7 +120,7 @@ export default function Guna(props: { response: any }) {
                                 isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
                                     {
                                         response.data.comments.map((comment: any, index: number) => {
-                                            return <Comment comment={comment} key={index}/>
+                                            return <Comment comment={comment} key={index} replyAdded={replyAdded}/>
                                         })
                                     }
                                 </div>

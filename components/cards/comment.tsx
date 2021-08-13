@@ -6,7 +6,7 @@ import {useState} from "react";
 import SubmitComment from "../partials/submit-comment";
 import {TimeUtil} from "../../helpers/time-util";
 
-export default function Comment(props: { comment: any}) {
+export default function Comment(props: { comment: any, replyAdded: Function }) {
 
     const [isReplying, setIsReplying] = useState(false);
     const [comment, setComment] = useState(props.comment);
@@ -27,6 +27,8 @@ export default function Comment(props: { comment: any}) {
         }
 
         setComment(copy);
+
+        props.replyAdded(copy);
     }
 
     const onCancelReply = () => {
@@ -70,7 +72,7 @@ export default function Comment(props: { comment: any}) {
                 <div className={'ml-8 relative'}>
                     {
                         comment.comments.map((comment: any, index: any) => {
-                            return <Comment comment={comment} key={index}/>
+                            return <Comment comment={comment} key={index} replyAdded={props.replyAdded}/>
                         })
                     }
                 </div>
