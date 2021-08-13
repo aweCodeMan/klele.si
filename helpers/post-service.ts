@@ -16,4 +16,8 @@ export namespace PostService {
     export function publish(form: any) {
         return ApiClient.post('/api/posts', form);
     }
+
+    export function storeComment(postUuid: any, data: { parentUuid?: string, markdown: string }) {
+        return ApiClient.post(`/api/posts/${postUuid}/comments`, data);
+    }
 }

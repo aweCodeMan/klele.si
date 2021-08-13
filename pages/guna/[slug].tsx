@@ -18,19 +18,19 @@ export default function Guna(props: { response: any }) {
 
     const [type, setType] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-
-    /*useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000);
-    }, [])*/
+    const [response, setResponse] = useState(props.response);
 
     function onTypeChange(event: React.MouseEvent<HTMLButtonElement>, number: number) {
         setType(number);
     }
 
-    const commentAdded = () => {
-        console.log('comment added');
+    const commentAdded = (comment: any) => {
+        console.log('comment added', comment);
+
+        const update = {...response};
+        update.data.comments = [comment, ...response.data.comments];
+
+        setResponse(update);
     }
 
     return (
@@ -49,12 +49,12 @@ export default function Guna(props: { response: any }) {
                     </div>
 
                     <div className="card mb-4">
-                        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold leading-snug tracking-wide text-black mb-2">{props.response.data.title}</h1>
+                        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold leading-snug tracking-wide text-black mb-2">{response.data.title}</h1>
 
                         <div className={'text-sm font-bold leading-normal tracking-tight mb-4'}>
                             <Link href="#group">
-                                <a style={{color: props.response.data.group.color}}>
-                                    #{props.response.data.group.name}
+                                <a style={{color: response.data.group.color}}>
+                                    #{response.data.group.name}
                                 </a>
                             </Link>
                         </div>
@@ -65,31 +65,34 @@ export default function Guna(props: { response: any }) {
                                     <div className="text-lg mr-2">
                                         <FontAwesomeIcon icon={faHeart}/>
                                     </div>
-                                    <span className="text-sm font-bold opacity-50">{props.response.data.numberOfLikes}</span>
+                                    <span
+                                        className="text-sm font-bold opacity-50">{response.data.numberOfLikes}</span>
                                 </button>
                             </div>
                             <div className={'text-sm text-black opacity-80 flex flex-row justify-center items-center'}>
-                                <Author author={props.response.data.author}
-                                        avatar={false}/> &#8212; {TimeUtil.toHumanTime(props.response.data.createdAt)}
+                                <Author author={response.data.author}
+                                        avatar={false}/> &#8212; {TimeUtil.toHumanTime(response.data.createdAt)}
                             </div>
                         </div>
 
                         <hr className={'my-4'}/>
 
                         {
-                            props.response.data.postType === 0 ? <div className="prose" dangerouslySetInnerHTML={{__html: props.response.data.content.html}}/> :
-                                <a href={props.response.data.content.link} rel={"nofollow"} target={'_blank'}>{props.response.data.content.link}</a>
+                            response.data.postType === 0 ? <div className="prose"
+                                                                dangerouslySetInnerHTML={{__html: response.data.content.html}}/> :
+                                <a href={response.data.content.link} rel={"nofollow"}
+                                   target={'_blank'}>{response.data.content.link}</a>
                         }
 
                     </div>
 
-                    <SubmitComment onSubmit={commentAdded}/>
+                    <SubmitComment onSubmit={(comment: any) => commentAdded(comment)} rootUuid={response.data.uuid}/>
 
                     <div className="card" style={{borderTop: '0'}}>
                         <div>
                             <div className="flex flex-row justify-center items-center my-3">
                                 <h2 className={'flex-1 font-bold tracking-wide text-xl leading-normal'}>Komentarji
-                                    ({props.response.data.numberOfComments})</h2>
+                                    ({response.data.numberOfComments})</h2>
 
                                 <div className="flex flex-row hidden">
                                     <button
@@ -110,7 +113,7 @@ export default function Guna(props: { response: any }) {
                             {
                                 isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
                                     {
-                                        props.response.data.comments.map((comment: any, index: number) => {
+                                        response.data.comments.map((comment: any, index: number) => {
                                             return <Comment comment={comment} key={index}/>
                                         })
                                     }

@@ -1,8 +1,9 @@
 import {useState} from "react";
 import CommentSkeletonCard from "../cards/comment-skeleton-card";
 import CommentHtml from "./comment-html";
+import {PostService} from "../../helpers/post-service";
 
-export default function SubmitComment(props: { onSubmit?: Function, onCancel?: Function }) {
+export default function SubmitComment(props: { onSubmit: Function, onCancel?: Function, rootUuid: any, parentUuid?: string }) {
     const [inPreview, setInPreview] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [previewHtml, setPreviewHtml] = useState('');
@@ -12,28 +13,30 @@ export default function SubmitComment(props: { onSubmit?: Function, onCancel?: F
         if (canSubmit()) {
             setIsLoading(true);
 
-            setTimeout(() => {
+            PostService.storeComment(props.rootUuid, {parentUuid: props.parentUuid, markdown}).then((response) => {
                 setMarkdown('');
+                setPreviewHtml('');
                 setInPreview(false);
                 setIsLoading(false);
-                if (props.onSubmit) {
-                    props.onSubmit();
-                }
-            }, 500)
+
+                props.onSubmit(response.data.data);
+            })
         }
     }
 
-    const showPreview = () => {
+    const showPreview = (event: any) => {
+        event.preventDefault();
         setInPreview(true);
         setIsLoading(true);
 
-        setTimeout(() => {
-            setIsLoading(false)
-            setPreviewHtml("<p>We miss you on Data IRL but I\'m really happy that you were able to make the leap to this new role and am encouraged knowing you\'re over there helping Reddit be successful in new ways! Great write-up.</p>")
-        }, 750);
+        PostService.transformMarkdown(markdown).then((response) => {
+            setPreviewHtml(response.data.data);
+            setIsLoading(false);
+        });
     }
 
-    const hidePreview = () => {
+    const hidePreview = (event: any) => {
+        event.preventDefault();
         setInPreview(false);
         setIsLoading(false);
     }
@@ -71,7 +74,6 @@ export default function SubmitComment(props: { onSubmit?: Function, onCancel?: F
                         </div>
                     )
             }
-
 
             <div className="border border-black flex flex-row justify-between p-2">
                 <div className={'mr-2 flex flex-row items-center justify-center'}>
