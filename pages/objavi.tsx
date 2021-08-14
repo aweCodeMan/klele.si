@@ -18,6 +18,8 @@ import {useRouter} from "next/router";
 export default function SubmitContent() {
     const auth = useAuth();
     const router = useRouter();
+    const [isEdit, setIsEdit] = useState(false);
+    const [postUuid, setPostUuid] = useState(null);
 
     const markdownSchema = Joi.object(
         {
@@ -63,7 +65,33 @@ export default function SubmitContent() {
 
     useEffect(() => {
         GroupService.getGroups().then((response) => setGroups(response.data.data));
-    }, []);
+
+        if (router.query.postUuid) {
+            // @ts-ignore
+            setPostUuid(router.query.postUuid);
+
+            setIsLoading(true);
+            setIsEdit(true);
+
+            PostService.getEdit(router.query.postUuid.toString()).then((response) => {
+                const editForm: any = {
+                    title: response.data.data.title,
+                    postType: response.data.data.postType,
+                };
+
+                if (response.data.data.markdown) {
+                    editForm.markdown = response.data.data.markdown;
+                } else if (response.data.data.link) {
+                    editForm.link = response.data.data.link;
+                }
+
+                setErrors(FormHelper.getJoiErrors(editForm.postType == 0 ? markdownSchema : linkSchema, editForm));
+                setForm(editForm);
+
+                setIsLoading(false);
+            })
+        }
+    }, [router.query.postUuid]);
 
     const onFormChange = (name: string, value: any) => {
         const updatedForm = {...form, [name]: value};
@@ -82,10 +110,17 @@ export default function SubmitContent() {
 
         setIsLoading(true);
 
-        PostService.publish(form).then((response) => {
-            setIsLoading(false);
-            router.push('/guna/' + response.data.data.slug);
-        })
+        if (isEdit) {
+            PostService.update(postUuid + "", form).then((response) => {
+                setIsLoading(false);
+                router.push('/guna/' + response.data.data.slug);
+            });
+        } else {
+            PostService.publish(form).then((response) => {
+                setIsLoading(false);
+                router.push('/guna/' + response.data.data.slug);
+            });
+        }
     }
 
     const setType = (number: number) => {
@@ -96,29 +131,37 @@ export default function SubmitContent() {
         return (
             !auth.user.verifiedAt ? <VerifyNotice user={auth.user}/> : <>
                 <div className="card mx-auto w-full" style={{maxWidth: '800px'}}>
-                    <h1 className="font-bold leading-normal tracking-wide text-3xl">Objavi nov prispevek</h1>
+                    <h1 className="font-bold leading-normal tracking-wide text-3xl">{isEdit ? 'Uredi prispevek' : 'Objavi nov prispevek'}</h1>
 
                     <hr className="my-2"/>
 
-                    <div className="flex flex-row my-4">
-                        <button className={'btn btn-outline mr-2 ' + (form.postType === 0 ? 'selected' : undefined)}
-                                disabled={isLoading}
+                    {
+                        !isEdit ? <div className="flex flex-row my-4">
+                            <button className={'btn btn-outline mr-2 ' + (form.postType === 0 ? 'selected' : undefined)}
+                                    disabled={isLoading}
 
-                                onClick={() => setType(0)}><FontAwesomeIcon icon={faFile} className="mr-2"/> Prispevek
-                        </button>
-                        <button className={'btn btn-outline  ' + (form.postType === 1 ? 'selected' : undefined)}
-                                disabled={isLoading}
-                                onClick={() => setType(1)}><FontAwesomeIcon icon={faLink} className="mr-2"/>Povezava
-                        </button>
-                    </div>
+                                    onClick={() => setType(0)}><FontAwesomeIcon icon={faFile}
+                                                                                className="mr-2"/> Prispevek
+                            </button>
+                            <button className={'btn btn-outline  ' + (form.postType === 1 ? 'selected' : undefined)}
+                                    disabled={isLoading}
+                                    onClick={() => setType(1)}><FontAwesomeIcon icon={faLink} className="mr-2"/>Povezava
+                            </button>
+                        </div> : null
+                    }
+
 
                     <form onSubmit={submit}>
-                        <div className="mb-3">
-                            <FormSelect label="Skupina:" name="groupUuid" value={form.groupUuid} onChange={onFormChange}
-                                        error={null} disabled={isLoading} options={groups.map((item: any) => {
-                                return {value: item.uuid, label: item.name};
-                            })}/>
-                        </div>
+                        {
+                            !isEdit ?
+                                <div className="mb-3">
+                                    <FormSelect label="Skupina:" name="groupUuid" value={form.groupUuid}
+                                                onChange={onFormChange}
+                                                error={null} disabled={isLoading} options={groups.map((item: any) => {
+                                        return {value: item.uuid, label: item.name};
+                                    })}/>
+                                </div> : null
+                        }
 
                         <div className="mb-3">
                             <FormInput type={'text'} label={'Naslov:'}
@@ -139,7 +182,7 @@ export default function SubmitContent() {
                         }
 
                         {
-                            form.postType === 1 ? <div className="mb-3">
+                            form.postType === 1 && !isEdit ? <div className="mb-3">
                                 <FormInput type={'text'} label={'Povezava:'}
                                            name="link"
                                            onChange={onFormChange}
@@ -152,7 +195,7 @@ export default function SubmitContent() {
 
                         <div className="mt-10 text-right">
                             <button className="btn btn-primary" type="submit"
-                                    disabled={!isFormValid() || isLoading}>Objavi
+                                    disabled={!isFormValid() || isLoading}>{isEdit ? 'Posodobi' : 'Objavi'}
                             </button>
                         </div>
                     </form>

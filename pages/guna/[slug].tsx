@@ -10,12 +10,12 @@ import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import Author from "../../components/cards/author";
 import SubmitComment from "../../components/partials/submit-comment";
 import Navbar from "../../components/navbar";
-import AuthModal from "../../components/modals/auth-modal";
 import {PostService} from "../../helpers/post-service";
 import {TimeUtil} from "../../helpers/time-util";
+import {useAuth} from "../../contexts/auth";
 
 export default function Guna(props: { response: any }) {
-
+    const auth = useAuth();
     const [type, setType] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(props.response);
@@ -50,8 +50,11 @@ export default function Guna(props: { response: any }) {
 
             <main className={'my-6 flex flex-col'}>
                 <div className="container mx-auto" style={{maxWidth: '780px'}}>
-                    <div className="mb-6">
+                    <div className="mb-6 flex flex-row justify-between items-center">
                         <Breadcrumbs/>
+
+                        {auth.user && auth.user.uuid === props.response.data.author.uuid && !props.response.data.deletedAt ?
+                            <AuthorButtons post={props.response.data}/> : null}
                     </div>
 
                     <div className="card mb-4">
@@ -131,6 +134,27 @@ export default function Guna(props: { response: any }) {
             </main>
         </div>
     )
+}
+
+function AuthorButtons(props: { post: any }) {
+    const deletePost = () => {
+        PostService.deletePost(props.post.uuid)
+            .then(() => {
+                window.location.href = window.location.href;
+            })
+    }
+
+    return <>
+        <div>
+            <Link href={'/objavi?postUuid=' + props.post.uuid}>
+                <a>
+                    <button className="btn btn-outline mr-2 btn-sm" type="button">Uredi</button>
+                </a>
+            </Link>
+
+            <button className="btn btn-link btn-sm" type="button" onClick={() => deletePost()}>Izbriši</button>
+        </div>
+    </>
 }
 
 export async function getServerSideProps(context: any) {
