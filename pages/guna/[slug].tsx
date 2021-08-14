@@ -75,7 +75,7 @@ export default function Guna(props: { response: any }) {
                                         <FontAwesomeIcon icon={faHeart}/>
                                     </div>
                                     <span
-                                        className="text-sm font-bold opacity-50">{response.data.numberOfLikes}</span>
+                                        className="text-sm font-bold opacity-50">{response.data.score.votes}</span>
                                 </button>
                             </div>
                             <div className={'text-sm text-black opacity-80 flex flex-row justify-center items-center'}>

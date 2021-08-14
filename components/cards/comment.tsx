@@ -50,7 +50,7 @@ export default function Comment(props: { comment: any, replyAdded: Function }) {
                         <div className="text-lg mr-2">
                             <FontAwesomeIcon icon={faHeart}/>
                         </div>
-                        <span className="text-sm font-bold">{comment.numberOfLikes}</span>
+                        <span className="text-sm font-bold">{comment.score.votes}</span>
                     </button>
                     <button className="btn btn-sm btn-outline mr-2" onClick={reply} disabled={isReplying}>
                           <span className="pr-2">

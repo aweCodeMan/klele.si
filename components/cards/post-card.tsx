@@ -14,7 +14,7 @@ export default function PostCard(props: { postExcerpt: any }) {
                         <div className="text-lg">
                             <FontAwesomeIcon icon={faHeart}/>
                         </div>
-                        <span className="text-sm font-bold opacity-50">{props.postExcerpt.numberOfLikes}</span>
+                        <span className="text-sm font-bold opacity-50">{props.postExcerpt.score.votes}</span>
                     </button>
                 </div>
                 <div className={'flex-1 flex flex-col'}>
