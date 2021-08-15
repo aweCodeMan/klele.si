@@ -5,38 +5,33 @@ import Author from "./author";
 import {useState} from "react";
 import SubmitComment from "../partials/submit-comment";
 import {TimeUtil} from "../../helpers/time-util";
+import {CommentInterface} from "../../domain/comment.interface";
 
-export default function Comment(props: { comment: any, replyAdded: Function }) {
+export default function Comment(props: { comment: CommentInterface, replyAdded: (reply: CommentInterface) => {} }) {
 
+    const [comment, setComment] = useState({...props.comment});
     const [isReplying, setIsReplying] = useState(false);
-    const [comment, setComment] = useState(props.comment);
 
-    const reply = () => {
+    const openReply = () => {
         setIsReplying(true);
     }
 
-    const onReplySubmitted = (reply: any) => {
-        setIsReplying(false);
-
-        const copy = {...comment};
-
-        if (copy.hasOwnProperty('comments')) {
-            copy.comments = [reply, ...copy.comments];
-        } else {
-            copy.comments = [];
-        }
-
-        setComment(copy);
-
-        props.replyAdded(copy);
-    }
-
-    const onCancelReply = () => {
+    const closeReply = () => {
         setIsReplying(false);
     };
 
+    const onReplyAdded = (reply: CommentInterface) => {
+        setIsReplying(false);
+
+        const updatedComment = {...comment};
+        updatedComment.comments = updatedComment.hasOwnProperty('comments') ? [reply, ...updatedComment.comments] : [];
+
+        setComment(updatedComment);
+        props.replyAdded(updatedComment);
+    }
+
     return (
-        <div className={'relative'}>
+        <div>
             <div className={'flex flex-col mb-6'}>
                 <div className="flex flex-row items-center">
                     <Author author={comment.author}
@@ -52,7 +47,7 @@ export default function Comment(props: { comment: any, replyAdded: Function }) {
                         </div>
                         <span className="text-sm font-bold">{comment.score.votes}</span>
                     </button>
-                    <button className="btn btn-sm btn-outline mr-2" onClick={reply} disabled={isReplying}>
+                    <button className="btn btn-sm btn-outline mr-2" onClick={openReply} disabled={isReplying}>
                           <span className="pr-2">
                                     <FontAwesomeIcon icon={faComments}/>
                                 </span>
@@ -63,7 +58,7 @@ export default function Comment(props: { comment: any, replyAdded: Function }) {
             </div>
             {
                 isReplying ? <div className="ml-8 mb-8">
-                    <SubmitComment onSubmit={onReplySubmitted} onCancel={onCancelReply} parentUuid={comment.uuid}
+                    <SubmitComment onSubmit={onReplyAdded} onCancel={closeReply} parentUuid={comment.uuid}
                                    rootUuid={comment.rootUuid}/>
                 </div> : undefined
             }

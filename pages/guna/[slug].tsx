@@ -20,6 +20,18 @@ export default function Guna(props: { response: any }) {
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(props.response);
 
+    useEffect(() => {
+       sendView();
+    }, [])
+
+    const sendView = () => {
+        if (auth.user) {
+            setTimeout(() => {
+                PostService.sendView(props.response.data.uuid).then(() => {});
+            }, 500);
+        }
+    }
+
     function onTypeChange(event: React.MouseEvent<HTMLButtonElement>, number: number) {
         setType(number);
     }
@@ -30,6 +42,7 @@ export default function Guna(props: { response: any }) {
         update.data.comments = [comment, ...response.data.comments];
 
         setResponse(update);
+        sendView();
     }
 
     const replyAdded = (comment: any) => {
@@ -37,6 +50,7 @@ export default function Guna(props: { response: any }) {
         update.data.numberOfComments++;
 
         setResponse(update);
+        sendView();
     }
 
     return (

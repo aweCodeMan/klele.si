@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, createContext} from "react";
 import {ApiClient} from "../helpers/api-client";
 import {UserService} from "../helpers/user-service";
+import {useCookies} from "react-cookie";
 
 export enum AuthModalType {
     LOGIN,
@@ -22,11 +23,16 @@ export const useAuth = () => {
 
 function useProvideAuth() {
     const [user, setUser]: any = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(['auth']);
+
     const [isAuthModalOpened, setIsAuthModalOpened] = useState(false);
     const [modalType, setModalType] = useState(AuthModalType.LOGIN)
 
     const storeUser = (user: any) => {
         localStorage.setItem('user', JSON.stringify(user));
+        const expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 5);
+        setCookie('auth', true, {expires});
     }
 
     useEffect(() => {
@@ -47,6 +53,7 @@ function useProvideAuth() {
     const logout = () => {
         ApiClient.post('/api/users/logout').then((response) => {
         }).finally(() => {
+            removeCookie('auth');
             localStorage.removeItem('user');
             setUser(null);
         });

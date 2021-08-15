@@ -12,23 +12,30 @@ import {GroupService} from "../helpers/group-service";
 import Shimmer from "../components/partials/shimmer";
 import {useRouter} from "next/router";
 import {PostService} from "../helpers/post-service";
+import {Cookies} from "react-cookie";
 
 export default function Home(props: { response: any, groupUuid: any, page: any }) {
 
     const [type, setType] = useState(0);
     const [selectedGroupUuid, setSelectedGroupUuid] = useState(props.groupUuid);
-    const [isLoading, setIsLoading] = useState(false);
-    const [response, setResponse]: [any, any] = useState(props.response);
+    const [isLoading, setIsLoading] = useState(!props.response);
+    const [response, setResponse]: [any, any] = useState(!!props.response ? props.response : {
+        data: [],
+        meta: {total: 0}
+    });
 
 
-    /*  useEffect(() => {
-          setIsLoading(true);
+    useEffect(() => {
+        if (!props.response) {
+            setIsLoading(true);
 
-          PostService.getFeed().then((response: any) => {
-              setResponse(response.data);
-              setIsLoading(false);
-          });
-      }, []);*/
+            PostService.getFeed().then((response: any) => {
+                setResponse(response.data);
+                setIsLoading(false);
+            });
+        }
+
+    }, []);
 
     const onGroupChange = (groupUuid: any) => {
         setIsLoading(true);
@@ -38,25 +45,6 @@ export default function Home(props: { response: any, groupUuid: any, page: any }
             setResponse(response.data);
             setIsLoading(false);
         });
-    }
-
-    const onTypeChange = (event: any, type: number) => {
-        event.preventDefault();
-
-        /*setType(type);
-        setIsLoading(true)
-        setTimeout(() => {
-            setResponse({
-                data: posts,
-                meta: {
-                    currentPage: 1,
-                    nextPageUrl: '/',
-                    total: 40,
-                    perPage: 20,
-                }
-            });
-            setIsLoading(false);
-        }, 1500);*/
     }
 
     const showPosts = () => {
@@ -129,26 +117,7 @@ export default function Home(props: { response: any, groupUuid: any, page: any }
 
                     <div className="area-top">
                         <div className="flex flex-row justify-between">
-                            <div className={"hidden"}>
-                                <button
-                                    className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                    onClick={(event) => onTypeChange(event, 0)}>
-                                    <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
-                                    Po vrsti
-                                </button>
-                                <button
-                                    className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
-                                    onClick={(event) => onTypeChange(event, 1)}>
-                                    <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
-                                    Po vročici
-                                </button>
-                                <button
-                                    className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                    onClick={(event) => onTypeChange(event, 2)}>
-                                    <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
-                                    Po priljubljenosti
-                                </button>
-                            </div>
+
 
                             <Link href="/objavi">
                                 <a>
@@ -194,7 +163,7 @@ function GroupsCard(props: { selectedGroupUuid?: any, onGroupChange: Function })
 
         const groupUuid = props.selectedGroupUuid === group.uuid ? null : group.uuid;
 
-        if(groupUuid){
+        if (groupUuid) {
             router.query.groupUuid = groupUuid;
         } else {
             delete router.query.groupUuid;
@@ -223,7 +192,7 @@ function GroupsCard(props: { selectedGroupUuid?: any, onGroupChange: Function })
                 groups.map((group: any, index: number) => {
                     return (
                         <a key={index} onClick={(event) => navigate(event, group)}
-                           className={'mb-3 mr-2 ' + (props.selectedGroupUuid === group.uuid ? 'selected' : null)}
+                           className={'mb-3 mr-2 ' + (props.selectedGroupUuid === group.uuid ? 'selected px-2' : null)}
                            href={`/?groupUuid=${group.uuid}`}
                            style={{color: group.color}}>#{group.name}
                         </a>
@@ -243,7 +212,9 @@ function ShowEmptyState() {
                 </p>
 
                 <p className={'text-sm'}>Daj nam pomagi, pa <Link href={'/objavi'}>
-                    <a><button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button></a>
+                    <a>
+                        <button type={'button'} className={'btn btn-primary btn-sm'}>spiši enega</button>
+                    </a>
                 </Link>
                 </p>
             </div>
@@ -252,15 +223,43 @@ function ShowEmptyState() {
 }
 
 export async function getServerSideProps(context: any) {
+    const cookies = new Cookies(context.req, context.res)
+    const isAuth = cookies.getAll().cookies.auth;
     const {groupUuid, page} = context.query;
-    const response = await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null});
+    let result = null;
+
+    if (!isAuth) {
+        result = (await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})).data;
+    }
 
     return {
         props: {
-            response: response.data,
+            response: result,
             page: page ?? null,
             groupUuid: groupUuid ?? null,
         },
     }
 }
 
+/*
+<div className={"hidden"}>
+                                <button
+                                    className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                    onClick={(event) => onTypeChange(event, 0)}>
+                                    <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
+                                    Po vrsti
+                                </button>
+                                <button
+                                    className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
+                                    onClick={(event) => onTypeChange(event, 1)}>
+                                    <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
+                                    Po vročici
+                                </button>
+                                <button
+                                    className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
+                                    onClick={(event) => onTypeChange(event, 2)}>
+                                    <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
+                                    Po priljubljenosti
+                                </button>
+                            </div>
+ */
