@@ -7,7 +7,7 @@ import SubmitComment from "../partials/submit-comment";
 import {TimeUtil} from "../../helpers/time-util";
 import {CommentInterface} from "../../domain/comment.interface";
 
-export default function Comment(props: { comment: CommentInterface, replyAdded: (reply: CommentInterface) => {} }) {
+export default function Comment(props: { comment: CommentInterface, replyAdded: Function }) {
 
     const [comment, setComment] = useState({...props.comment});
     const [isReplying, setIsReplying] = useState(false);

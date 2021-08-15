@@ -13,6 +13,7 @@ import Navbar from "../../components/navbar";
 import {PostService} from "../../helpers/post-service";
 import {TimeUtil} from "../../helpers/time-util";
 import {useAuth} from "../../contexts/auth";
+import {CommentInterface} from "../../domain/comment.interface";
 
 export default function Guna(props: { response: any }) {
     const auth = useAuth();
@@ -21,13 +22,14 @@ export default function Guna(props: { response: any }) {
     const [response, setResponse] = useState(props.response);
 
     useEffect(() => {
-       sendView();
+        sendView();
     }, [])
 
     const sendView = () => {
         if (auth.user) {
             setTimeout(() => {
-                PostService.sendView(props.response.data.uuid).then(() => {});
+                PostService.sendView(props.response.data.uuid).then(() => {
+                });
             }, 500);
         }
     }
@@ -45,7 +47,7 @@ export default function Guna(props: { response: any }) {
         sendView();
     }
 
-    const replyAdded = (comment: any) => {
+    const incrementComments = () => {
         const update = {...response};
         update.data.numberOfComments++;
 
@@ -93,8 +95,8 @@ export default function Guna(props: { response: any }) {
                                 </button>
                             </div>
                             <div className={'text-sm text-black opacity-80 flex flex-row justify-center items-center'}>
-                                <Author author={response.data.author}
-                                        avatar={false}/> &#8212; {TimeUtil.toHumanTime(response.data.createdAt)}
+                                <Author
+                                    author={response.data.author}/> &#8212; {TimeUtil.toHumanTime(response.data.createdAt)}
                             </div>
                         </div>
 
@@ -137,7 +139,8 @@ export default function Guna(props: { response: any }) {
                                 isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
                                     {
                                         response.data.comments.map((comment: any, index: number) => {
-                                            return <Comment comment={comment} key={index} replyAdded={replyAdded}/>
+                                            return <Comment comment={comment} key={index}
+                                                            replyAdded={incrementComments}/>
                                         })
                                     }
                                 </div>
