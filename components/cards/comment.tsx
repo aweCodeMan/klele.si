@@ -34,8 +34,7 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
         <div>
             <div className={'flex flex-col mb-6'}>
                 <div className="flex flex-row items-center">
-                    <Author author={comment.author}
-                            avatar={false}/> <span
+                    <Author author={comment.author}/> <span
                     className="mx-2">&#8212;</span> {TimeUtil.toHumanTime(comment.createdAt)}
                 </div>
 
