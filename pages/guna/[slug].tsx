@@ -24,7 +24,7 @@ import Shimmer from "../../components/partials/shimmer";
 export default function Guna(props: { post: PostInterface, slug: string }) {
     const auth = useAuth();
 
-    const [isLoading, setIsLoading] = useState(!!props.post);
+    const [isLoading, setIsLoading] = useState(!props.post);
     const [post, setPost] = useState(props.post);
 
     const [isShowingSubmitComment, setIsShowingSubmitComment] = useState(false);

@@ -14,6 +14,7 @@ import {PostService} from "../../helpers/post-service";
 export default function Comment(props: { comment: CommentInterface, replyAdded: Function }) {
     const auth = useAuth();
     const [comment, setComment] = useState({...props.comment});
+    const [isEditingComment, setIsEditingComment] = useState(false);
     const [isReplying, setIsReplying] = useState(false);
 
     const openReply = () => {
@@ -44,6 +45,15 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
             });
     }
 
+    const editComment = () => {
+        setIsEditingComment(true);
+    }
+
+    const updateComment = (comment: CommentInterface) => {
+        setComment({...comment});
+        setIsEditingComment(false);
+    }
+
     return (
         <div>
             <div className={'flex flex-col mb-6'}>
@@ -52,22 +62,30 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                                 emphasizeAuthor={true}/>
                 </div>
 
-                <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/>
-
+                {!isEditingComment ?
+                    <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/> :
+                    <div className="mt-2 mb-4"><SubmitComment onSubmit={(comment: any) => updateComment(comment)}
+                                                              editComment={comment}
+                                                              onCancel={() => setIsEditingComment(false)}/></div>
+                }
                 <div className="flex flex-row items-center">
                     <div className="mr-2">
                         <Score score={comment.score} type={'comment'} uuid={comment.uuid} voted={comment.voted}
                                horizontal={true}/>
                     </div>
                     <button className="btn btn-sm btn-outline mr-2" onClick={openReply} disabled={isReplying}>
-                          <span className="pr-2">
-                                    <FontAwesomeIcon icon={faComments}/>
-                                </span>
+                    <span className="pr-2">
+                    <FontAwesomeIcon icon={faComments}/>
+                    </span>
                         Komentiraj
                     </button>
 
                     {auth.user && auth.user.uuid === comment.author.uuid && !comment.deletedAt ?
-                        <button className="btn btn-link btn-sm" type="button"
+                        <button className="btn btn-link btn-sm mr-2" type="button"
+                                onClick={() => editComment()}>Uredi</button> : null}
+
+                    {auth.user && auth.user.uuid === comment.author.uuid && !comment.deletedAt ?
+                        <button className="btn btn-link btn-sm mr-2" type="button"
                                 onClick={() => deleteComment()}>Izbriši</button> : null}
                 </div>
             </div>

@@ -7,6 +7,7 @@ export interface CommentInterface {
     parentUuid: string;
     author: AuthorInterface;
     html: string;
+    markdown: string;
     comments: CommentInterface[];
     score: ScoreInterface;
     voted?: number | null;

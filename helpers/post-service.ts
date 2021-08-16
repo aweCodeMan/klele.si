@@ -1,8 +1,6 @@
 import {ApiClient} from "./api-client";
 
 
-
-
 export namespace PostService {
     export function getFeed(query?: { groupUuid?: any, page?: any }) {
         return ApiClient.get('/api/feed', {params: query});
@@ -12,11 +10,15 @@ export namespace PostService {
         return ApiClient.get('/api/posts/' + slug);
     }
 
-    export function deleteComment(commentUuid: string){
+    export function deleteComment(commentUuid: string) {
         return ApiClient.delete(`/api/comments/${commentUuid}`);
     }
 
-    export function vote(data: {type: string; uuid: string; vote: number}) {
+    export function updateComment(commentUuid: string, data: { markdown: string }) {
+        return ApiClient.put(`/api/comments/${commentUuid}`, data);
+    }
+
+    export function vote(data: { type: string; uuid: string; vote: number }) {
         return ApiClient.post('/api/votes', data);
     }
 

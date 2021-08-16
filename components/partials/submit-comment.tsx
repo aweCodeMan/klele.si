@@ -2,25 +2,38 @@ import {useState} from "react";
 import CommentSkeletonCard from "../cards/comment-skeleton-card";
 import CommentHtml from "./comment-html";
 import {PostService} from "../../helpers/post-service";
+import {CommentInterface} from "../../domain/comment.interface";
 
-export default function SubmitComment(props: { onSubmit: Function, onCancel?: Function, rootUuid: any, parentUuid?: string }) {
+export default function SubmitComment(props: { onSubmit: Function, onCancel?: Function, rootUuid?: any, parentUuid?: string, editComment?: CommentInterface }) {
     const [inPreview, setInPreview] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [previewHtml, setPreviewHtml] = useState('');
-    const [markdown, setMarkdown] = useState('');
+    const [markdown, setMarkdown] = useState(props.editComment ? props.editComment.markdown : '');
 
     const submit = () => {
         if (canSubmit()) {
             setIsLoading(true);
 
-            PostService.storeComment(props.rootUuid, {parentUuid: props.parentUuid, markdown}).then((response) => {
-                setMarkdown('');
-                setPreviewHtml('');
-                setInPreview(false);
-                setIsLoading(false);
+            if(props.editComment){
+                PostService.updateComment(props.editComment.uuid, {markdown}).then((response) => {
+                    setMarkdown('');
+                    setPreviewHtml('');
+                    setInPreview(false);
+                    setIsLoading(false);
 
-                props.onSubmit(response.data.data);
-            })
+                    props.onSubmit(response.data.data);
+                })
+            } else {
+                PostService.storeComment(props.rootUuid, {parentUuid: props.parentUuid, markdown}).then((response) => {
+                    setMarkdown('');
+                    setPreviewHtml('');
+                    setInPreview(false);
+                    setIsLoading(false);
+
+                    props.onSubmit(response.data.data);
+                })
+            }
+
         }
     }
 
@@ -85,7 +98,7 @@ export default function SubmitComment(props: { onSubmit: Function, onCancel?: Fu
                 <div>
                     {props.onCancel ? <button className="btn-sm btn btn-link mr-2"
                                               onClick={cancel}>Prekliči</button> : undefined}
-                    <button className="btn btn-sm btn-primary" onClick={submit} disabled={!canSubmit()}>Komentiraj
+                    <button className="btn btn-sm btn-primary" onClick={submit} disabled={!canSubmit()}>{props.editComment ? 'Posodobi' : 'Komentiraj'}
                     </button>
                 </div>
             </div>
