@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart as faHeartFull} from "@fortawesome/free-solid-svg-icons";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 
-export default function Score(props: { score: ScoreInterface, type: string, uuid: string, voted?: number | null }) {
+export default function Score(props: { score: ScoreInterface, type: string, uuid: string, voted?: number | null, horizontal: boolean | null }) {
     const auth = useAuth();
     const [votes, setVotes] = useState(props.score.votes);
     const [voted, setVoted] = useState(props.voted ?? 0);
@@ -37,9 +37,9 @@ export default function Score(props: { score: ScoreInterface, type: string, uuid
         }
     }
 
-    return <button className={voted ? 'text-red hover:text-black' : 'text-black hover:text-red'}
+    return <button className={(voted ? 'text-red hover:text-black ' : 'text-black hover:text-red ') + (props.horizontal ? 'flex flex-row items-center' : '' )}
                    onClick={() => vote()} title="Glasuj">
-        <div className="text-lg leading-none">
+        <div className={"text-lg leading-none " + (props.horizontal ? 'mr-2' : '' )}>
             <FontAwesomeIcon icon={voted ? faHeartFull : faHeart}/>
         </div>
         <span className="text-sm font-bold opacity-80 font-mono">{votes}</span>

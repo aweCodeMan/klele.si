@@ -10,11 +10,11 @@ dayjs.extend(calendar)
 export namespace TimeUtil {
     export function toHumanTime(time: string) {
         return dayjs(time).calendar(null, {
-            sameDay: '[Danes ob] H:mm',
-            nextDay: '[Jutri ob] H:mm',
+            sameDay: '[danes ob] H:mm',
+            nextDay: '[jutri ob] H:mm',
             nextWeek: 'dddd [ob] H:mm',
-            lastDay: '[Včeraj ob] H:mm',
-            lastWeek: '[] dddd [ob] H:mm',
+            lastDay: '[včeraj ob] H:mm',
+            lastWeek: 'dddd [ob] H:mm',
             sameElse: 'DD. MM. YYYY ob H:mm'
         });
     }

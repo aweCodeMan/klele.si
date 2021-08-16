@@ -3,7 +3,6 @@ import Logo from "./logo";
 import {useEffect, useState} from "react";
 import {AuthModalType, useAuth} from "../contexts/auth";
 import AuthModal from "./modals/auth-modal";
-import Author from "./cards/author";
 
 export default function Navbar() {
     const [hasMounted, setHasMounted] = useState(false);
@@ -44,13 +43,13 @@ function Buttons(props: { auth: any, hasMounted: boolean }) {
 function AuthButtons(props: { auth: any }) {
     return <div>
         <Link href="/objavi">
-            <a className="btn btn-primary mr-2">
+            <a className="btn btn-primary mr-2 hidden sm:inline">
                 Objavi prispevek
             </a>
         </Link>
 
         <Link href="/profil">
-            <a className="btn btn-outline mr-2">
+            <a className="btn btn-outline mr-2 hidden sm:inline">
                 @{props.auth.user.nickname}
             </a>
         </Link>

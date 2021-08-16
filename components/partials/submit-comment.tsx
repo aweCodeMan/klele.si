@@ -60,8 +60,7 @@ export default function SubmitComment(props: { onSubmit: Function, onCancel?: Fu
     const showContent = () => {
         return <div className="card">
             {
-                inPreview ?
-                    (
+                inPreview ? (
                         <div className="px-2 pt-2 pb-6">
                             <CommentHtml html={previewHtml}/>
                         </div>
@@ -70,7 +69,7 @@ export default function SubmitComment(props: { onSubmit: Function, onCancel?: Fu
                            <textarea className={'h-full w-full min-h-64 p-2 '} rows={3}
                                      value={markdown}
                                      onChange={onChange}
-                                     placeholder={'Daj nam pomagaj in povej kaj ti misliš...'}/>
+                                     placeholder={''}/>
                         </div>
                     )
             }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faComments, faPencilAlt} from '@fortawesome/free-solid-svg-icons'
+import {faComments, faLink, faPencilAlt} from '@fortawesome/free-solid-svg-icons'
 import {PostExcerptInterface} from "../../domain/post-excerpt.interface";
 import {useAuth} from "../../contexts/auth";
 import Score from "../partials/score";
@@ -23,11 +23,17 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
         <div className={'card flex flex-row'} style={{backgroundColor: hasBeenVisited() ? 'transparent' : ''}}>
             <div className={'flex flex-col mr-3 items-center'}>
                 <Score score={props.postExcerpt.score} type={'post'} uuid={props.postExcerpt.uuid}
+                       horizontal={false}
                        voted={props.postExcerpt.voted}/>
             </div>
             <div className={'flex-1 flex flex-col'}>
                 <Link href={`/guna/${props.postExcerpt.slug}`}>
-                    <a title={props.postExcerpt.title}>
+                    <a title={props.postExcerpt.title} className={'flex flex-row items-center block'}>
+                        {props.postExcerpt.postType === 1 ?
+                            <div className={'mr-2 text-sm'}>
+                                <FontAwesomeIcon icon={faLink}/>
+                            </div> : null}
+
                         <h2 className={'text-xl text-black font-bold leading-snug -mt-1'}>{props.postExcerpt.title}</h2>
                     </a>
                 </Link>

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link';
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
+import {faComments, faLink, faPencilAlt, faSignal} from '@fortawesome/free-solid-svg-icons'
 import Breadcrumbs from "../../components/partials/breadcrumbs";
 import Comment from "../../components/cards/comment";
 import CommentSkeletonCard from "../../components/cards/comment-skeleton-card";
@@ -14,52 +14,76 @@ import {PostService} from "../../helpers/post-service";
 import {TimeUtil} from "../../helpers/time-util";
 import {useAuth} from "../../contexts/auth";
 import {CommentInterface} from "../../domain/comment.interface";
+import Group from "../../components/partials/group";
+import AuthorMeta from "../../components/partials/author-meta";
+import Score from "../../components/partials/score";
+import {Cookies} from "react-cookie";
+import {PostInterface} from "../../domain/post.interface";
+import Shimmer from "../../components/partials/shimmer";
 
-export default function Guna(props: { response: any }) {
+export default function Guna(props: { post: PostInterface, slug: string }) {
     const auth = useAuth();
-    const [type, setType] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const [response, setResponse] = useState(props.response);
+
+    const [isLoading, setIsLoading] = useState(!!props.post);
+    const [post, setPost] = useState(props.post);
+
+    const [isShowingSubmitComment, setIsShowingSubmitComment] = useState(false);
 
     useEffect(() => {
-        sendView();
-    }, [])
+        if (!props.post) {
+            setIsLoading(true);
+
+            PostService.getPost(props.slug).then((response: any) => {
+                setPost(response.data.data);
+                setIsLoading(false);
+                sendView();
+            });
+        } else {
+            sendView();
+        }
+
+    }, [auth.user])
+
+    const toggleSubmitComment = () => {
+        setIsShowingSubmitComment(!isShowingSubmitComment);
+    }
 
     const sendView = () => {
-        if (auth.user) {
+        if (auth.user && post) {
             setTimeout(() => {
-                PostService.sendView(props.response.data.uuid).then(() => {
+                PostService.sendView(post.uuid).then(() => {
                 });
             }, 500);
         }
     }
 
-    function onTypeChange(event: React.MouseEvent<HTMLButtonElement>, number: number) {
-        setType(number);
-    }
-
     const commentAdded = (comment: any) => {
-        const update = {...response};
-        update.data.numberOfComments++;
-        update.data.comments = [comment, ...response.data.comments];
+        const update = {...post};
+        update.numberOfComments++;
+        update.comments = [{...comment}, ...post.comments];
 
-        setResponse(update);
+        setPost(update);
         sendView();
+        setIsShowingSubmitComment(false);
     }
 
     const incrementComments = () => {
-        const update = {...response};
-        update.data.numberOfComments++;
+        const update = {...post};
+        update.numberOfComments++;
 
-        setResponse(update);
+        setPost(update);
         sendView();
+    }
+
+    if (!post) {
+        return <><PostSkeleton/></>;
     }
 
     return (
         <div>
             <Head>
-                <title>To je guna objava! | Klele.si</title>
-                <meta name="description" content="To je guna objava!"/>
+                <title>{post.title} | Klele.si</title>
+                <meta name="description" content=""/>
             </Head>
 
             <Navbar/>
@@ -69,77 +93,80 @@ export default function Guna(props: { response: any }) {
                     <div className="mb-6 flex flex-row justify-between items-center">
                         <Breadcrumbs/>
 
-                        {auth.user && auth.user.uuid === props.response.data.author.uuid && !props.response.data.deletedAt ?
-                            <AuthorButtons post={props.response.data}/> : null}
+                        {auth.user && auth.user.uuid === post.author.uuid && !post.deletedAt ?
+                            <AuthorButtons post={post}/> : null}
                     </div>
 
                     <div className="card mb-4">
-                        <h1 className="text-lg sm:text-2xl md:text-4xl font-bold leading-snug tracking-wide text-black mb-2">{response.data.title}</h1>
-
-                        <div className={'text-sm font-bold leading-normal tracking-tight mb-4'}>
-                            <Link href="#group">
-                                <a style={{color: response.data.group.color}}>
-                                    #{response.data.group.name}
-                                </a>
-                            </Link>
-                        </div>
-
-                        <div className="flex flex-row items-center  mt-2">
-                            <div className={'flex flex-col mr-3 items-center'}>
-                                <button className="hover:text-red flex flex-row items-center">
-                                    <div className="text-lg mr-2">
-                                        <FontAwesomeIcon icon={faHeart}/>
-                                    </div>
-                                    <span
-                                        className="text-sm font-bold opacity-50">{response.data.score.votes}</span>
-                                </button>
+                        <div className="flex flex-row">
+                            <div className="mr-2">
+                                <Score horizontal={false} score={post.score} type={'post'}
+                                       voted={post.voted}
+                                       uuid={post.uuid}/>
                             </div>
-                            <div className={'text-sm text-black opacity-80 flex flex-row justify-center items-center'}>
-                                <Author
-                                    author={response.data.author}/> &#8212; {TimeUtil.toHumanTime(response.data.createdAt)}
-                            </div>
-                        </div>
-
-                        <hr className={'my-4'}/>
-
-                        {
-                            response.data.postType === 0 ? <div className="prose"
-                                                                dangerouslySetInnerHTML={{__html: response.data.content.html}}/> :
-                                <a href={response.data.content.link} rel={"nofollow noopener noreferrer"}
-                                   target={'_blank'}>{response.data.content.link}</a>
-                        }
-
-                    </div>
-
-                    <SubmitComment onSubmit={(comment: any) => commentAdded(comment)} rootUuid={response.data.uuid}/>
-
-                    <div className="card" style={{borderTop: '0'}}>
-                        <div>
-                            <div className="flex flex-row justify-center items-center my-3">
-                                <h2 className={'flex-1 font-bold tracking-wide text-xl leading-normal'}>Komentarji
-                                    ({response.data.numberOfComments})</h2>
-
-                                <div className="flex flex-row hidden">
-                                    <button
-                                        className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0 mr-3' : 'btn btn-outline btn-sm mb-3 sm:mb-0 mr-3'}
-                                        onClick={(event) => onTypeChange(event, 0)}>
-                                        <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
-                                        Po vrsti
-                                    </button>
-                                    <button
-                                        className={type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                        onClick={(event) => onTypeChange(event, 1)}>
-                                        <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
-                                        Po priljubljenosti
-                                    </button>
+                            <div className="flex flex-col">
+                                <Group group={post.group}/>
+                                <div className="mt-1">
+                                    <AuthorMeta author={post.author}
+                                                emphasizeAuthor={true}
+                                                createdAt={post.createdAt}
+                                                updatedAt={post.updatedAt}/>
                                 </div>
                             </div>
+                        </div>
+
+                        <hr className={'my-3'}/>
+
+                        {post.createdAt !== post.updatedAt ? <UpdatedTag/> : ''}
+
+                        <div className=" mt-6">
+                            <h1 className="text-lg sm:text-2xl md:text-4xl font-bold leading-snug tracking-wide text-black mb-2">{post.title}</h1>
+                        </div>
+
+                        <div className="mt-4">
+                            {
+                                post.postType === 0 ? <div className="prose pb-5"
+                                                           dangerouslySetInnerHTML={{__html: post.content.html!!}}/> :
+                                    <div className={'mb-6'}>
+
+                                        <a href={post.content.link} rel={"nofollow noopener noreferrer"}
+                                           target={'_blank'}>{post.content.link}</a>
+                                    </div>
+
+                            }
+                        </div>
+
+                        <div className="flex flex-row">
+                            {!isShowingSubmitComment ?
+                                <button className="btn btn-outline btn-sm" type={'button'}
+                                        onClick={() => toggleSubmitComment()}><FontAwesomeIcon className={'mr-2'}
+
+                                                                                               icon={faComments}/>Komentiraj
+                                </button> : null}
+                        </div>
+                    </div>
+
+                    {
+                        isShowingSubmitComment ? <div className="card">
+                            <SubmitComment onSubmit={(comment: any) => commentAdded(comment)}
+                                           rootUuid={post.uuid}/>
+                        </div> : null
+                    }
+
+                    <div className="card" style={{borderTop: isShowingSubmitComment ? '0' : ''}}>
+                        <div>
+                            {post.numberOfComments > 0 ?
+                                <div className="flex flex-row justify-center items-center mb-6">
+                                    <h2 className={'flex-1 font-bold tracking-wide text-xl leading-normal'}>Komentarji
+                                        ({post.numberOfComments})</h2>
+
+                                </div> : <EmptyStateComments/>}
 
                             {
                                 isLoading ? <CommentSkeletonCard/> : <div className="flex flex-col">
                                     {
-                                        response.data.comments.map((comment: any, index: number) => {
-                                            return <Comment comment={comment} key={index}
+                                        post.comments.map((comment: any) => {
+                                            return <Comment comment={comment} key={comment.uuid}
                                                             replyAdded={incrementComments}/>
                                         })
                                     }
@@ -174,13 +201,104 @@ function AuthorButtons(props: { post: any }) {
     </>
 }
 
+function UpdatedTag() {
+    return <span
+        className="px-1 py-1 border-orange text-orange border text-sm tracking-wide leading-snug">Posodobljeno</span>
+}
+
+function EmptyStateComments() {
+    return <div className="my-12 text-center">
+        <h3 className="text-lg font-bold">Napiši prvi komentar in spremeni svet.</h3>
+
+        <p className="text-sm">Čisto resno. Začni debato.</p>
+    </div>
+}
+
+function PostSkeleton() {
+    return <>
+        <Navbar/>
+        <main className={'my-6 flex flex-col'}>
+            <div className="container mx-auto" style={{maxWidth: '780px'}}>
+                <div className="mb-6 flex flex-row justify-between items-center">
+                    <Breadcrumbs/>
+                </div>
+
+                <div className="card mb-4">
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+
+                    <hr className="my-4"/>
+
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="mb-3">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+                    <div className="">
+                        <Shimmer height={'2rem'}/>
+                    </div>
+
+                </div>
+
+                <div className="card">
+                    <div>
+                        <div className="flex flex-col">
+                            <div className="mb-3">
+                                <CommentSkeletonCard/>
+                            </div>
+                            <div className="mb-3">
+                                <CommentSkeletonCard/>
+                            </div>
+                            <div className="mb-3">
+                                <CommentSkeletonCard/>
+                            </div>
+                            <div className="mb-3">
+                                <CommentSkeletonCard/>
+                            </div>
+                            <CommentSkeletonCard/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </>
+}
+
 export async function getServerSideProps(context: any) {
+    const cookies = new Cookies(context.req, context.res)
+    const isAuth = cookies.getAll().cookies.auth;
     const {slug} = context.params;
-    const response = await PostService.getPost(slug);
+
+    let post = null;
+
+    if (!isAuth) {
+        post = (await PostService.getPost(slug)).data.data;
+    }
 
     return {
         props: {
-            response: response.data,
+            post,
+            slug,
         },
     }
 }

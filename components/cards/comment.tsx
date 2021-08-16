@@ -6,9 +6,13 @@ import {useState} from "react";
 import SubmitComment from "../partials/submit-comment";
 import {TimeUtil} from "../../helpers/time-util";
 import {CommentInterface} from "../../domain/comment.interface";
+import AuthorMeta from "../partials/author-meta";
+import Score from "../partials/score";
+import {useAuth} from "../../contexts/auth";
+import {PostService} from "../../helpers/post-service";
 
 export default function Comment(props: { comment: CommentInterface, replyAdded: Function }) {
-
+    const auth = useAuth();
     const [comment, setComment] = useState({...props.comment});
     const [isReplying, setIsReplying] = useState(false);
 
@@ -30,29 +34,41 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
         props.replyAdded(updatedComment);
     }
 
+    const deleteComment = () => {
+        PostService.deleteComment(comment.uuid)
+            .then((response) => {
+                const deleted = {...response.data.data};
+                deleted.comments = [...comment.comments];
+
+                setComment(deleted);
+            });
+    }
+
     return (
         <div>
             <div className={'flex flex-col mb-6'}>
                 <div className="flex flex-row items-center">
-                    <Author author={comment.author}/> <span
-                    className="mx-2">&#8212;</span> {TimeUtil.toHumanTime(comment.createdAt)}
+                    <AuthorMeta author={comment.author} updatedAt={comment.updatedAt} createdAt={comment.createdAt}
+                                emphasizeAuthor={true}/>
                 </div>
 
-                <div className="prose my-2 pl-9" dangerouslySetInnerHTML={{__html: comment.html}}/>
-                <div className="flex flex-row pl-9">
-                    <button className="hover:text-red flex flex-row justify-center items-center mr-2">
-                        <div className="text-lg mr-2">
-                            <FontAwesomeIcon icon={faHeart}/>
-                        </div>
-                        <span className="text-sm font-bold">{comment.score.votes}</span>
-                    </button>
+                <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/>
+
+                <div className="flex flex-row items-center">
+                    <div className="mr-2">
+                        <Score score={comment.score} type={'comment'} uuid={comment.uuid} voted={comment.voted}
+                               horizontal={true}/>
+                    </div>
                     <button className="btn btn-sm btn-outline mr-2" onClick={openReply} disabled={isReplying}>
                           <span className="pr-2">
                                     <FontAwesomeIcon icon={faComments}/>
                                 </span>
-                        Odgovori
+                        Komentiraj
                     </button>
-                    <button className="btn btn-sm btn-link hidden">Prijavi</button>
+
+                    {auth.user && auth.user.uuid === comment.author.uuid && !comment.deletedAt ?
+                        <button className="btn btn-link btn-sm" type="button"
+                                onClick={() => deleteComment()}>Izbriši</button> : null}
                 </div>
             </div>
             {
@@ -65,8 +81,8 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
             {
                 <div className={'ml-8 relative'}>
                     {
-                        comment.comments.map((comment: any, index: any) => {
-                            return <Comment comment={comment} key={index} replyAdded={props.replyAdded}/>
+                        comment.comments.map((comment: any) => {
+                            return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded}/>
                         })
                     }
                 </div>

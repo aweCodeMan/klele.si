@@ -192,7 +192,7 @@ function GroupsCard(props: { selectedGroupUuid?: any, onGroupChange: Function })
                 groups.map((group: any, index: number) => {
                     return (
                         <a key={index} onClick={(event) => navigate(event, group)}
-                           className={'mb-3 mr-2 ' + (props.selectedGroupUuid === group.uuid ? 'selected px-2' : null)}
+                           className={'mb-3 mr-1 px-2 ' + (props.selectedGroupUuid === group.uuid ? 'selected ' : null)}
                            href={`/?groupUuid=${group.uuid}`}
                            style={{color: group.color}}>#{group.name}
                         </a>

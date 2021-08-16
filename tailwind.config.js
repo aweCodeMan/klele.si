@@ -11,6 +11,7 @@ module.exports = {
         beige: '#F9F2E9',
         gray: '#BBBBBB',
         error: "#EA324E",
+        orange: '#FF9314',
         'error-washed': "rgba(234, 50, 78, 0.1)"
       },
       fontFamily: {

@@ -8,6 +8,7 @@ export interface PostExcerptInterface {
     title: string;
     slug: string;
     content: any;
+    postType: number;
     groupUuid: string;
     group: GroupInterface;
     author: AuthorInterface;

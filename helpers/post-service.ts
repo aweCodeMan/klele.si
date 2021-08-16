@@ -12,6 +12,10 @@ export namespace PostService {
         return ApiClient.get('/api/posts/' + slug);
     }
 
+    export function deleteComment(commentUuid: string){
+        return ApiClient.delete(`/api/comments/${commentUuid}`);
+    }
+
     export function vote(data: {type: string; uuid: string; vote: number}) {
         return ApiClient.post('/api/votes', data);
     }

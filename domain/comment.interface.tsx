@@ -9,5 +9,8 @@ export interface CommentInterface {
     html: string;
     comments: CommentInterface[];
     score: ScoreInterface;
+    voted?: number | null;
     createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
 }
