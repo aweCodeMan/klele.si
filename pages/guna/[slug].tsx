@@ -127,10 +127,10 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
                             {
                                 post.postType === 0 ? <div className="prose pb-5"
                                                            dangerouslySetInnerHTML={{__html: post.content.html!!}}/> :
-                                    <div className={'mb-6'}>
+                                    <div className={'mt-8 mb-6'}>
 
-                                        <a href={post.content.link} rel={"nofollow noopener noreferrer"}
-                                           target={'_blank'}>{post.content.link}</a>
+                                        <LinkCard post={post}/>
+
                                     </div>
 
                             }
@@ -212,6 +212,41 @@ function EmptyStateComments() {
 
         <p className="text-sm">Čisto resno. Začni debato.</p>
     </div>
+}
+
+function LinkCard(props: { post: PostInterface }) {
+
+    return <>
+        <div className="flex flex-row">
+            <div>
+                <a href={props.post.content.link} title={props.post.content.data?.title}
+                   rel={"nofollow noopener noreferrer"}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className={'border border-black shadow'} height={100} width={100}
+                         src={props.post.content.data?.openGraph['og:image']}
+                         alt={props.post.content.data?.openGraph['og:image:alt']}/>
+                </a>
+            </div>
+            <div className="flex-1 flex flex-col pl-4">
+                <a href={props.post.content.link} title={props.post.content.data?.title}
+                   rel={"nofollow noopener noreferrer"}>
+                    <h3 className={'font-bold text-lg leading-normal tracking-wide text-black'}>{props.post.content.data?.title}</h3>
+                </a>
+
+                <p className="mb-0 text-basel leading-loose text-black">{props.post.content.data?.meta?.description}</p>
+
+                <a href={props.post.content.link} title={props.post.content.data?.title}
+                   rel={"nofollow noopener noreferrer"}>
+                    <div className="flex flex-row text-sm mt-2 text-red">
+                        <div className={'mr-2 text-sm'}>
+                            <FontAwesomeIcon icon={faLink}/>
+                        </div>
+                        <span className="lowercase">{props.post.content.domain}</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </>
 }
 
 function PostSkeleton() {

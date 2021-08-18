@@ -6,6 +6,12 @@ import {PostExcerptInterface} from "./post-excerpt.interface";
 import {CommentInterface} from "./comment.interface";
 
 export interface PostInterface extends PostExcerptInterface {
-    content: { link?: string, html?: string };
+    content: { link?: string, domain?: string, data?: LinkDataInterface, html?: string };
     comments: CommentInterface[];
+}
+
+export interface LinkDataInterface {
+    title: string;
+    meta: any;
+    openGraph: any;
 }
