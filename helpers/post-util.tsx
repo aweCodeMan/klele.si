@@ -28,6 +28,26 @@ export namespace PostUtil {
         return `${numberOfComments} ${text}`;
     }
 
+    export function getPinnedTime(daysToGo: number) {
+        if (daysToGo === 0) {
+            return `Samo še danes!`;
+        }
+
+        let text = '';
+
+        const remainder = daysToGo % 100;
+
+        if (remainder === 1) {
+            text = 'dan';
+        } else if (remainder === 2) {
+            text = 'dneva';
+        } else {
+            text = 'dni'
+        }
+
+        return `Pripeto še ${daysToGo} ${text}`;
+    }
+
     export function getCommentDifferenceText(data: { postView?: PostViewInterface, numberOfComments: number }) {
         const difference = getCommentDifference(data);
 

@@ -17,6 +17,10 @@ export interface PostExcerptInterface {
     numberOfComments: number;
     voted?: number | null;
     postView?: PostViewInterface;
+    pinnedAt: string|null;
+    pinnedUntil: string|null;
+    pinnedProgress: number;
+    pinnedDaysToGo: number;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;

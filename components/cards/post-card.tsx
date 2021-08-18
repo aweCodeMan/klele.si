@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faComments, faLink, faPencilAlt} from '@fortawesome/free-solid-svg-icons'
+import {faComments, faLink, faPencilAlt, faThumbtack} from '@fortawesome/free-solid-svg-icons'
 import {PostExcerptInterface} from "../../domain/post-excerpt.interface";
 import {useAuth} from "../../contexts/auth";
 import Score from "../partials/score";
@@ -27,16 +27,22 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
                        voted={props.postExcerpt.voted}/>
             </div>
             <div className={'flex-1 flex flex-col'}>
-                <Link href={`/guna/${props.postExcerpt.slug}`}>
-                    <a title={props.postExcerpt.title} className={'flex flex-row items-center block'}>
-                        {props.postExcerpt.postType === 1 ?
-                            <div className={'mr-2 text-sm'}>
-                                <FontAwesomeIcon icon={faLink}/>
-                            </div> : null}
+                <div className="flex flex-row">
+                    <Link href={`/guna/${props.postExcerpt.slug}`}>
+                        <a title={props.postExcerpt.title} className={'flex flex-row items-center block flex-1'}>
+                            {props.postExcerpt.postType === 1 ?
+                                <div className={'mr-2 text-sm'}>
+                                    <FontAwesomeIcon icon={faLink}/>
+                                </div> : null}
 
-                        <h2 className={'text-xl text-black font-bold leading-snug -mt-1'}>{props.postExcerpt.title}</h2>
-                    </a>
-                </Link>
+                            <h2 className={'text-xl text-black font-bold leading-snug -mt-1'}>{props.postExcerpt.title}</h2>
+                        </a>
+                    </Link>
+
+                    {props.postExcerpt.pinnedAt ? <div className="mr-1"><Pin post={props.postExcerpt}/></div> : null}
+
+                </div>
+
                 <div className="flex flex-row flex-wrap">
                     <div className="mr-2">
                         <Group group={props.postExcerpt.group}/>
@@ -68,4 +74,38 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
             </div>
         </div>
     )
+}
+
+function Pin(props: { post: PostExcerptInterface }) {
+    return <div className={"relative " + (props.post.pinnedUntil ? 'text-green' : 'text-orange')} title={props.post.pinnedUntil ? PostUtil.getPinnedTime(props.post.pinnedDaysToGo) : 'Pripeto za vse večne čase'}>
+        <FontAwesomeIcon icon={faThumbtack}/>
+
+        <div className="absolute" style={{bottom: '-7px', right: '-14px', transform: 'rotate(-90deg)'}}>
+            <ProgressRing radius={20} stroke={3} progress={props.post.pinnedProgress}/>
+        </div>
+    </div>
+}
+
+function ProgressRing(props: { radius: number, stroke: number, progress: number }) {
+    const normalizedRadius = props.radius - props.stroke * 2;
+    const circumference = normalizedRadius * 2 * Math.PI;
+    const strokeDashoffset = circumference - props.progress / 100 * circumference;
+
+    return (
+        <svg
+            height={props.radius * 2}
+            width={props.radius * 2}
+        >
+            <circle
+                stroke="currentColor"
+                fill="transparent"
+                strokeWidth={props.stroke}
+                strokeDasharray={circumference + ' ' + circumference}
+                style={{strokeDashoffset}}
+                r={normalizedRadius}
+                cx={props.radius}
+                cy={props.radius}
+            />
+        </svg>
+    );
 }
