@@ -36,19 +36,19 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
             PostService.getPost(props.slug).then((response: any) => {
                 setPost(response.data.data);
                 setIsLoading(false);
-                sendView();
+                sendView(response.data.data);
             });
         } else {
-            sendView();
+            sendView(props.post);
         }
 
-    }, [auth.user])
+    }, [])
 
     const toggleSubmitComment = () => {
         setIsShowingSubmitComment(!isShowingSubmitComment);
     }
 
-    const sendView = () => {
+    const sendView = (post: PostInterface) => {
         if (auth.user && post) {
             setTimeout(() => {
                 PostService.sendView(post.uuid).then(() => {
@@ -63,7 +63,7 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
         update.comments = [{...comment}, ...post.comments];
 
         setPost(update);
-        sendView();
+        sendView(update);
         setIsShowingSubmitComment(false);
     }
 
@@ -72,7 +72,7 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
         update.numberOfComments++;
 
         setPost(update);
-        sendView();
+        sendView(update);
     }
 
     if (!post) {
