@@ -28,16 +28,30 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
             </div>
             <div className={'flex-1 flex flex-col'}>
                 <div className="flex flex-row">
-                    <Link href={`/guna/${props.postExcerpt.slug}`}>
-                        <a title={props.postExcerpt.title} className={'flex flex-row items-center block flex-1'}>
-                            {props.postExcerpt.postType === 1 ?
-                                <div className={'mr-2 text-sm'}>
-                                    <FontAwesomeIcon icon={faLink}/>
-                                </div> : null}
 
-                            <h2 className={'text-xl text-black font-bold leading-snug -mt-1'}>{props.postExcerpt.title}</h2>
-                        </a>
-                    </Link>
+                    <h2 className={'flex-1 text-xl text-black font-bold leading-snug break-all -mt-1'}>
+                        <Link href={`/guna/${props.postExcerpt.slug}`}>
+                            <a title={props.postExcerpt.title} className={''}>
+                                {props.postExcerpt.postType === 1 ?
+                                    <span className={'mr-2 text-sm mt-1'}>
+                                        <FontAwesomeIcon icon={faLink}/>
+                                    </span> : null}
+
+                                <span className=" mr-2">
+                                    {props.postExcerpt.title}
+                                </span>
+                            </a>
+                        </Link>
+
+                        {
+                            props.postExcerpt.postType === 1 ?
+                                <a href={props.postExcerpt.content.link} title={props.postExcerpt.content.domain}
+                                   className={'text-sm opacity-70 text-red'}
+                                   rel={"nofollow noopener noreferrer"}>
+                                    ({props.postExcerpt.content.domain})
+                                </a> : null
+                        }
+                    </h2>
 
                     {props.postExcerpt.pinnedAt ? <div className="mr-1"><Pin post={props.postExcerpt}/></div> : null}
 
@@ -77,7 +91,8 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
 }
 
 function Pin(props: { post: PostExcerptInterface }) {
-    return <div className={"relative " + (props.post.pinnedUntil ? 'text-green' : 'text-orange')} title={props.post.pinnedUntil ? PostUtil.getPinnedTime(props.post.pinnedDaysToGo) : 'Pripeto za vse večne čase'}>
+    return <div className={"relative " + (props.post.pinnedUntil ? 'text-green' : 'text-orange')}
+                title={props.post.pinnedUntil ? PostUtil.getPinnedTime(props.post.pinnedDaysToGo) : 'Pripeto za vse večne čase'}>
         <FontAwesomeIcon icon={faThumbtack}/>
 
         <div className="absolute" style={{bottom: '-7px', right: '-14px', transform: 'rotate(-90deg)'}}>
