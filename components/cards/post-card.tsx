@@ -29,7 +29,7 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
             <div className={'flex-1 flex flex-col'}>
                 <div className="flex flex-row">
 
-                    <h2 className={'flex-1 text-xl text-black font-bold leading-snug break-all -mt-1'}>
+                    <h2 className={'flex-1 text-xl text-black font-bold leading-snug break-word -mt-1'}>
                         <Link href={`/guna/${props.postExcerpt.slug}`}>
                             <a title={props.postExcerpt.title} className={''}>
                                 {props.postExcerpt.postType === 1 ?
@@ -46,7 +46,7 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
                         {
                             props.postExcerpt.postType === 1 ?
                                 <a href={props.postExcerpt.content.link} title={props.postExcerpt.content.domain}
-                                   className={'text-sm opacity-70 text-red'}
+                                   className={'text-sm opacity-70 text-red break-normal'}
                                    rel={"nofollow noopener noreferrer"}>
                                     ({props.postExcerpt.content.domain})
                                 </a> : null
