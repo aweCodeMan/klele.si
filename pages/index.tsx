@@ -29,10 +29,26 @@ export default function Home(props: { response: any, groupUuid: any, page: any }
         if (!props.response) {
             setIsLoading(true);
 
-            PostService.getFeed().then((response: any) => {
-                setResponse(response.data);
-                setIsLoading(false);
-            });
+
+            if (props.page && props.page !== "1") {
+                PostService.getFeed({page: props.page}).then((response: any) => {
+                    setResponse(response.data);
+                    setIsLoading(false);
+                });
+            } else {
+                Promise.all([PostService.getPinnedPosts({
+                    groupUuid: props.groupUuid ?? null,
+                }), PostService.getFeed({
+                    groupUuid: props.groupUuid ?? null,
+                    page: props.page ?? null
+                })]).then((responses) => {
+                    const result = responses[1].data;
+                    result.data = [...responses[0].data.data, ...result.data];
+
+                    setResponse(result);
+                    setIsLoading(false);
+                });
+            }
         }
 
     }, []);
@@ -41,8 +57,13 @@ export default function Home(props: { response: any, groupUuid: any, page: any }
         setIsLoading(true);
         setSelectedGroupUuid(groupUuid);
 
-        PostService.getFeed({groupUuid, page: 1}).then((response) => {
-            setResponse(response.data);
+        Promise.all([PostService.getPinnedPosts({
+            groupUuid: groupUuid ?? null,
+        }), PostService.getFeed({groupUuid: groupUuid ?? null, page: 1})]).then((responses) => {
+            const result = responses[1].data;
+            result.data = [...responses[0].data.data, ...result.data];
+
+            setResponse(result);
             setIsLoading(false);
         });
     }
@@ -229,7 +250,16 @@ export async function getServerSideProps(context: any) {
     let result = null;
 
     if (!isAuth) {
-        result = (await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})).data;
+        if (page && page !== "1") {
+            result = (await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})).data;
+        } else {
+            const [pins, feed] = await Promise.all([PostService.getPinnedPosts({
+                groupUuid: groupUuid ?? null,
+            }), PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})]);
+
+            result = feed.data;
+            result.data = [...pins.data.data, ...result.data];
+        }
     }
 
     return {
@@ -240,26 +270,3 @@ export async function getServerSideProps(context: any) {
         },
     }
 }
-
-/*
-<div className={"hidden"}>
-                                <button
-                                    className={type === 0 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                    onClick={(event) => onTypeChange(event, 0)}>
-                                    <FontAwesomeIcon icon={faSun} className={'mr-2'}/>
-                                    Po vrsti
-                                </button>
-                                <button
-                                    className={'mx-2 ' + (type === 1 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0')}
-                                    onClick={(event) => onTypeChange(event, 1)}>
-                                    <FontAwesomeIcon icon={faBurn} className={'mr-2'}/>
-                                    Po vročici
-                                </button>
-                                <button
-                                    className={type === 2 ? 'btn btn-primary btn-sm selected mb-3 sm:mb-0' : 'btn btn-outline btn-sm mb-3 sm:mb-0'}
-                                    onClick={(event) => onTypeChange(event, 2)}>
-                                    <FontAwesomeIcon icon={faSignal} className={'mr-2'}/>
-                                    Po priljubljenosti
-                                </button>
-                            </div>
- */

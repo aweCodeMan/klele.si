@@ -1,9 +1,14 @@
 import {ApiClient} from "./api-client";
 
 
+
 export namespace PostService {
     export function getFeed(query?: { groupUuid?: any, page?: any }) {
         return ApiClient.get('/api/feed', {params: query});
+    }
+
+    export function getPinnedPosts(query: { groupUuid: any }) {
+        return ApiClient.get('/api/pinned-posts', {params: query});
     }
 
     export function getPost(slug: string) {
