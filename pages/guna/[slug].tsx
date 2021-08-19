@@ -167,6 +167,7 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
                                     {
                                         post.comments.map((comment: any) => {
                                             return <Comment comment={comment} key={comment.uuid}
+                                                            post={post}
                                                             replyAdded={incrementComments}/>
                                         })
                                     }

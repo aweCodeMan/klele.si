@@ -10,8 +10,9 @@ import AuthorMeta from "../partials/author-meta";
 import Score from "../partials/score";
 import {useAuth} from "../../contexts/auth";
 import {PostService} from "../../helpers/post-service";
+import {PostInterface} from "../../domain/post.interface";
 
-export default function Comment(props: { comment: CommentInterface, replyAdded: Function }) {
+export default function Comment(props: { comment: CommentInterface, replyAdded: Function, post: PostInterface }) {
     const auth = useAuth();
     const [comment, setComment] = useState({...props.comment});
     const [isEditingComment, setIsEditingComment] = useState(false);
@@ -59,6 +60,7 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
             <div className={'flex flex-col mb-6'}>
                 <div className="flex flex-row items-center">
                     <AuthorMeta author={comment.author} updatedAt={comment.updatedAt} createdAt={comment.createdAt}
+                                tag={props.post.author.uuid === comment.author.uuid ? <AuthorTag/> : null}
                                 emphasizeAuthor={true}/>
                 </div>
 
@@ -100,11 +102,15 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                 <div className={'ml-8 relative'}>
                     {
                         comment.comments.map((comment: any) => {
-                            return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded}/>
+                            return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded} post={props.post}/>
                         })
                     }
                 </div>
             }
         </div>
     )
+}
+
+function AuthorTag(){
+    return <span className="font-bold text-blue font-sm  leading-normal">[Avtor]</span>
 }
