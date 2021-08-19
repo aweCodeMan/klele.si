@@ -2,7 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import {faComments} from "@fortawesome/free-solid-svg-icons";
 import Author from "./author";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import SubmitComment from "../partials/submit-comment";
 import {TimeUtil} from "../../helpers/time-util";
 import {CommentInterface} from "../../domain/comment.interface";
@@ -12,11 +12,25 @@ import {useAuth} from "../../contexts/auth";
 import {PostService} from "../../helpers/post-service";
 import {PostInterface} from "../../domain/post.interface";
 
-export default function Comment(props: { comment: CommentInterface, replyAdded: Function, post: PostInterface }) {
+export default function Comment(props: { comment: CommentInterface, replyAdded: Function, post: PostInterface, container?: any }) {
     const auth = useAuth();
     const [comment, setComment] = useState({...props.comment});
     const [isEditingComment, setIsEditingComment] = useState(false);
     const [isReplying, setIsReplying] = useState(false);
+    const container = useRef(null);
+    const start: any = useRef(null);
+    const [lineSize, setLineSize] = useState(0);
+
+    useEffect(() => {
+        calculateLineSize();
+    }, [])
+
+    const calculateLineSize = () => {
+        if (props.container && start) {
+            const difference = start.current?.getBoundingClientRect().top - props.container.current.getBoundingClientRect().top;
+            setLineSize(Math.round(difference));
+        }
+    }
 
     const openReply = () => {
         setIsReplying(true);
@@ -60,7 +74,14 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
     }
 
     return (
-        <div>
+        <div ref={start}>
+            {
+                props.container ? (lineSize == 0 ? <><Bend/>
+                    <div className={'absolute bg-gray w-1 -mt-6'} style={{height: '18px', marginLeft: '-25px'}}></div>
+                </> : <><Bend/><div className={'absolute bg-gray w-1 -mt-6'}
+                           style={{height: lineSize + 'px', marginTop: -1 * (lineSize + 8) + 'px', marginLeft: '-25px'}}></div></>) : null
+            }
+
             <div className={'flex flex-col mb-6'}>
                 {!comment.deletedAt ?
                     <div className="flex flex-row items-center">
@@ -105,10 +126,11 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
             }
 
             {
-                <div className={'ml-8 relative'}>
+                <div className={'ml-8 relative'} ref={container}>
                     {
                         comment.comments.map((comment: any) => {
                             return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded}
+                                            container={container}
                                             post={props.post}/>
                         })
                     }
@@ -120,4 +142,9 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
 
 function AuthorTag() {
     return <span className="font-bold text-blue font-sm  leading-normal">[Avtor]</span>
+}
+
+function Bend() {
+    return <div className="w-10 h-10 border-4 border-gray absolute rounded-full -mt-7"
+                style={{marginLeft: '-25px', clipPath: 'polygon(0 50%, 50% 50%, 50% 100%, 0% 100%)'}}></div>
 }
