@@ -55,14 +55,19 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
         setIsEditingComment(false);
     }
 
+    if (comment.deletedAt && comment.comments.length === 0) {
+        return null;
+    }
+
     return (
         <div>
             <div className={'flex flex-col mb-6'}>
-                <div className="flex flex-row items-center">
-                    <AuthorMeta author={comment.author} updatedAt={comment.updatedAt} createdAt={comment.createdAt}
-                                tag={props.post.author.uuid === comment.author.uuid ? <AuthorTag/> : null}
-                                emphasizeAuthor={true}/>
-                </div>
+                {!comment.deletedAt ?
+                    <div className="flex flex-row items-center">
+                        <AuthorMeta author={comment.author} updatedAt={comment.updatedAt} createdAt={comment.createdAt}
+                                    tag={props.post.author.uuid === comment.author.uuid ? <AuthorTag/> : null}
+                                    emphasizeAuthor={true}/>
+                    </div> : null}
 
                 {!isEditingComment ?
                     <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/> :
@@ -70,6 +75,7 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                                                               editComment={comment}
                                                               onCancel={() => setIsEditingComment(false)}/></div>
                 }
+
                 <div className="flex flex-row items-center">
                     <div className="mr-2">
                         <Score score={comment.score} type={'comment'} uuid={comment.uuid} voted={comment.voted}
@@ -102,7 +108,8 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                 <div className={'ml-8 relative'}>
                     {
                         comment.comments.map((comment: any) => {
-                            return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded} post={props.post}/>
+                            return <Comment comment={comment} key={comment.uuid} replyAdded={props.replyAdded}
+                                            post={props.post}/>
                         })
                     }
                 </div>
@@ -111,6 +118,6 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
     )
 }
 
-function AuthorTag(){
+function AuthorTag() {
     return <span className="font-bold text-blue font-sm  leading-normal">[Avtor]</span>
 }
