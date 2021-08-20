@@ -6,6 +6,7 @@ import {useState} from "react";
 import {AuthModalType, useAuth} from "../../../contexts/auth";
 import {FormHelper} from "../../../helpers/form";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function RegisterModalContent(props: { close: Function }) {
     const auth = useAuth();
@@ -158,6 +159,9 @@ export default function RegisterModalContent(props: { close: Function }) {
                                error={errors.repeatPassword}
                                value={form.repeatPassword}/>
                 </div>
+
+
+                <p className="text-sm mt-6">Preden nam prodaš svojo dušo si poglej <Link href={"/pravila"}><a target={'_blank'} title="Pravila" className={'text-red'}>pravila</a></Link>.</p>
 
                 <div className="mt-6 text-center">
                     <button className="btn btn-primary" disabled={!isFormValid() || isLoading}
