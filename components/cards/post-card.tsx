@@ -33,7 +33,7 @@ export default function PostCard(props: { postExcerpt: PostExcerptInterface }) {
                         <Link href={`/guna/${props.postExcerpt.slug}`}>
                             <a title={props.postExcerpt.title} className={''}>
                                 {props.postExcerpt.postType === 1 ?
-                                    <span className={'mr-2 text-sm mt-1'}>
+                                    <span className={'pr-2 text-sm mt-1'}>
                                         <FontAwesomeIcon icon={faLink}/>
                                     </span> : null}
 

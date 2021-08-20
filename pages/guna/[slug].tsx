@@ -20,6 +20,7 @@ import Score from "../../components/partials/score";
 import {Cookies} from "react-cookie";
 import {PostInterface} from "../../domain/post.interface";
 import Shimmer from "../../components/partials/shimmer";
+import MarkdownInstructions from "../../components/partials/markdown-instructions";
 
 export default function Guna(props: { post: PostInterface, slug: string }) {
     const auth = useAuth();
@@ -150,6 +151,11 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
                         isShowingSubmitComment ? <div className="card">
                             <SubmitComment onSubmit={(comment: any) => commentAdded(comment)}
                                            rootUuid={post.uuid}/>
+
+                            <div className="mt-4 card">
+                                <MarkdownInstructions/>
+                            </div>
+
                         </div> : null
                     }
 

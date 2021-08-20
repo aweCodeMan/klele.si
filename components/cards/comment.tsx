@@ -11,6 +11,7 @@ import Score from "../partials/score";
 import {useAuth} from "../../contexts/auth";
 import {PostService} from "../../helpers/post-service";
 import {PostInterface} from "../../domain/post.interface";
+import MarkdownInstructions from "../partials/markdown-instructions";
 
 export default function Comment(props: { comment: CommentInterface, replyAdded: Function, post: PostInterface, container?: any }) {
     const auth = useAuth();
@@ -122,6 +123,10 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                 isReplying ? <div className="ml-8 mb-8">
                     <SubmitComment onSubmit={onReplyAdded} onCancel={closeReply} parentUuid={comment.uuid}
                                    rootUuid={comment.rootUuid}/>
+
+                    <div className="mt-4 card">
+                        <MarkdownInstructions/>
+                    </div>
                 </div> : undefined
             }
 
@@ -146,5 +151,5 @@ function AuthorTag() {
 
 function Bend() {
     return <div className="w-10 h-10 border-4 border-gray absolute rounded-full -mt-7"
-                style={{marginLeft: '-25px', clipPath: 'polygon(0 50%, 50% 50%, 50% 100%, 0% 100%)'}}></div>
+                style={{marginLeft: '-25px', clipPath: 'polygon(0 50%, 50% 50%, 50% 100%, 0% 100%)'}}/>
 }
