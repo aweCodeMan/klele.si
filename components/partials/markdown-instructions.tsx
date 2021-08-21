@@ -36,7 +36,9 @@ export default function MarkdownInstructions() {
                     </div>
 
                     <div className="text-center  text-sm border-b border-r border-l p-1 flex-1">
-                        <p><a href="https://klele.si">klele.si!</a></p>
+                        <div className="prose">
+                            <p><a href="https://klele.si">klele.si!</a></p>
+                        </div>
                     </div>
                 </div>
 
@@ -46,7 +48,8 @@ export default function MarkdownInstructions() {
                         <p>* stvar 1 <br/>* stvar 2 <br/>* stvar 3 <br/></p>
                     </div>
 
-                    <div className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center">
+                    <div
+                        className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center">
                         <div className="prose">
                             <ul>
                                 <li style={{margin: 0}}>stvar 1</li>
@@ -63,7 +66,8 @@ export default function MarkdownInstructions() {
                         <p>1. stvar A <br/>2. stvar B <br/>3. stvar C <br/></p>
                     </div>
 
-                    <div className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center">
+                    <div
+                        className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center">
                         <div className="prose">
                             <ol>
                                 <li style={{margin: 0}}>stvar A</li>
@@ -75,11 +79,15 @@ export default function MarkdownInstructions() {
                 </div>
 
                 <div className="flex flex-row">
-                    <div className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center" style={{flexBasis: 0}}>
+                    <div
+                        className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center"
+                        style={{flexBasis: 0}}>
                         <p>&gt; citat</p>
                     </div>
 
-                    <div className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center" style={{flexBasis: 0}}>
+                    <div
+                        className="text-center  text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center"
+                        style={{flexBasis: 0}}>
                         <div className="prose">
                             <blockquote>
                                 <p>citat</p>
@@ -93,7 +101,9 @@ export default function MarkdownInstructions() {
                         <p>```<br/>Hello, World! <br/>```</p>
                     </div>
 
-                    <div className="text-center text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center" style={{flexBasis: 0}}>
+                    <div
+                        className="text-center text-sm border-b border-r border-l p-1 flex-1 flex items-center justify-center"
+                        style={{flexBasis: 0}}>
                         <div className="prose">
                             <pre><code>Hello, World!</code></pre>
                         </div>

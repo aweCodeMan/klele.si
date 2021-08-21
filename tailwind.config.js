@@ -27,6 +27,12 @@ module.exports = {
         DEFAULT: {
           css: {
             lineHeight: '1.5',
+            a: {
+              color: '#FF637B',
+              '&:hover': {
+                color: '#E14961',
+              },
+            },
           },
         },
       },
