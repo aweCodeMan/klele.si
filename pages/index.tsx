@@ -5,86 +5,62 @@ import PostCard from "../components/cards/post-card";
 import PostSkeletonCard from "../components/cards/post-skeleton-card";
 import {useEffect, useState} from "react";
 import Pagination from "../components/partials/pagination";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSun, faBurn, faSignal} from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/navbar";
 import {GroupService} from "../helpers/group-service";
 import Shimmer from "../components/partials/shimmer";
 import {useRouter} from "next/router";
 import {PostService} from "../helpers/post-service";
 import {Cookies} from "react-cookie";
+import {PaginatedResponseInterface} from "../domain/paginated-response.interface";
+import {PostExcerptInterface} from "../domain/post-excerpt.interface";
 
-export default function Home(props: { response: any, groupUuid: any, page: any }) {
-
-    const [type, setType] = useState(0);
+export default function FrontPage(props: { paginatedResponse: PaginatedResponseInterface<PostExcerptInterface>, groupUuid?: string, page?: string }) {
     const [selectedGroupUuid, setSelectedGroupUuid] = useState(props.groupUuid);
-    const [isLoading, setIsLoading] = useState(!props.response);
-    const [response, setResponse]: [any, any] = useState(!!props.response ? props.response : {
-        data: [],
-        meta: {total: 0}
-    });
-
+    const [isLoading, setIsLoading] = useState(!props.paginatedResponse);
+    const [paginatedResponse, setPaginatedResponse]: [PaginatedResponseInterface<PostExcerptInterface> | null, any] = useState(props.paginatedResponse);
 
     useEffect(() => {
-        if (!props.response) {
-            setIsLoading(true);
-
-
-            if (props.page && props.page !== "1") {
-                PostService.getFeed({page: props.page}).then((response: any) => {
-                    setResponse(response.data);
-                    setIsLoading(false);
-                });
-            } else {
-                Promise.all([PostService.getPinnedPosts({
-                    groupUuid: props.groupUuid ?? null,
-                }), PostService.getFeed({
-                    groupUuid: props.groupUuid ?? null,
-                    page: props.page ?? null
-                })]).then((responses) => {
-                    const result = responses[1].data;
-                    result.data = [...responses[0].data.data, ...result.data];
-
-                    setResponse(result);
-                    setIsLoading(false);
-                });
-            }
+        if (!props.paginatedResponse) {
+            refresh({groupUuid: props.groupUuid, page: props.page});
         }
-
     }, []);
 
-    const onGroupChange = (groupUuid: any) => {
+    const refresh = (query: { groupUuid?: string, page?: string }) => {
         setIsLoading(true);
+
+        PostService.getCombinedFeed({groupUuid: query.groupUuid, page: query.page})
+            .then((response) => {
+                setPaginatedResponse(response);
+                setIsLoading(false);
+            });
+    }
+
+    const onGroupChange = (groupUuid: string) => {
         setSelectedGroupUuid(groupUuid);
+        refresh({groupUuid, page: "1"});
+    }
 
-        Promise.all([PostService.getPinnedPosts({
-            groupUuid: groupUuid ?? null,
-        }), PostService.getFeed({groupUuid: groupUuid ?? null, page: 1})]).then((responses) => {
-            const result = responses[1].data;
-            result.data = [...responses[0].data.data, ...result.data];
-
-            setResponse(result);
-            setIsLoading(false);
-        });
+    const onPageChange = (page: string) => {
+        refresh({groupUuid: paginatedResponse?.meta?.query?.groupUuid ?? null, page});
     }
 
     const showPosts = () => {
         return (
             <div>
-                {response.data.map((post: any, index: number) => {
+                {paginatedResponse.data.map((post: any, index: number) => {
                     return (
-                        <div key={index} className={response.data.length - 1 !== index ? 'mb-3' : ''}>
+                        <div key={index} className={paginatedResponse.data.length - 1 !== index ? 'mb-3' : ''}>
                             <PostCard postExcerpt={post}/>
                         </div>
                     )
                 })}
 
                 {
-                    response.data.length === 0 ? <ShowEmptyState/> : null
+                    paginatedResponse.data.length === 0 ? <ShowEmptyState/> : null
                 }
 
                 <div className="mt-6">
-                    <Pagination onPageChange={onPageChange} response={response}/>
+                    <Pagination onPageChange={onPageChange} response={paginatedResponse}/>
                 </div>
             </div>
         );
@@ -100,15 +76,6 @@ export default function Home(props: { response: any, groupUuid: any, page: any }
             )
         })
     };
-
-    const onPageChange = (page: number) => {
-        setIsLoading(true);
-
-        PostService.getFeed({page: page}).then((response) => {
-            setResponse(response.data);
-            setIsLoading(false);
-        })
-    }
 
     return (
         <div>
@@ -247,25 +214,17 @@ export async function getServerSideProps(context: any) {
     const cookies = new Cookies(context.req, context.res)
     const isAuth = cookies.getAll().cookies.auth;
     const {groupUuid, page} = context.query;
+
     let result = null;
 
     if (!isAuth) {
-        if (page && page !== "1") {
-            result = (await PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})).data;
-        } else {
-            const [pins, feed] = await Promise.all([PostService.getPinnedPosts({
-                groupUuid: groupUuid ?? null,
-            }), PostService.getFeed({groupUuid: groupUuid ?? null, page: page ?? null})]);
-
-            result = feed.data;
-            result.data = [...pins.data.data, ...result.data];
-        }
+        result = await PostService.getCombinedFeed({groupUuid, page});
     }
 
     return {
         props: {
-            response: result,
-            page: page ?? null,
+            paginatedResponse: result,
+            page: page ?? "1",
             groupUuid: groupUuid ?? null,
         },
     }

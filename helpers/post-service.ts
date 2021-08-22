@@ -1,17 +1,39 @@
 import {ApiClient} from "./api-client";
-
+import {PaginatedResponseInterface} from "../domain/paginated-response.interface";
+import {PostInterface} from "../domain/post.interface";
+import {SingleResponseInterface} from "../domain/single-response.interface";
+import {PostExcerptInterface} from "../domain/post-excerpt.interface";
+import {AxiosResponse} from "axios";
 
 
 export namespace PostService {
-    export function getFeed(query?: { groupUuid?: any, page?: any }) {
+    export function getCombinedFeed(query: { groupUuid?: string, page?: string }): Promise<AxiosResponse<PaginatedResponseInterface<PostExcerptInterface>>> {
+        const groupUuid = query.groupUuid;
+        const page = query.page ?? "1";
+
+        if (page && page != '1') {
+            return PostService.getFeed({groupUuid, page}).then((response) => response.data).then();
+        }
+
+        return Promise.all([
+            PostService.getPinnedPosts({groupUuid}),
+            PostService.getFeed({groupUuid, page})
+        ]).then((responses) => {
+            const result = {...responses[1].data};
+            result.data = [...responses[0].data.data, ...result.data];
+            return result
+        }).then();
+    }
+
+    export function getFeed(query?: { groupUuid?: string, page?: string }): Promise<AxiosResponse<PaginatedResponseInterface<PostExcerptInterface>>> {
         return ApiClient.get('/api/feed', {params: query});
     }
 
-    export function getPinnedPosts(query: { groupUuid: any }) {
+    export function getPinnedPosts(query: { groupUuid?: string }): Promise<AxiosResponse<PaginatedResponseInterface<PostExcerptInterface>>> {
         return ApiClient.get('/api/pinned-posts', {params: query});
     }
 
-    export function getPost(slug: string) {
+    export function getPost(slug: string): Promise<AxiosResponse<SingleResponseInterface<PostInterface>>> {
         return ApiClient.get('/api/posts/' + slug);
     }
 
