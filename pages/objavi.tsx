@@ -14,6 +14,7 @@ import Joi from "joi";
 import {FormHelper} from "../helpers/form";
 import {PostService} from "../helpers/post-service";
 import {useRouter} from "next/router";
+import MarkdownInstructions from "../components/partials/markdown-instructions";
 
 export default function SubmitContent() {
     const auth = useAuth();
@@ -192,6 +193,8 @@ export default function SubmitContent() {
                                            value={form.link}/>
                             </div> : null
                         }
+
+                        <MarkdownInstructions/>
 
                         <div className="mt-10 text-right">
                             <button className="btn btn-primary" type="submit"

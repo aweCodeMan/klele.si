@@ -1,13 +1,17 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faEye} from "@fortawesome/free-regular-svg-icons";
+
 export default function MarkdownInstructions() {
     return (
         <>
-            <div className="flex flex-col">
+            <div className="flex flex-col bg-light-gray">
                 <div className="flex flex-row">
                     <div className="text-center font-bold text-sm border p-1 flex-1">
-                        <h3>Napišeš...</h3>
+                        <h3><FontAwesomeIcon icon={faPencilAlt} className={'mr-1'}/>Napišeš...</h3>
                     </div>
                     <div className="text-center font-bold text-sm border p-1 flex-1">
-                        <h3>Vidiš...</h3>
+                        <h3><FontAwesomeIcon icon={faEye} className={'mr-1'}/>Vidiš...</h3>
                     </div>
                 </div>
 

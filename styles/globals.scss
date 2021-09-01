@@ -66,6 +66,20 @@ textarea:disabled, input:disabled, select:disabled {
   animation-timing-function: linear;
 }
 
+.prose {
+  ul > li::before {
+    background: black;
+  }
+
+  blockquote {
+    border-left-color: #CBCBCB;
+  }
+
+  pre {
+    @apply rounded-none;
+  }
+}
+
 @keyframes shimmer {
   from {
     background-position: -1000px;
