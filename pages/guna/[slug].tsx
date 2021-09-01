@@ -151,11 +151,6 @@ export default function Guna(props: { post: PostInterface, slug: string }) {
                         isShowingSubmitComment ? <div className="card">
                             <SubmitComment onSubmit={(comment: any) => commentAdded(comment)}
                                            rootUuid={post.uuid}/>
-
-                            <div className="mt-4 card">
-                                <MarkdownInstructions/>
-                            </div>
-
                         </div> : null
                     }
 

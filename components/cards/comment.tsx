@@ -1,17 +1,13 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeart} from "@fortawesome/free-regular-svg-icons";
 import {faComments} from "@fortawesome/free-solid-svg-icons";
-import Author from "./author";
 import {useEffect, useRef, useState} from "react";
 import SubmitComment from "../partials/submit-comment";
-import {TimeUtil} from "../../helpers/time-util";
 import {CommentInterface} from "../../domain/comment.interface";
 import AuthorMeta from "../partials/author-meta";
 import Score from "../partials/score";
 import {useAuth} from "../../contexts/auth";
 import {PostService} from "../../helpers/post-service";
 import {PostInterface} from "../../domain/post.interface";
-import MarkdownInstructions from "../partials/markdown-instructions";
 
 export default function Comment(props: { comment: CommentInterface, replyAdded: Function, post: PostInterface, container?: any }) {
     const auth = useAuth();
@@ -88,7 +84,9 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                     <div className="flex flex-row items-center">
                         <AuthorMeta author={comment.author} updatedAt={comment.updatedAt} createdAt={comment.createdAt}
                                     tag={props.post.author.uuid === comment.author.uuid ? <AuthorTag/> : null}
-                                    emphasizeAuthor={true}/>
+                                    emphasizeAuthor={true}
+                                    timeSuffix={(comment.createdAt != comment.updatedAt) ? '(posodobljeno)' : ''}
+                        />
                     </div> : null}
 
                 {!isEditingComment ?
@@ -123,10 +121,6 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                 isReplying ? <div className="ml-8 mb-8">
                     <SubmitComment onSubmit={onReplyAdded} onCancel={closeReply} parentUuid={comment.uuid}
                                    rootUuid={comment.rootUuid}/>
-
-                    <div className="mt-4 card">
-                        <MarkdownInstructions/>
-                    </div>
                 </div> : undefined
             }
 
