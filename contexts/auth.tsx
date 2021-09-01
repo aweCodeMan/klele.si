@@ -112,6 +112,10 @@ function useProvideAuth() {
         setIsAuthModalOpened(false);
     }
 
+    const hasPermission = (permission: string) => {
+        return user && user.permissions.indexOf(permission) !== -1;
+    }
+
     return {
         user,
         login,
@@ -125,6 +129,7 @@ function useProvideAuth() {
         closeAuthModal,
         isAuthModalOpened,
         modalType,
+        hasPermission,
     };
 }
 

@@ -41,6 +41,18 @@ export namespace PostService {
         return ApiClient.delete(`/api/comments/${commentUuid}`);
     }
 
+    export function restoreComment(commentUuid: string) {
+        return ApiClient.post(`/api/comments/${commentUuid}/restore`);
+    }
+
+    export function lockComment(commentUuid: string) {
+        return ApiClient.post(`/api/comments/${commentUuid}/lock`);
+    }
+
+    export function unlockComment(commentUuid: string) {
+        return ApiClient.post(`/api/comments/${commentUuid}/unlock`);
+    }
+
     export function updateComment(commentUuid: string, data: { markdown: string }) {
         return ApiClient.put(`/api/comments/${commentUuid}`, data);
     }
