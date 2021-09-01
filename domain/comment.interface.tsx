@@ -11,6 +11,7 @@ export interface CommentInterface {
     comments: CommentInterface[];
     score: ScoreInterface;
     voted?: number | null;
+    lockedAt: string;
     createdAt: string;
     updatedAt: string;
     deletedAt: string;

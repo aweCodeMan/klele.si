@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faComments} from "@fortawesome/free-solid-svg-icons";
+import {faComments, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
 import SubmitComment from "../partials/submit-comment";
 import {CommentInterface} from "../../domain/comment.interface";
@@ -70,13 +70,26 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
         return null;
     }
 
+    const showContent = () => {
+        if (comment.deletedAt) {
+            return <div className={'text-gray flex flex-row items-center'}>
+                <FontAwesomeIcon icon={faTrashAlt}  className={'mr-2 text-sm'}/>
+                <div className="mt-2 mb-2" dangerouslySetInnerHTML={{__html: comment.html}}/>
+            </div>
+        }
+
+        return <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/>
+    }
+
     return (
         <div ref={start}>
             {
                 props.container ? (lineSize == 0 ? <><Bend/>
-                    <div className={'absolute bg-gray w-1 -mt-6'} style={{height: '18px', marginLeft: '-25px'}}></div>
-                </> : <><Bend/><div className={'absolute bg-gray w-1 -mt-6'}
-                           style={{height: lineSize + 'px', marginTop: -1 * (lineSize + 8) + 'px', marginLeft: '-25px'}}></div></>) : null
+                    <div className={'absolute bg-gray w-1 -mt-6'} style={{height: '18px', marginLeft: '-25px'}}/>
+                </> : <><Bend/>
+                    <div className={'absolute bg-gray w-1 -mt-6'}
+                         style={{height: lineSize + 'px', marginTop: -1 * (lineSize + 8) + 'px', marginLeft: '-25px'}}/>
+                </>) : null
             }
 
             <div className={'flex flex-col mb-6'}>
@@ -90,7 +103,7 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
                     </div> : null}
 
                 {!isEditingComment ?
-                    <div className="prose mt-3 mb-4" dangerouslySetInnerHTML={{__html: comment.html}}/> :
+                    showContent() :
                     <div className="mt-2 mb-4"><SubmitComment onSubmit={(comment: any) => updateComment(comment)}
                                                               editComment={comment}
                                                               onCancel={() => setIsEditingComment(false)}/></div>
