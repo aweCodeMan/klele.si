@@ -95,27 +95,23 @@ export default function SubmitComment(props: { onSubmit: Function, onCancel?: Fu
                 )
             }
 
-            <div className="border border-black flex flex-col md:flex-row p-2 md:justify-between">
+            <div className="border border-black flex flex-col sm:flex-row p-2 sm:justify-between">
 
-                <div className={'flex flex-col md:flex-row items-center'}>
-                    <button className="btn btn-sm btn-outline flex-1 md:flex-auto" onClick={toggleInstructions}
+                <div className={'flex flex-col sm:flex-row items-center'}>
+                    <button className="btn btn-sm btn-outline flex-1 sm:flex-auto" onClick={toggleInstructions}
                             style={{width: '150px'}}>
                         <span className="text-xs"><FontAwesomeIcon icon={faHashtag} className={'mr-2'}/></span>
                         {!isShowingInstruction ? 'Prikaži navodila' : 'Skrij navodila'}
                     </button>
-
-                    <div className={''}>
-                        <p className="text-sm text-black opacity-50 mx-2 my-2 md:my-0">Uporabljamo Markdown.</p>
-                    </div>
                 </div>
 
                 <div className={'flex flex-row flex-wrap'}>
-                    {!inPreview ? <button className="btn btn-sm btn-outline mr-2 flex-1 md:flex-auto" onClick={showPreview}
+                    {!inPreview ? <button className="btn btn-sm btn-outline mr-2 flex-1 sm:flex-auto" onClick={showPreview}
                                           disabled={!canSubmit()}>Predogled
-                    </button> : <button className="btn btn-sm btn-outline mr-2 flex-1 md:flex-auto" onClick={hidePreview}>Uredi</button>}
+                    </button> : <button className="btn btn-sm btn-outline mr-2 flex-1 sm:flex-auto" onClick={hidePreview}>Uredi</button>}
                     {props.onCancel ? <button className="btn-sm btn btn-link mr-2"
                                               onClick={cancel}>Prekliči</button> : undefined}
-                    <button className="btn btn-sm btn-primary flex-1 md:flex-auto" onClick={submit}
+                    <button className="btn btn-sm btn-primary flex-1 sm:flex-auto" onClick={submit}
                             disabled={!canSubmit()}>{props.editComment ? 'Posodobi' : 'Komentiraj'}
                     </button>
                 </div>
