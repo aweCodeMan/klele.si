@@ -194,7 +194,9 @@ export default function SubmitContent() {
                             </div> : null
                         }
 
-                        <MarkdownInstructions/>
+                        {
+                            form.postType === 0 ? <MarkdownInstructions/>: null
+                        }
 
                         <div className="mt-10 text-right">
                             <button className="btn btn-primary" type="submit"
