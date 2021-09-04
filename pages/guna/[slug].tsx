@@ -253,7 +253,6 @@ function LinkCard(props: { post: PostInterface }) {
 
 function PostSkeleton() {
     return <>
-        <Navbar/>
         <main className={'my-6 flex flex-col'}>
             <div className="container mx-auto" style={{maxWidth: '780px'}}>
                 <div className="mb-6 flex flex-row justify-between items-center">

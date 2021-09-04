@@ -145,7 +145,7 @@ export default function Comment(props: { comment: CommentInterface, replyAdded: 
     }
 
     return (
-        <div ref={start}>
+        <div ref={start} id={props.comment.uuid}>
             {
                 props.container ? (lineSize == 0 ? <><Bend/>
                     <div className={'absolute bg-gray w-1 -mt-6'} style={{height: '18px', marginLeft: '-25px'}}/>
