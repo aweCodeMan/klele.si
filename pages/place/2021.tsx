@@ -30,6 +30,13 @@ export default function Salary2021() {
             <Head>
                 <title>Plače slovenskih razvijalcev 2021 | Klele.si</title>
                 <meta name="description" content="Raziskava o plačah slovenskih razvijalcev za leto 2021."/>
+                <meta property="og:title" content="Plače slovenskih razvijalcev 2021 | Klele.si"/>
+                <meta property="og:description" content="Raziskava o plačah slovenskih razvijalcev za leto 2021."/>
+                <meta property="og:image" content="/images/favicon.png"/>
+                <meta property="og:url" content="https://klele.si/place/2021"/>
+                <meta name="twitter:card" content="summary_large_image"/>
+
+                <meta property="og:site_name" content="Klele.si"/>
             </Head>
 
             <Navbar/>
@@ -102,10 +109,11 @@ export default function Salary2021() {
                             <p>Še vedno krepko prednačijo pogodbe za nedoločen čas (<b>92,5%</b>) s polnim delovnim
                                 časom (<b>98,7%</b>). </p>
                             <p>Najbolj zanimiva sprememba je v tem, da le
-                            še <b>9,9%</b> razvijalcem delodajalec <b>ne</b> omogoča dela na daljavo. Pred dvema
-                            letoma je bil ta odstotek <b>44%</b>, lansko leto <b>25%</b>. Vsako leto se tako skorajda prepolovi odstotek delodajalcev, ki ne omogočajo dela na daljavo.
-                            <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skorajda tretjina
-                            (<b>27,3%</b>) za polni delovni čas.</p>
+                                še <b>9,9%</b> razvijalcem delodajalec <b>ne</b> omogoča dela na daljavo. Pred dvema
+                                letoma je bil ta odstotek <b>44%</b>, lansko leto <b>25%</b>. Vsako leto se tako
+                                skorajda prepolovi odstotek delodajalcev, ki ne omogočajo dela na daljavo.
+                                <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skorajda tretjina
+                                (<b>27,3%</b>) za polni delovni čas.</p>
 
                             <p>Slovenski razvijalci še vedno v veliki meri opravljajo delo za slovenskega
                                 delodajalca
@@ -192,7 +200,8 @@ export default function Salary2021() {
                                     (11,3%)</b> za polovični delavnik (20 ur), preostali niso delali oz. so delali
                                 manj kot 20 ur na teden.</p>
 
-                            <p>V vsakem primeru je študentska populacija aktiven kader znotraj trga tehničega razvoja.</p>
+                            <p>V vsakem primeru je študentska populacija aktiven kader znotraj trga tehničega
+                                razvoja.</p>
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/student_poklicna_leta.png"
@@ -266,7 +275,8 @@ export default function Salary2021() {
                                 3499€. </p><p>Če te je lansko leto 4000€ spravilo v top ~13% zaslužkarjev, ta znesek
                             letos predstavlja top <b>~18%</b>.</p>
 
-                            <p><b>Plače so šle gor. </b>Kako velik skok je težko reči, saj je odvisno od tega za katere zneske
+                            <p><b>Plače so šle gor. </b>Kako velik skok je težko reči, saj je odvisno od tega za katere
+                                zneske
                                 govorimo. Načeloma vsaj 10% manj ljudi letos zasluži manj 2000€, in pa kar ~5% več ljudi
                                 zasluži več kot 4000€.</p>
 
@@ -274,7 +284,9 @@ export default function Salary2021() {
                                 slovenskega razvijalca. Zaradi narave spletne ankete in morebitnega netočnega
                                 zbiranja podatkov (ljudje ne razlikujejo med BRUTO in NETO plačo, hkrati pa velikokrat
                                 pri BRUTO plači štejejo tudi povračilo stroškov prevoza in malice), poglobljenih analiz
-                                tudi letos ne bo, saj bodo zaključki netočni in povzročili več težav kot koristi. Pri tako malem številu anketirancev je večja nevarnost napačno sklepanje iz pomanjkljivega vzorca kot pa uvid, ki ga bi kaka poglobljena analiza znala prinesti.</p>
+                                tudi letos ne bo, saj bodo zaključki netočni in povzročili več težav kot koristi. Pri
+                                tako malem številu anketirancev je večja nevarnost napačno sklepanje iz pomanjkljivega
+                                vzorca kot pa uvid, ki ga bi kaka poglobljena analiza znala prinesti.</p>
 
                             <p><b>Čisto brez heca.</b> Še enkrat, zgornje opozorilo je treba vedno imeti v mislih, ko
                                 se pogovarjate o izsledkih te ankete.</p>
@@ -293,9 +305,12 @@ export default function Salary2021() {
                             <p>Nekaj podobnosti z lanskim letom, saj večina (<b>51%</b>) jih ima manj kot 5 let delovnih
                                 izkušenj (lansko leto je bil ta odstotek 52%).</p>
 
-                            <p>Kar je zanimivo je to, da lansko leto je bil odstotek začetnikov za <b>40%</b> manjši od tistih, ki že imajo nekaj izkušenj (1-2 leti izkušenj). Letos je ta trend obrnjen, saj imamo enako oz. več začetnikov kot pa tistih z vsaj enim letom izkušenj. Kljub
+                            <p>Kar je zanimivo je to, da lansko leto je bil odstotek začetnikov za <b>40%</b> manjši od
+                                tistih, ki že imajo nekaj izkušenj (1-2 leti izkušenj). Letos je ta trend obrnjen, saj
+                                imamo enako oz. več začetnikov kot pa tistih z vsaj enim letom izkušenj. Kljub
                                 temu, da vzrokov za več začetnikov nisem preučeval, predvidevam, da gre za razgret trg
-                                delovne sile in predvsem pomanjkanja delovne sile in zaradi same narave je poklic razvijalca precej atraktiven.</p>
+                                delovne sile in predvsem pomanjkanja delovne sile in zaradi same narave je poklic
+                                razvijalca precej atraktiven.</p>
 
                             <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-1/2 md:pr-2">
