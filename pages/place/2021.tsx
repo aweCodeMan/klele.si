@@ -67,12 +67,13 @@ export default function Salary2021() {
 
                             <p>Vsako leto v <a href="https://www.facebook.com/groups/developerji"
                                                rel="nofollow noreferrer" target="_blank">Facebook skupini Slovenski
-                                developerji</a> objavim anketo o plačah razvijalcev. Letošnja raziskava je tako že
-                                četrta.</p>
+                                developerji</a> objavim anketo o plačah slovenskih razvijalcev z namenom osmišljanja
+                                trga delovne sile na področju tehničnega razvoja. Letošnja raziskava je že
+                                četrta. </p>
 
                             <p>Število vseh odgovorov: <b>1436</b></p>
 
-                            <p>Povezave do poročil za prejšnja leta:</p>
+                            <p>Povezave do anket prejšnih let:</p>
                             <ul>
                                 <li><a
                                     href="https://medium.com/@mihec.susnik/pla%C4%8De-razvijalcev-2020-f7c719704ab2"
@@ -99,11 +100,12 @@ export default function Salary2021() {
                                 full-stack razvijalec.</p>
 
                             <p>Še vedno krepko prednačijo pogodbe za nedoločen čas (<b>92,5%</b>) s polnim delovnim
-                                časom (<b>98,7%</b>). Najbolj zanimiva sprememba je v tem, da le
-                                še <b>9,9%</b> razvijalcem delodajalec <b>ne</b> omogoča dela na daljavo. Pred dvema
-                                letoma je bil ta odstotek <b>44%</b>, lansko leto <b>25%</b>.
-                                Kar <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skorajda tretjina
-                                (<b>27,3%</b>) za polni delovni čas.</p>
+                                časom (<b>98,7%</b>). </p>
+                            <p>Najbolj zanimiva sprememba je v tem, da le
+                            še <b>9,9%</b> razvijalcem delodajalec <b>ne</b> omogoča dela na daljavo. Pred dvema
+                            letoma je bil ta odstotek <b>44%</b>, lansko leto <b>25%</b>. Vsako leto se tako skorajda prepolovi odstotek delodajalcev, ki ne omogočajo dela na daljavo.
+                            <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skorajda tretjina
+                            (<b>27,3%</b>) za polni delovni čas.</p>
 
                             <p>Slovenski razvijalci še vedno v veliki meri opravljajo delo za slovenskega
                                 delodajalca
@@ -124,7 +126,7 @@ export default function Salary2021() {
 
                             <p>V praksi to pomeni, da se je v zadnjem letu zgodil premik navzgor, ki resda ni
                                 premaknil
-                                mediane (ta je še vedno med 2500-2999€), a je čez celotno skalo povečal število
+                                mediane (ta je še vedno med 2500€ - 2999€), a je čez celotno skalo povečal število
                                 anketirancev, ki spadajo v posamezne plačne razrede. Če v zadnjem letu ali dveh
                                 niste prejeli povišice, je morda čas zanjo.</p>
 
@@ -132,7 +134,7 @@ export default function Salary2021() {
                                 je <b>81,3%</b> takih, ki bi jih lahko šteli pod ekonomsko odvisne osebe (en
                                 naročnik predstavlja več kot 80% letnega prihodka), še vedno je
                                 le <b>37,5%</b> njihovih naročnikov slovenskih in v večini delajo za tuji trg
-                                (slovenski trg predstavlja le <b>26,2%</b>). </p>
+                                (slovenski trg predstavlja primarno tržišče le <b>26,2%</b>). </p>
 
                             <h3>Kazalo</h3>
 
@@ -190,6 +192,8 @@ export default function Salary2021() {
                                     (11,3%)</b> za polovični delavnik (20 ur), preostali niso delali oz. so delali
                                 manj kot 20 ur na teden.</p>
 
+                            <p>V vsakem primeru je študentska populacija aktiven kader znotraj trga tehničega razvoja.</p>
+
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/student_poklicna_leta.png"
                                  alt="Graf za število let poklicnega programiranja"/>
@@ -210,8 +214,8 @@ export default function Salary2021() {
 
                             <p>Najbolj pogosta plača (modus) študentov je med 6,0€ - 6,99€, saj jih za to postavko
                                 delo opravlja <b>44 (29,1%)</b>. Zatem sledi postavka 7,0€ - 7,99€ (<b>29, 19,2%</b>),
-                                in 8,0€ - 8,99€ ter 9,0€ - 9,99€ (obe po <b>15, 9,9)</b>. Kar je zanimivo, da
-                                postavko 10,0 - 10,99€ je izbralo <b>20 (13,2%)</b>, kar lahko nakazuje na
+                                in 8,0€ - 8,99€ ter 9,0€ - 9,99€ (obe po <b>15, 9,9%)</b>. Kar je zanimivo, da je
+                                postavko 10,0 - 10,99€ izbralo <b>20 (13,2%)</b>, kar lahko nakazuje na
                                 psihološko ceno oz. na cenovni razdelek postavljen na ~10€ NETO na uro.</p>
 
                             <h2 id="redna-zaposlitev">Redna zaposlitev</h2>
@@ -256,44 +260,42 @@ export default function Salary2021() {
                                 za tromesečje, julij 2021).</p>
 
                             <p>Mediana ostaja še vedno med <b>2500€ - 2999€</b>, kar v praksi pomeni, da 50% zaposlenih
-                                ima še vedno manjšo plačo 3000€. Pomembno je, da se je zmanjšal delež zaposlenih, ki
+                                ima še vedno manjšo plačo od 3000€. Pomembno je, da se je zmanjšal delež zaposlenih, ki
                                 imajo manj kot 2500€ plače. Leta 2020 jih je bilo takih <b>47,7%</b>, letos le
                                 še <b>36,9%</b>, ob takem trendu bi naslednje leto mediana bila že lahko med 3000€ in
                                 3499€. </p><p>Če te je lansko leto 4000€ spravilo v top ~13% zaslužkarjev, ta znesek
-                            letos predstavlja top <b>~18</b>.</p>
+                            letos predstavlja top <b>~18%</b>.</p>
 
-                            <p>Plače so šle gor. Kako velik skok je težko reči, saj je odvisno od tega za katere zneske
+                            <p><b>Plače so šle gor. </b>Kako velik skok je težko reči, saj je odvisno od tega za katere zneske
                                 govorimo. Načeloma vsaj 10% manj ljudi letos zasluži manj 2000€, in pa kar ~5% več ljudi
                                 zasluži več kot 4000€.</p>
 
                             <p>Kot vsako leto moram tudi letos opozoriti na težavo, ko govorimo o “povprečni” plači
-                                slovenskega razvijalca/ke. Zaradi narave spletne ankete in morebitnega netočnega
+                                slovenskega razvijalca. Zaradi narave spletne ankete in morebitnega netočnega
                                 zbiranja podatkov (ljudje ne razlikujejo med BRUTO in NETO plačo, hkrati pa velikokrat
                                 pri BRUTO plači štejejo tudi povračilo stroškov prevoza in malice), poglobljenih analiz
-                                tudi letos ne bo, saj bodo zaključki netočni in povzročili več težav kot koristi.</p>
+                                tudi letos ne bo, saj bodo zaključki netočni in povzročili več težav kot koristi. Pri tako malem številu anketirancev je večja nevarnost napačno sklepanje iz pomanjkljivega vzorca kot pa uvid, ki ga bi kaka poglobljena analiza znala prinesti.</p>
 
-                            <p><b>Čisto brez heca.</b> Še enkrat, zgornje opozorilo je treba vedno imeti v ospredju, ko
-                                se pogovarjate o izsledkih te ankete. Vem, da me boste v vsakem primeru čez zobe vlačli,
-                                da so plače previsoke (za delodajalce) ali prenizke (za zaposlene).</p>
+                            <p><b>Čisto brez heca.</b> Še enkrat, zgornje opozorilo je treba vedno imeti v mislih, ko
+                                se pogovarjate o izsledkih te ankete.</p>
 
                             <h3>Zakaj NETO plača ni pomembna?</h3>
 
                             <p>NETO plača je tista plača, ki jo dobi posameznik nakazano na bančni račun. Znesek NETO
                                 plače je prilagojen vsakemu posamezniku, saj je odvisen od olajšav, števila vzdrževanih
                                 otrok in drugih družinskih članov. Zaradi tega je NETO plača lahko zavajajoča, saj se
-                                razlikuje od osebe do osebe, medtem ko je BRUTO vedno plača enaka.</p>
+                                razlikuje od osebe do osebe, medtem ko je BRUTO vedno enaka.</p>
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/zaposlitev_let_poklicnega_programiranja.png"
                                  alt="Graf za leta poklicnega programiranja za zaposlene"/>
 
                             <p>Nekaj podobnosti z lanskim letom, saj večina (<b>51%</b>) jih ima manj kot 5 let delovnih
-                                izkušenj (lansko leto je bil ta odstotek 52%). Kar je zanimivo je to, da lansko leto je
-                                bilo začetnikov (manj kot 1 leto izkušenj) za skoraj 40% manj kot tistih, ki že
-                                programirajo vsaj 1 leto, medtem ko letos imamo več začetnikov (manj kot 1 leto). Kljub
+                                izkušenj (lansko leto je bil ta odstotek 52%).</p>
+
+                            <p>Kar je zanimivo je to, da lansko leto je bil odstotek začetnikov za <b>40%</b> manjši od tistih, ki že imajo nekaj izkušenj (1-2 leti izkušenj). Letos je ta trend obrnjen, saj imamo enako oz. več začetnikov kot pa tistih z vsaj enim letom izkušenj. Kljub
                                 temu, da vzrokov za več začetnikov nisem preučeval, predvidevam, da gre za razgret trg
-                                delovne sile in predvsem pomanjkanja delovne sile in zaradi tega je poklic razvijalca
-                                precej atraktiven.</p>
+                                delovne sile in predvsem pomanjkanja delovne sile in zaradi same narave je poklic razvijalca precej atraktiven.</p>
 
                             <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-1/2 md:pr-2">
