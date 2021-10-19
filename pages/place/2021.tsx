@@ -327,7 +327,7 @@ export default function Salary2021() {
 
                             <p>Večina tistih, ki svoje delo opravljalo prek s.p., imajo znake prekarnega dela oz. bi
                                 znale biti ekonomsko odvisne osebe (1 naročnik predstavlja več kot 80% letnega dohodka
-                                in hkrati ne zaposljuje nobene osebe), saj za kar <b>81,3%</b> anketirancev največji
+                                in hkrati ne zaposluje nobene osebe), saj za kar <b>81,3%</b> anketirancev največji
                                 naročnik predstavlja več kot 70% letnega prihodka, za <b>29,9%</b> odstotek pa kar 100%
                                 letnega prihodka.</p>
 
