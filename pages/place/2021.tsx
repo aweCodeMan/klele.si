@@ -32,7 +32,7 @@ export default function Salary2021() {
                 <meta name="description" content="Raziskava o plačah slovenskih razvijalcev za leto 2021."/>
                 <meta property="og:title" content="Plače slovenskih razvijalcev 2021 | Klele.si"/>
                 <meta property="og:description" content="Raziskava o plačah slovenskih razvijalcev za leto 2021."/>
-                <meta property="og:image" content="/images/favicon.png"/>
+                <meta property="og:image" content="/images/place/2021/zaposlitev_placa.png"/>
                 <meta property="og:url" content="https://klele.si/place/2021"/>
                 <meta name="twitter:card" content="summary_large_image"/>
 
@@ -100,7 +100,7 @@ export default function Salary2021() {
                                 spremenile. Še vedno je <b>70%</b> razvijalcev redno zaposlenih, <b>18,2%</b> jih
                                 delo
                                 opravlja primarno prek s.p., medtem ko <b>10,5%</b> svoje plačilo prejema prek
-                                študentske napotnice. Podobno kot lansko leto se tudi letos večina razvijalcev
+                                študentske napotnice. Podobno kot lansko leto, se tudi letos večina razvijalcev
                                 ukvarja s
                                 spletnim razvojem, saj se jih je kar <b>55,1%</b> označilo kot front-end, back-end
                                 ali
@@ -111,18 +111,17 @@ export default function Salary2021() {
                             <p>Najbolj zanimiva sprememba je v tem, da le
                                 še <b>9,9%</b> razvijalcem delodajalec <b>ne</b> omogoča dela na daljavo. Pred dvema
                                 letoma je bil ta odstotek <b>44%</b>, lansko leto <b>25%</b>. Vsako leto se tako
-                                skorajda prepolovi odstotek delodajalcev, ki ne omogočajo dela na daljavo.
-                                <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skorajda tretjina
+                                skorajda prepolovi odstotek delodajalcev, ki ne omogoča dela na daljavo. <b>68,5%</b> razvijalcev opravlja delo na daljavo, medtem ko skoraj tretjina
                                 (<b>27,3%</b>) za polni delovni čas.</p>
 
                             <p>Slovenski razvijalci še vedno v veliki meri opravljajo delo za slovenskega
                                 delodajalca
-                                (<b>76,7%</b>), ki pa primarno deluje in trži svoje storitve in produkte na tujem
+                                (<b>76,7%</b>), ki pa primarno deluje in trži svoje storitve ter produkte na tujem
                                 trgu,
                                 saj je primarno tržišče Slovenija le <b>46%</b> delodajalcem.</p>
 
-                            <p>Plače so šle gor. Za primerjavo dajem razpone plače in odstotek anketirancev, ki so
-                                izbrali dotični razpon za zadnje tri leta.</p>
+                            <p>Plače so se dvignile. Za primerjavo dajem razpone plač in odstotek anketirancev, ki so
+                                izbrali dotični razpon za zadnja tri leta.</p>
 
                             <ul>
                                 <li>1500–1999€ (17,5% v 2019 | 16,9% v 2020 | <b>12,2%</b> v 2021)</li>
@@ -135,12 +134,10 @@ export default function Salary2021() {
                             <p>V praksi to pomeni, da se je v zadnjem letu zgodil premik navzgor, ki resda ni
                                 premaknil
                                 mediane (ta je še vedno med 2500€ - 2999€), a je čez celotno skalo povečal število
-                                anketirancev, ki spadajo v posamezne plačne razrede. Če v zadnjem letu ali dveh
-                                niste prejeli povišice, je morda čas zanjo.</p>
+                                anketirancev, ki spadajo v posamezen razpon.</p>
 
-                            <p>Med s.p.jevci podobno kot lansko leto ni večjih razlik, še vedno jih
-                                je <b>81,3%</b> takih, ki bi jih lahko šteli pod ekonomsko odvisne osebe (en
-                                naročnik predstavlja več kot 80% letnega prihodka), še vedno je
+                            <p>Med s.p.jevci podobno kot lansko leto ni večjih razlik, še vedno je <b>81,3%</b> takih, ki bi jih lahko šteli pod ekonomsko odvisne osebe (en
+                                naročnik predstavlja več kot 80% letnega prihodka), prav tako ostaja
                                 le <b>37,5%</b> njihovih naročnikov slovenskih in v večini delajo za tuji trg
                                 (slovenski trg predstavlja primarno tržišče le <b>26,2%</b>). </p>
 
@@ -166,17 +163,12 @@ export default function Salary2021() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/prebivam.png" alt="Graf za regijo prebivanja"/>
 
-                            <p>Sestava anketirancev se od lanskega leta ni ravno spremenila, večina anketirancev
+                            <p>Sestava anketirancev se od lanskega leta ni bistveno spremenila, večina anketirancev
                                 prihaja iz osrednjeslovenske regije (<b>656, 45,9%</b>), sledi podravska regija
                                 z <b>211 (14,7%)</b>. Tujino je izbralo <b>52 (3,6%)</b>.</p>
 
-                            <p>Kot vedno imamo tudi letos prezastopanost osrednjeslovenske regije, kar rezultate zna
-                                narediti pristranske, saj so povprečne plače v Ljubljani višje kot v drugih
+                            <p>Tudi letos imamo prezastopanost osrednjeslovenske regije, kar zna vplivati na rezultate ankete, saj so povprečne plače v Ljubljani višje kot v drugih
                                 regijah.</p>
-
-                            <p>Če prihajate iz drugih regij, upoštevajte, da je v vaši regiji najbrž situacija
-                                drugačna.</p>
-
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/starost.png" alt="Graf za starost"/>
@@ -191,10 +183,9 @@ export default function Salary2021() {
                             <img src="/images/place/2021/student_tri_mesece.png"
                                  alt="Graf za zadnje tri mesece študentskega dela"/>
 
-                            <p>Glede na zadnje leto so podatki glede koliko povprečno dela opravijo na teden resda
-                                drugačni, a bolj kot spremembo na trgu to pripisujem času ankete. Vprašanje se glasi
-                                za zadnje tri mesece, in prejšnje ankete so se zgodile v spomladanskem času,
-                                letošnja pa v jesenskem času in je spraševala po obdobju poletnih počitnic, ko imajo
+                            <p>Glede na zadnje leto so podatki o opravljanem tedenskem delu resda
+                                drugačni, a bolj kot spremembi na trgu to pripisujem času izpolnjevanja ankete. Vprašanje se nanaša na zadnje tri mesece; prejšnje ankete so se izvajale v spomladanskem času,
+                                letošnja pa v jesenskem. Letošnja anketa je spraševala po obdobju poletnih počitnic, ko imajo
                                 študentje tudi več časa za delo. Tokrat jih je <b>72 (47,7%)</b> označilo, da so
                                 delalo polni delavnik (40 ur), <b>45 (29,8%)</b> med 20-40 urami, <b>17
                                     (11,3%)</b> za polovični delavnik (20 ur), preostali niso delali oz. so delali
@@ -207,25 +198,24 @@ export default function Salary2021() {
                             <img src="/images/place/2021/student_poklicna_leta.png"
                                  alt="Graf za število let poklicnega programiranja"/>
 
-                            <p>Napram lanskemu letu so tukaj tudi večje spremembe, saj lansko leto je imela večina
-                                študentov do dve leti poklicnih izkušenj, medtem ko letos jih ima več
+                            <p>Napram lanskemu letu so tukaj zaznane večje spremembe, saj je imela večina študentov lani do dve leti poklicnih izkušenj, medtem ko jih ima letos več
                                 kot <b>82%</b> več kot dve leti poklicnih izkušenj.</p>
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/images/place/2021/student_neto_placa.png"
                                  alt="Graf za NETO postavke za študentsko delo"/>
 
-                            <p>Med dijaki/študenti so NETO urne postavke bolj uveljavljene od BRUTO postavk, zato
+                            <p>Med študenti so NETO urne postavke bolj uveljavljene od BRUTO postavk, zato
                                 priporočam <a
                                     href="https://www.studentski-servis.com/podjetja/izracun-stroskov"
-                                    rel="nofollow noreferrer" target="_blank">tale kalkulator</a> za pretvorbo iz
+                                    rel="nofollow noreferrer" target="_blank">ta kalkulator</a> za pretvorbo iz
                                 NETO v BRUTO postavke.</p>
 
                             <p>Najbolj pogosta plača (modus) študentov je med 6,0€ - 6,99€, saj jih za to postavko
                                 delo opravlja <b>44 (29,1%)</b>. Zatem sledi postavka 7,0€ - 7,99€ (<b>29, 19,2%</b>),
                                 in 8,0€ - 8,99€ ter 9,0€ - 9,99€ (obe po <b>15, 9,9%)</b>. Kar je zanimivo, da je
                                 postavko 10,0 - 10,99€ izbralo <b>20 (13,2%)</b>, kar lahko nakazuje na
-                                psihološko ceno oz. na cenovni razdelek postavljen na ~10€ NETO na uro.</p>
+                                psihološko ceno postavljeno na ~10€ NETO na uro.</p>
 
                             <h2 id="redna-zaposlitev">Redna zaposlitev</h2>
 
@@ -236,10 +226,10 @@ export default function Salary2021() {
 
                             <p>Če se je lansko leto začel premik v remote delo, je letos velika večina delodajalcev delo
                                 na daljavo tudi vpeljala. Le še <b>100 (9,9%)</b> zaposlenim
-                                delodajalec <b>ne</b> omogoča delo na daljavo, medtem ko vsem ostalim je to delo
-                                omogočeno. <b>218 (21,6%)</b> se ga ne poslužujejo, čeprav jim je omogočeno.</p>
-                            <p>Razlika s prejšnjim letom je več kot očitna, saj je lansko leto kar 25% odgovorilo, da
-                                jim delo na daljavo ni omogočeno, letos je ta odstotek manjši od 10%. Torej delodalajci,
+                                delodajalec <b>ne</b> omogoča dela na daljavo, medtem ko je vsem ostalim to delo
+                                omogočeno. <b>218 (21,6%)</b> anketirancev se ga ne poslužuje, čeprav jim je omogočeno.</p>
+                            <p>Razlika s prejšnjim letom je očitna, saj je lansko leto kar 25% anketirancev odgovorilo, da
+                                jim delo na daljavo ni omogočeno, letos je ta odstotek manjši od 10%. Delodalajci,
                                 ki ne omogočajo dela na daljavo so bolj izjema kot pravilo.</p>
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -268,17 +258,12 @@ export default function Salary2021() {
                             <p>Za primerjavo je slovenska povprečno BRUTO plača <b>1966,62€</b> (povprečna mesečna plača
                                 za tromesečje, julij 2021).</p>
 
-                            <p>Mediana ostaja še vedno med <b>2500€ - 2999€</b>, kar v praksi pomeni, da 50% zaposlenih
-                                ima še vedno manjšo plačo od 3000€. Pomembno je, da se je zmanjšal delež zaposlenih, ki
-                                imajo manj kot 2500€ plače. Leta 2020 jih je bilo takih <b>47,7%</b>, letos le
-                                še <b>36,9%</b>, ob takem trendu bi naslednje leto mediana bila že lahko med 3000€ in
+                            <p>Mediana ostaja še vedno med <b>2500€ - 2999€</b>, kar v praksi pomeni, da 50% zaposlenih še vedno prejema plačo manjšo od 3000€. Pomemben je zmanjšan delež zaposlenih, katerih plača je manj kot 2500€. Leta 2020 je bilo takih <b>47,7%</b>, letos le
+                                še <b>36,9%</b>, ob takem trendu bi naslednje leto mediana že lahko bila med 3000€ in
                                 3499€. </p><p>Če te je lansko leto 4000€ spravilo v top ~13% zaslužkarjev, ta znesek
                             letos predstavlja top <b>~18%</b>.</p>
 
-                            <p><b>Plače so šle gor. </b>Kako velik skok je težko reči, saj je odvisno od tega za katere
-                                zneske
-                                govorimo. Načeloma vsaj 10% manj ljudi letos zasluži manj 2000€, in pa kar ~5% več ljudi
-                                zasluži več kot 4000€.</p>
+                            <p><b>Plače so višje.</b> Težko je določiti za kakšno rast gre, saj se skok spreminja glede na plačni razpon. Plačo nižjo od 2000€ letos prejema <b>10% manj ljudi</b>, plačo višjo od 4000€ pa kar <b>~5% več ljudi</b>.</p>
 
                             <p>Kot vsako leto moram tudi letos opozoriti na težavo, ko govorimo o “povprečni” plači
                                 slovenskega razvijalca. Zaradi narave spletne ankete in morebitnega netočnega
@@ -288,7 +273,7 @@ export default function Salary2021() {
                                 tako malem številu anketirancev je večja nevarnost napačno sklepanje iz pomanjkljivega
                                 vzorca kot pa uvid, ki ga bi kaka poglobljena analiza znala prinesti.</p>
 
-                            <p><b>Čisto brez heca.</b> Še enkrat, zgornje opozorilo je treba vedno imeti v mislih, ko
+                            <p>Še enkrat, zgornje opozorilo je treba vedno imeti v mislih, ko
                                 se pogovarjate o izsledkih te ankete.</p>
 
                             <h3>Zakaj NETO plača ni pomembna?</h3>
@@ -302,15 +287,12 @@ export default function Salary2021() {
                             <img src="/images/place/2021/zaposlitev_let_poklicnega_programiranja.png"
                                  alt="Graf za leta poklicnega programiranja za zaposlene"/>
 
-                            <p>Nekaj podobnosti z lanskim letom, saj večina (<b>51%</b>) jih ima manj kot 5 let delovnih
+                            <p>Nekaj podobnosti z lanskim letom, saj ima večina (<b>51%</b>) manj kot 5 let delovnih
                                 izkušenj (lansko leto je bil ta odstotek 52%).</p>
 
-                            <p>Kar je zanimivo je to, da lansko leto je bil odstotek začetnikov za <b>40%</b> manjši od
-                                tistih, ki že imajo nekaj izkušenj (1-2 leti izkušenj). Letos je ta trend obrnjen, saj
-                                imamo enako oz. več začetnikov kot pa tistih z vsaj enim letom izkušenj. Kljub
-                                temu, da vzrokov za več začetnikov nisem preučeval, predvidevam, da gre za razgret trg
-                                delovne sile in predvsem pomanjkanja delovne sile in zaradi same narave je poklic
-                                razvijalca precej atraktiven.</p>
+                            <p>Zanimivo je to, da v nasprotju z lanskim letom je letos več začetnikov kot pa ta tistih, ki imajo med 1 - 2 leti izkušenj. Kljub
+                                temu, da vzrokov za večje število začetnikov nisem preučeval, predvidevam, da gre za razgret trg
+                                delovne sile, pomanjkanja le te, sama narava poklica pa je precej atraktivna.</p>
 
                             <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-1/2 md:pr-2">
@@ -328,25 +310,24 @@ export default function Salary2021() {
                                 </div>
                             </div>
 
-                            <p>Velika večina (<b>773, 76,7%</b>) jih dela za podjetje v Sloveniji, s tem da delajo ali
-                                za slovenski trg (<b>463, 46%)</b> ali za trg EU (<b>313, 31,1%)</b>.</p>
+                            <p>Velika večina (<b>773, 76,7%</b>) dela za podjetje v Sloveniji, delajo za slovenski trg (<b>463, 46%)</b> ali za trg EU (<b>313, 31,1%)</b>.</p>
 
                             <h3>Trenutna zaposlitev in iskanje nove</h3>
 
-                            <p>Letos sem dodal še dve vprašanji glede tega koliko let so anketiranci že zaposleni pri
-                                trenutnem delodajalcu in če aktivno iščejo novo zaposlitev.</p>
-                            <p>Aktivno išče novo zaposlitev <b>137 (13,6%)</b> anketirancev.</p>
+                            <p>Letos sem dodal še dve vprašanji, ki se nanašata na čas zaposlitve pri
+                                trenutnem delodajalcu in morebitno iskanje nove zaposlitve.</p>
+                            <p>Aktivno novo zaposlitev išče <b>137 (13,6%)</b> anketirancev.</p>
 
                             <p><b>229 (22,7%)</b> jih je pri trenutnem delodajalcu zaposlenih manj kot 1 leto, <b>170
                                 (16,8%)</b> med 1 - 2 leti, <b>179 (17,7%)</b> med 2 - 3 leti, preostali (<b>42,8%</b>)
-                                so pri svojih trenutnih delodajalcih že dlje kot 3 leta. Kar je zanimivo, da je <b>68
+                                so pri svojih trenutnih delodajalcih že dlje kot 3 leta. Zanimivo je, da je <b>68
                                     (6,7%)</b> zaposlenih pri istem delodajalcu že dlje od 10 let.</p>
 
                             <h2 id="sp">Delo prek s.p.</h2>
 
-                            <p>Večina tistih, ki svoje delo opravljalo prek s.p. imajo znake prekarnega dela oz. bi
+                            <p>Večina tistih, ki svoje delo opravljalo prek s.p., imajo znake prekarnega dela oz. bi
                                 znale biti ekonomsko odvisne osebe (1 naročnik predstavlja več kot 80% letnega dohodka
-                                in hkrati ne zaposljuje nobene osebe, saj za kar <b>81,3%</b> anketirancev največji
+                                in hkrati ne zaposljuje nobene osebe), saj za kar <b>81,3%</b> anketirancev največji
                                 naročnik predstavlja več kot 70% letnega prihodka, za <b>29,9%</b> odstotek pa kar 100%
                                 letnega prihodka.</p>
 
@@ -377,9 +358,8 @@ export default function Salary2021() {
                             </ul>
 
                             <p>Primerjavo med redno zaposlenimi in tistimi, ki imajo s.p., je nemogoče narediti, saj
-                                s.p. na trgu nastopa kot podjetje. S.p ima lahko dodatne zaposlene in ima
-                                administrativne ter operativne stroške, ki jih redno zaposleni nima. Zaradi tega
-                                prihodek podjetja ne moremo enačiti s plačo.</p>
+                                s.p. na trgu nastopa kot podjetje. S.p ima lahko dodatne zaposlene in administrativne ter operativne stroške, ki jih redno zaposleni nima. Zaradi tega
+                                prihodka podjetja ne moremo enačiti s plačo.</p>
 
                             <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-1/2 md:pr-2">
@@ -398,11 +378,11 @@ export default function Salary2021() {
                             </div>
 
                             <p>Za razliko od redno zaposlenih, tisti prek s.p. največkrat delajo za tujega naročnika
-                                (<b>62,5%</b>), in primarni trg je tujina (73,8%).</p>
+                                (<b>62,5%</b>), in primarni trg je tujina (<b>73,8%</b>).</p>
 
                             <h3>Zakaj NE povezujem tistih s s.p. z redno zaposlenimi?</h3>
 
-                            <p>Razlog je preprost- ne gre za enaki obliki dela. Čeprav se v praksi dogaja, da namesto
+                            <p>Razlog je preprost, ne gre za enaki obliki dela. Čeprav se v praksi dogaja, da namesto
                                 redne zaposlitve delodajalci raje sodelujejo preko s.p., je v resnici s.p. samostojna
                                 poslovna entiteta, ki lahko opravlja enake storitve (in na enak način) kot katerokoli
                                 drugo podjetje.</p>
