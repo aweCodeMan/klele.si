@@ -285,7 +285,7 @@ export default function Salary2022() {
                                 so pri svojih trenutnih delodajalcih že dlje kot 3 leta. <b>78
                                     (6,1%)</b> je zaposlenih pri istem delodajalcu že dlje od 10 let.</p>
 
-                            <h4>"Popoldanski s.p."</h4>
+                            <h4>Popoldanski s.p.</h4>
 
                             <p><b>143 (11,2%)</b> anketirancev ima poleg redne zaposlitve odprt še s.p.</p>
 
