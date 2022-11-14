@@ -162,7 +162,7 @@ export default function Salary2022() {
                             <img src="/images/place/2022/starost.png" alt="Graf za starost"/>
 
                             <p>Razporeditev po starosti je precej podobna lanskemu letu, med 19-25 let je
-                                označilo <b>332 (19,3%)</b> oseb, med 26-30 <b>561 (32,6%)</b>, med 31-40 <b>561
+                                označilo <b>332 (19,3%)</b> oseb, med 26-30 <b>561 (32,6%)</b>, med 31-40 <b>667
                                     (38,8%)</b> in <b>139 (8,1%)</b> jih je označilo med 41-50 let.</p>
 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -307,7 +307,7 @@ export default function Salary2022() {
                             <ul>
                                 <li>0 jih zasluži pod 499€</li>
                                 <li>0 jih zasluži med 500€ - 999€</li>
-                                <li>3 (<b>1%</b>) jih zasluži med 100€ - 1499€</li>
+                                <li>3 (<b>1%</b>) jih zasluži med 1000€ - 1499€</li>
                                 <li>7 (<b>2,2%</b>) jih zasluži med 1500€ - 1999€</li>
                                 <li>10 (<b>3,3%</b>) jih zasluži med 2000€ - 2499€</li>
                                 <li>15 (<b>5%</b>) jih zasluži med 2500€ - 2999€</li>
