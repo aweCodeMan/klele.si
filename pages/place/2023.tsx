@@ -166,7 +166,7 @@ export default function Salary2023() {
                                     rel="nofollow noreferrer" target="_blank">ta kalkulator</a> za pretvorbo iz
                                 NETO v BRUTO postavke.</p>
 
-                            <p>NETO urne postavke študente so se zopet dvignile. Letos jih ima 63,5% NETO postavko med 8,0€ in 10,99€, lansko leto je za enak razpon odgovorilo le 44,6€. Še vedno obstaja precej velik padec anketirancev, ki imajo več kot 11€ NETO urne postavke, kar pomeni, da letos še ni bilo preboja psihološke cene.</p>
+                            <p>NETO urne postavke študente so se zopet dvignile. Letos jih ima 63,5% NETO postavko med 8,0€ in 10,99€, lansko leto je za enak razpon odgovorilo le 44,6%. Še vedno obstaja precej velik padec anketirancev, ki imajo več kot 11€ NETO urne postavke, kar pomeni, da letos še ni bilo preboja psihološke cene.</p>
 
                             <h2 id="redna-zaposlitev">Redna zaposlitev</h2>
 
@@ -175,7 +175,7 @@ export default function Salary2023() {
 
                             <h4>Delo na daljavo</h4>
                             <p><b>610 (73%)</b> redno zaposlenih opravlja delo na daljavo (<b>26,7%</b> za polni
-                                delovni čas, <b>46,3%</b> manj kot polni delovni čas). Le še <b>(9,2%)</b> redno
+                                delovni čas, <b>46,3%</b> manj kot polni delovni čas). Le še <b>(77, 9,2%)</b> redno
                                 zaposlenim delodajalec ne omogoča dela na daljavo.</p>
 
                             <p>Glede na lansko leto ni večjih sprememb, kar govori to, da se je način opravljanja dela stabiliziral.</p>
