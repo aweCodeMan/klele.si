@@ -297,9 +297,9 @@ export default function Salary2024() {
 
                             <ul>
                                 <li>19 (<b>6,2%</b>) zasluži pod 499€</li>
-                                <li>15 (<b>4,9%</b> jih zasluži med 500€ - 999€</li>
+                                <li>15 (<b>4,9%</b>) jih zasluži med 500€ - 999€</li>
                                 <li>18 (<b>5,9%</b>) zasluži med 1000€ - 1499€</li>
-                                <li>8 (<b>2,6%</b>) zaslužita med 1500€ - 1999€</li>
+                                <li>8 (<b>2,6%</b>) zasluži med 1500€ - 1999€</li>
                                 <li>9 (<b>3%</b>) zasluži med 2000€ - 2499€</li>
                                 <li>11 (<b>3,6%</b>) jih zasluži med 2500€ - 2999€</li>
                                 <li>10 (<b>3,3%</b>) jih zasluži med 3000€ - 3499€</li>
