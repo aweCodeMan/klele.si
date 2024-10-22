@@ -191,7 +191,7 @@ export default function Salary2024() {
 
                             <h4>Delo na daljavo</h4>
                             <p><b>632 (73,9%)</b> redno zaposlenih opravlja delo na daljavo (<b>22,6%</b> za polni
-                                delovni čas, <b>51,3%</b> manj kot polni delovni čas). Le <b>(61, 7,1%)</b> redno
+                                delovni čas, <b>51,3%</b> manj kot polni delovni čas). Le 61 (<b>7,1%</b>) redno
                                 zaposlenim delodajalec ne omogoča dela na daljavo.</p>
 
                             <h4>BRUTO Plača</h4>
