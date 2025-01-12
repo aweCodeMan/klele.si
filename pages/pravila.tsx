@@ -1,15 +1,5 @@
 import Head from "next/head";
-import {useEffect, useState} from "react";
-import FormInput from "../components/partials/form-input";
-import Shimmer from "../components/partials/shimmer";
 import Navbar from "../components/navbar";
-import {UserService} from "../helpers/user-service";
-import {useAuth} from "../contexts/auth";
-import AuthModal from "../components/modals/auth-modal";
-import LoginNotice from "../components/partials/login-notice";
-import Joi from "joi";
-import {FormHelper} from "../helpers/form";
-import VerifyNotice from "../components/partials/verify-notice";
 
 export default function RulesPage() {
     return <div>

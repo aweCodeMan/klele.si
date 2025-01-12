@@ -19,8 +19,6 @@ export default function Custom404() {
 
                 <div className="mt-12">
                     <p className="font-bold text-2xl">404 | Stran ne obstaja!</p>
-
-                    <p className="mt-6">Jeba.</p>
                 </div>
             </div>
         </main>

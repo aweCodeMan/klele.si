@@ -1,10 +1,10 @@
+@use "buttons";
+
 @tailwind base;
 
 @tailwind components;
 
 @tailwind utilities;
-
-@import "buttons";
 
 textarea:focus-visible, input:focus-visible, select:focus-visible {
   outline: theme('colors.red') solid 2px;
@@ -21,6 +21,7 @@ textarea:disabled, input:disabled, select:disabled {
 
 .card {
   @apply border border-black bg-white p-3 shadow;
+  max-width: 700px;
 }
 
 .grid {
@@ -31,13 +32,6 @@ textarea:disabled, input:disabled, select:disabled {
   'top'
   'sidebar'
   'main';
-
-  @screen sm {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-  'top top .'
-  'main main sidebar';
-  }
 }
 
 .area-top {

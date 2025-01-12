@@ -1,30 +1,9 @@
 import Head from 'next/head'
-import Link from 'next/link';
-import {useEffect, useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faComments, faLink, faPencilAlt, faSignal} from '@fortawesome/free-solid-svg-icons'
 import Breadcrumbs from "../../components/partials/breadcrumbs";
-import Comment from "../../components/cards/comment";
-import CommentSkeletonCard from "../../components/cards/comment-skeleton-card";
-import {faHeart} from "@fortawesome/free-regular-svg-icons";
-import Author from "../../components/cards/author";
-import SubmitComment from "../../components/partials/submit-comment";
 import Navbar from "../../components/navbar";
-import {PostService} from "../../helpers/post-service";
-import {TimeUtil} from "../../helpers/time-util";
-import {useAuth} from "../../contexts/auth";
-import {CommentInterface} from "../../domain/comment.interface";
-import Group from "../../components/partials/group";
 import AuthorMeta from "../../components/partials/author-meta";
-import Score from "../../components/partials/score";
-import {Cookies} from "react-cookie";
-import {PostInterface} from "../../domain/post.interface";
-import Shimmer from "../../components/partials/shimmer";
-import MarkdownInstructions from "../../components/partials/markdown-instructions";
 
 export default function Salary2023() {
-    const auth = useAuth();
-
     return (
         <div>
             <Head>

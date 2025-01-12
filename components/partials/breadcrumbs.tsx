@@ -6,10 +6,8 @@ export default function Breadcrumbs(props: any) {
 
     return (
         <>
-            <Link href="/">
-                <a className="btn btn-link btn-sm text-red">
+            <Link href="/" className="btn btn-link btn-sm text-red">
                     <FontAwesomeIcon icon={faChevronLeft}/> Nazaj na prispevke
-                </a>
             </Link>
         </>
     );
